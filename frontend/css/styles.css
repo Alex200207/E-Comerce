@@ -11,7 +11,7 @@ body {
   left: 0;
   width: 220px;
   height: 100%;
-  background-color: #ffffff;
+  background-color: #ffebc0;
   padding-top: 60px; /* Altura de la barra de navegación */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
@@ -19,8 +19,9 @@ body {
 
 #select__navbar {
   border: none;
-  background-color: #007bff;
-  color: #ffffff;
+  background-color: #fa9939;
+  font-weight: 500;
+  color: #080808;
   border-radius: 5px;
   padding: 10px 20px;
   margin-right: 5px;
@@ -28,18 +29,21 @@ body {
 }
 
 .sidebar a {
-  margin-bottom: 10px;
-  color: #000;
+  border: none;
+  background-color: #ffffff;
+  color: #000000;
   display: block;
   padding: 16px;
   text-decoration: none;
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra en la parte baja */
+  box-shadow: 0px 2px 2px rgba(9, 9, 9, 0.2); /* Sombra en la parte baja */
 }
 
 .sidebar a:hover {
-  background-color: #575d63;
+  text-decoration: none;
+  color: #000000;
+  background-color: #dc9300;
 }
 
 /* Ajuste del contenido principal para dejar espacio a la barra lateral */
@@ -87,7 +91,7 @@ body {
 }
 
 .search-button {
-  background-color: #007bff;
+  background-color: #408bc4;
   color: #ffffff;
   border: none;
   border-radius: 0 5px 5px 0;
@@ -136,13 +140,16 @@ header .lead {
   width: 40px;
 }
 .navbar-brand {
+  
   color: black;
-  font-size: 70px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-weight: 300;
 }
 .navbar-custom {
   width: 100%;
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: #639192; /* Fondo blanco */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en la parte baja */
+}
+.py-5 {
+  background-color: #3990d2;
 }
