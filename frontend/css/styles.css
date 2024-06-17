@@ -2,9 +2,130 @@
 body {
   padding-top: 60px; /* Ajuste para navbar fijo */
 }
+
+/* Estilos para la barra lateral */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100%;
+  background-color: #343a40;
+  padding-top: 60px; /* Altura de la barra de navegación */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
+}
+
+#select__navbar {
+  background-color: #c7cbce;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: #575d63;
+}
+
+/* Ajuste del contenido principal para dejar espacio a la barra lateral */
+.main-content {
+  margin-left: 220px; /* Ancho de la barra lateral más un pequeño margen */
+}
+
 .card {
   transition: transform 0.2s;
 }
 .card:hover {
   transform: scale(1.05);
 }
+
+.search-container {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  left: 10%;
+  width: 70%;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.search-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.search-button:focus {
+  outline: none;
+}
+
+/* Ajuste para el encabezado */
+header {
+  position: relative;
+}
+
+header .container {
+  position: relative;
+  z-index: 2;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Superposición oscura */
+  z-index: 1;
+}
+
+header .display-4,
+header .lead {
+  position: relative;
+  z-index: 3;
+}
+.profile__var {
+  height: 40px;
+  width: 40px;
+}
+
