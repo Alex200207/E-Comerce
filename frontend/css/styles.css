@@ -1,4 +1,4 @@
-/* Estilos adicionales si los necesitas */
+
 body {
   margin: 0;
   padding-top: 60px;
@@ -14,7 +14,7 @@ body {
   background-color: #ffffff;
   padding-top: 60px; /* Altura de la barra de navegación */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
+  z-index: 1000; /* Para asegurarse de que este por encima de otros elementos */
 }
 
 #select__navbar {
