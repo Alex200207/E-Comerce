@@ -1,4 +1,4 @@
-// Esperar a que se cargue el DOM
+
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([fetchProductos(), fetchCategorias()])
     .then(([productos, categorias]) => {

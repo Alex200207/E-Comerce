@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js"
   },
-  "author": "",
+  "author": "Eddy Alexis Talavera",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
