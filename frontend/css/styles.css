@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   padding-top: 60px;
@@ -7,20 +6,30 @@ body {
 .sidebar {
   position: fixed;
   top: 0;
-  left: 0;
+  left: -220px; /* Oculto inicialmente */
   width: 220px;
   height: 100%;
   background-color: #ffebc0;
   padding-top: 60px; /* Altura de la barra de navegación */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Para asegurarse de que este por encima de otros elementos */
+  transition: left 0.3s; /* Transición suave para mostrar/ocultar */
+}
+
+/* Ajuste del contenido principal para dejar espacio a la barra lateral */
+.main-content {
+  margin-left: 0; /* Ajuste el margen izquierdo inicial */
+}
+
+.sidebar.show {
+  left: 0; /* Mostrar la barra lateral */
 }
 
 #select__navbar {
   border: none;
   background-color: #fa9939;
   font-weight: 500;
-  color: #080808;
+  color: #020202;
   border-radius: 5px;
   padding: 10px 20px;
   margin-right: 5px;
@@ -45,14 +54,10 @@ body {
   background-color: #dc9300;
 }
 
-/* Ajuste del contenido principal para dejar espacio a la barra lateral */
-.main-content {
-  margin-left: 220px; /* Ancho de la barra lateral más un pequeño margen */
-}
-
 .card {
   transition: transform 0.2s;
 }
+
 .card:hover {
   transform: scale(1.05);
 }
@@ -67,15 +72,14 @@ body {
 }
 
 .search-form {
+  margin-right: 50px;
   display: flex;
-  align-items: center;
-  position: relative;
-  left: 10%;
-  width: 70%;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .search-input {
-  flex-grow: 1;
+  width: 40%;
   padding: 10px 20px;
   border: none;
   border-radius: 5px 0 0 5px;
@@ -117,6 +121,11 @@ header .container {
   position: relative;
   z-index: 2;
 }
+nav .container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
 
 header::after {
   content: "";
@@ -134,21 +143,32 @@ header .lead {
   position: relative;
   z-index: 3;
 }
+
 .profile__var {
   height: 40px;
   width: 40px;
 }
+
 .navbar-brand {
-  
   color: black;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-weight: 300;
 }
+
 .navbar-custom {
-  width: 100%;
   background-color: #639192; /* Fondo blanco */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en la parte baja */
 }
+
 .py-5 {
   background-color: #3990d2;
 }
+
+.footer-custom {
+  background-color: #000;
+}
+#sidebarToggle {
+  margin-right: 20px;
+  background-color: #050505;
+}
+

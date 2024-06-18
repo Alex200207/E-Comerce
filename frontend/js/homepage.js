@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([fetchProductos(), fetchCategorias()])
     .then(([productos, categorias]) => {
