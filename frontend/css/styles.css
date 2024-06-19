@@ -1,19 +1,39 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+* {
   margin: 0;
-  padding-top: 60px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-
 .sidebar {
   position: fixed;
   top: 0;
   left: -220px; /* Oculto inicialmente */
   width: 220px;
   height: 100%;
-  background-color: #ffebc0;
+  background-color: #fff;
   padding-top: 60px; /* Altura de la barra de navegación */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Para asegurarse de que este por encima de otros elementos */
   transition: left 0.3s; /* Transición suave para mostrar/ocultar */
+}
+.sidebar a {
+  border: none;
+  color: #000000;
+  display: block;
+  padding: 16px;
+  text-decoration: none;
+  font-size: 20px;
+  box-shadow: 0px 2px 2px rgba(184, 181, 181, 0.2); /* Sombra en la parte baja */
+}
+
+.sidebar a:hover {
+  text-decoration: none;
+  color: #000000;
+  background-color: red;
+}
+#sidebarToggle{
+  background-color: #ffffff;
 }
 
 /* Ajuste del contenido principal para dejar espacio a la barra lateral */
@@ -27,8 +47,8 @@ body {
 
 #select__navbar {
   border: none;
-  background-color: #fa9939;
   font-weight: 500;
+  background-color: #ffffff;
   color: #020202;
   border-radius: 5px;
   padding: 10px 20px;
@@ -36,23 +56,7 @@ body {
   font-size: 16px;
 }
 
-.sidebar a {
-  border: none;
-  background-color: #ffffff;
-  color: #000000;
-  display: block;
-  padding: 16px;
-  text-decoration: none;
-  font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  box-shadow: 0px 2px 2px rgba(9, 9, 9, 0.2); /* Sombra en la parte baja */
-}
 
-.sidebar a:hover {
-  text-decoration: none;
-  color: #000000;
-  background-color: #dc9300;
-}
 
 .card {
   transition: transform 0.2s;
@@ -94,7 +98,7 @@ body {
 }
 
 .search-button {
-  background-color: #fa9939;
+  background-color: rgb(214, 143, 143);
   color: #050505;
   border: none;
   border-radius: 0 5px 5px 0;
@@ -150,25 +154,28 @@ header .lead {
 }
 
 .navbar-brand {
-  color: black;
+  color: rgb(0, 0, 0);
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-weight: 300;
 }
 
 .navbar-custom {
-  background-color: #639192; /* Fondo blanco */
+  background-color: #1cc2c2; /* Fondo blanco */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en la parte baja */
 }
 
 .py-5 {
-  background-color: #3990d2;
+  background-color: #ffffff;
 }
 
 .footer-custom {
   background-color: #000;
 }
 #sidebarToggle {
+  border: none;
+  text-decoration: none;
+  outline: none;
   margin-right: 20px;
-  background-color: #050505;
+  background-color: transparent;
 }
 
