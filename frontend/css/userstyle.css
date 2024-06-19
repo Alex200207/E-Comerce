@@ -60,7 +60,7 @@ body {
   border: none;
   outline: none;
   font-size: 16px;
-  color:#000000;
+  color: #000000;
   padding-left: 10px;
 }
 .search-bar input::placeholder {
@@ -164,25 +164,24 @@ body {
   border-bottom-right-radius: 10px;
   color: #030303;
 }
-.logreg-box .form-box.login{
+.logreg-box .form-box.login {
   transform: translateX(0);
-  transition: transform .5s ease;
-  transition-delay: .4s;
+  transition: transform 0.5s ease;
+  transition-delay: 0.4s;
 }
-.logreg-box.active .form-box.login{
+.logreg-box.active .form-box.login {
   transform: translateX(800px);
   transition-delay: 0s;
 }
-.logreg-box .form-box.register{
+.logreg-box .form-box.register {
   transform: translateX(800px);
-  transition: transform .5s ease;
+  transition: transform 0.5s ease;
   transform-style: 0s;
 }
-.logreg-box.active .form-box.register{
+.logreg-box.active .form-box.register {
   transform: translateX(0);
-  transition-delay: .4s;
+  transition-delay: 0.4s;
 }
-
 
 .form-box h2 {
   font-size: 32px;
@@ -266,7 +265,7 @@ body {
 }
 
 .login-register p a {
-  color: #326bd4;
+  color: #030303;
   font-weight: 600;
   text-decoration: none;
 }

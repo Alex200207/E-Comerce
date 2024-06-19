@@ -1,3 +1,4 @@
+/*aqui programamos el login interactivo*/
 document.addEventListener("DOMContentLoaded", () => {
   const logregBox = document.querySelector(".logreg-box");
   const loginLink = document.querySelector(".login-link");

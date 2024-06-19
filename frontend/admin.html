@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administración de Productos y Categorías - AlexStore</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Administración de Productos y Categorías</h1>
+
+      <!-- Formulario para agregar una nueva categoría -->
+      <h2>Agregar Nueva Categoría</h2>
+      <form id="categoria-form">
+        <div class="form-group">
+          <label for="NombreCategoria">Nombre de la Categoría</label>
+          <input
+            type="text"
+            class="form-control"
+            id="NombreCategoria"
+            name="Nombre"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Categoría</button>
+      </form>
+
+      <!-- Formulario para agregar un nuevo producto -->
+      <h2 class="mt-5">Agregar Nuevo Producto</h2>
+      <form id="producto-form">
+        <div class="form-group">
+          <label for="NombreProducto">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="NombreProducto"
+            name="Nombre"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="Descripcion">Descripción</label>
+          <textarea
+            class="form-control"
+            id="Descripcion"
+            name="Descripcion"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="Precio">Precio</label>
+          <input
+            type="number"
+            class="form-control"
+            id="Precio"
+            name="Precio"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="ID_Categoria">Categoría</label>
+          <select
+            class="form-control"
+            id="ID_Categoria"
+            name="ID_Categoria"
+            required
+          >
+            <!-- opciones de categorias van aqui-->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="Stock">Stock</label>
+          <input
+            type="number"
+            class="form-control"
+            id="Stock"
+            name="Stock"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Producto</button>
+      </form>
+
+      <!-- Listado de categorías y productos con opciones de editar y eliminar -->
+      <h2 class="mt-5">Categorías</h2>
+      <div id="categorias-list">
+        <!-- Aqui se cargan los datos dinamicamente -->
+      </div>
+
+      <h2 class="mt-5">Productos</h2>
+      <div id="productos-list">
+        <!-- Aqui se cargan los datos dinamicamente -->
+      </div>
+    </div>
+    <script src="js/admin.js"></script>
+  </body>
+</html>
