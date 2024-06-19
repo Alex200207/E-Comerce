@@ -26,11 +26,14 @@
     <div class="background"></div>
     <div class="container">
       <div class="content">
-        <h2 class="logo"><i class="bx bxl-firebase"></i>Bienvenido! a AlexStore</h2>
+        <h2 class="logo">
+          <i class="bx bxl-firebase"></i>Bienvenido! a<br><br> AlexStore
+        </h2>
         <div class="text-sci">
           <h2>Inicia Sesion con nosotros<br /></h2>
           <p>
-            Encuentra lo mejores productos y ofertas <br>del mercado y desde tu casa.
+            Encuentra lo mejores productos y ofertas <br />del mercado y desde
+            tu casa.
           </p>
           <div class="social-icons">
             <a href="#"><i class="bx bxl-linkedin"></i></a>
@@ -43,7 +46,7 @@
       </div>
       <div class="logreg-box">
         <div class="form-box login">
-          <form action="">
+          <form action="#">
             <h2>Iniciar Sesion</h2>
 
             <div class="input-box">
@@ -65,11 +68,53 @@
             <button type="submit" class="btn">Iniciar</button>
 
             <div class="login-register">
-              <p>No tienes una cuenta? <a href="#" class="register-link">Registrate</a></p>
+              <p>
+                No tienes una cuenta?
+                <a href="#" class="register-link">Registrate</a>
+              </p>
+            </div>
+          </form>
+        </div>
+        <div class="form-box register">
+          <form action="#">
+            <h2>Registrarse</h2>
+
+            <div class="input-box">
+              <span class="icon"><i class="bx bxs-user"></i></span>
+              <input type="text" required />
+              <label>Nombre</label>
+            </div>
+
+            <div class="input-box">
+              <span class="icon"><i class="bx bxs-envelope"></i></span>
+              <input type="email" required />
+              <label>Email</label>
+            </div>
+
+            <div class="input-box">
+              <span class="icon"><i class="bx bxs-lock-alt"></i></span>
+              <input type="password" required />
+              <label>Password</label>
+            </div>
+            <div class="remember-forgot">
+              <label
+                ><input type="checkbox" /> Acepto todos lo Terminos Y
+                Condiciones</label
+              >
+            </div>
+
+            <button type="submit" class="btn">Iniciar</button>
+
+            <div class="login-register">
+              <p>
+                Ya tienes una cuenta?
+                <a href="#" class="login-link">Iniciar Sesion</a>
+              </p>
             </div>
           </form>
         </div>
       </div>
     </div>
+    <script src="../frontend/js/login.js"></script>
   </body>
 </html>

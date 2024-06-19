@@ -91,6 +91,7 @@ body {
 }
 .container {
   position: absolute;
+  overflow: hidden;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -151,6 +152,7 @@ body {
   height: 100%;
 }
 .logreg-box .form-box {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -162,6 +164,26 @@ body {
   border-bottom-right-radius: 10px;
   color: #030303;
 }
+.logreg-box .form-box.login{
+  transform: translateX(0);
+  transition: transform .5s ease;
+  transition-delay: .4s;
+}
+.logreg-box.active .form-box.login{
+  transform: translateX(800px);
+  transition-delay: 0s;
+}
+.logreg-box .form-box.register{
+  transform: translateX(800px);
+  transition: transform .5s ease;
+  transform-style: 0s;
+}
+.logreg-box.active .form-box.register{
+  transform: translateX(0);
+  transition-delay: .4s;
+}
+
+
 .form-box h2 {
   font-size: 32px;
   text-align: center;
