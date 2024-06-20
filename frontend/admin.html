@@ -3,99 +3,151 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Administración de Productos y Categorías - AlexStore</title>
+    <title> Admin</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" type="text/css" href="css/admin.css" />
   </head>
   <body>
-    <div class="container mt-5">
-      <h1>Administración de Productos y Categorías</h1>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+          <h2 class="mb-4">AlexStore Admin</h2>
+          <div class="list-group">
+            <a href="#productos" class="list-group-item list-group-item-action"
+              >Gestión de Productos</a
+            >
+            <a href="#" class="list-group-item list-group-item-action"
+              >Gestión de Categorías</a
+            >
+          </div>
+        </div>
 
-      <!-- Formulario para agregar una nueva categoría -->
-      <h2>Agregar Nueva Categoría</h2>
-      <form id="categoria-form">
-        <div class="form-group">
-          <label for="NombreCategoria">Nombre de la Categoría</label>
-          <input
-            type="text"
-            class="form-control"
-            id="NombreCategoria"
-            name="Nombre"
-            required
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Categoría</button>
-      </form>
+        <!-- Contenido Principal -->
+        <div class="col-md-9 main-content">
+          <!-- Sección de Gestión de Productos -->
+          <section id="productos" class="card">
+            <h2 class="card-header">Gestión de Productos</h2>
+            <div class="card-body">
+              <!-- Buscador de Productos -->
+              <div class="search-bar mb-3">
+                <input
+                  type="text"
+                  id="search-product"
+                  class="form-control"
+                  placeholder="Buscar producto..."
+                />
+              </div>
+              <!-- Lista de Productos -->
+              <div id="productos-list" class="list-group">
+                <!-- Aquí se cargarán dinámicamente los productos -->
+              </div>
+            </div>
+          </section>
 
-      <!-- Formulario para agregar un nuevo producto -->
-      <h2 class="mt-5">Agregar Nuevo Producto</h2>
-      <form id="producto-form">
-        <div class="form-group">
-          <label for="NombreProducto">Nombre</label>
-          <input
-            type="text"
-            class="form-control"
-            id="NombreProducto"
-            name="Nombre"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="Descripcion">Descripción</label>
-          <textarea
-            class="form-control"
-            id="Descripcion"
-            name="Descripcion"
-            required
-          ></textarea>
-        </div>
-        <div class="form-group">
-          <label for="Precio">Precio</label>
-          <input
-            type="number"
-            class="form-control"
-            id="Precio"
-            name="Precio"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="ID_Categoria">Categoría</label>
-          <select
-            class="form-control"
-            id="ID_Categoria"
-            name="ID_Categoria"
-            required
+          <!-- Modal de Edición de Productos -->
+          <div
+            class="modal fade"
+            id="editProductModal"
+            tabindex="-1"
+            aria-labelledby="editProductModalLabel"
+            aria-hidden="true"
           >
-            <!-- opciones de categorias van aqui-->
-          </select>
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editProductModalLabel">
+                    Editar Producto
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="edit-product-form">
+                    <input type="hidden" id="edit-product-id" />
+                    <div class="form-group">
+                      <label for="edit-product-nombre">Nombre</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="edit-product-nombre"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="edit-product-descripcion">Descripción</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="edit-product-descripcion"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="edit-product-precio">Precio</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="edit-product-precio"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="edit-product-stock">Stock</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="edit-product-stock"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="edit-product-categoria">Categoría</label>
+                      <select
+                        class="form-control"
+                        id="edit-product-categoria"
+                        required
+                      >
+                        <!-- Options will be dynamically added by JavaScript -->
+                      </select>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cerrar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveChanges()"
+                  >
+                    Guardar Cambios
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="Stock">Stock</label>
-          <input
-            type="number"
-            class="form-control"
-            id="Stock"
-            name="Stock"
-            required
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Producto</button>
-      </form>
-
-      <!-- Listado de categorías y productos con opciones de editar y eliminar -->
-      <h2 class="mt-5">Categorías</h2>
-      <div id="categorias-list">
-        <!-- Aqui se cargan los datos dinamicamente -->
-      </div>
-
-      <h2 class="mt-5">Productos</h2>
-      <div id="productos-list">
-        <!-- Aqui se cargan los datos dinamicamente -->
       </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/admin.js"></script>
   </body>
 </html>

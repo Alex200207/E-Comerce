@@ -1,1 +1,15 @@
-/*aqui pondre mi estilo para el admin*/
+
+.sidebar {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+.main-content {
+  padding: 20px;
+}
+.search-bar {
+  margin-bottom: 20px;
+}
+.card {
+  margin-bottom: 20px;
+}

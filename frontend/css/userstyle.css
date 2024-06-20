@@ -84,7 +84,7 @@ body {
 .background {
   width: 100%;
   height: 100vh;
-  background: url("../image/ecommerce.jpg") no-repeat;
+  background: url("../image/ecommerceS.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   filter: blur(10px);

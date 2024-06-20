@@ -38,6 +38,73 @@ app.get("/producto", (req, res) => {
   });
 });
 
+// CRUD para Productos
+app.get("/productos", (req, res) => {
+  config.query("SELECT * FROM producto", (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error al obtener los productos");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+app.put("/producto/:id", (req, res) => {
+  const { id } = req.params;
+  const { Nombre, Descripcion, Precio, ID_Categoria, Stock } = req.body;
+  if (!Nombre || !Descripcion || !Precio || !ID_Categoria || !Stock) {
+    return res.status(400).send("Todos los campos son obligatorios");
+  }
+  const query =
+    "UPDATE producto SET Nombre = ?, Descripcion = ?, Precio = ?, ID_Categoria = ?, Stock = ? WHERE ID_Producto = ?";
+  config.query(
+    query,
+    [Nombre, Descripcion, Precio, ID_Categoria, Stock, id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error al actualizar el producto");
+      } else {
+        res.status(200).send("Producto actualizado correctamente");
+      }
+    }
+  );
+});
+
+app.delete("/producto/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "DELETE FROM producto WHERE ID_Producto = ?";
+  config.query(query, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error al eliminar el producto");
+    } else {
+      res.status(200).send("Producto eliminado correctamente");
+    }
+  });
+});
+
+app.post("/producto", (req, res) => {
+  const { Nombre, Descripcion, Precio, ID_Categoria, Stock } = req.body;
+  if (!Nombre || !Descripcion || !Precio || !ID_Categoria || !Stock) {
+    return res.status(400).send("Todos los campos son obligatorios");
+  }
+  const query =
+    "INSERT INTO producto (Nombre, Descripcion, Precio, ID_Categoria, Stock) VALUES (?, ?, ?, ?, ?)";
+  config.query(
+    query,
+    [Nombre, Descripcion, Precio, ID_Categoria, Stock],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error al insertar el producto");
+      } else {
+        res.status(201).send("Producto insertado correctamente");
+      }
+    }
+  );
+});
+
 // CRUD para Categorías
 app.get("/categorias", (req, res) => {
   config.query("SELECT * FROM categoria", (err, result) => {
@@ -92,74 +159,6 @@ app.delete("/categoria/:id", (req, res) => {
       res.status(500).send("Error al eliminar la categoría");
     } else {
       res.status(200).send("Categoría eliminada correctamente");
-    }
-  });
-});
-
-// CRUD para Productos
-app.get("/productos", (req, res) => {
-  config.query("SELECT * FROM producto", (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error al obtener los productos");
-    } else {
-      res.status(200).json(result);
-    }
-  });
-});
-
-app.post("/producto", (req, res) => {
-  const { Nombre, Descripcion, Precio, ID_Categoria, Stock } = req.body;
-  if (!Nombre || !Descripcion || !Precio || !ID_Categoria || !Stock) {
-    return res.status(400).send("Todos los campos son obligatorios");
-  }
-  const query =
-    "INSERT INTO producto (Nombre, Descripcion, Precio, ID_Categoria, Stock) VALUES (?, ?, ?, ?, ?)";
-  config.query(
-    query,
-    [Nombre, Descripcion, Precio, ID_Categoria, Stock],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Error al insertar el producto");
-      } else {
-        res.status(201).send("Producto insertado correctamente");
-      }
-    }
-  );
-});
-
-app.put("/producto/:id", (req, res) => {
-  const { id } = req.params;
-  const { Nombre, Descripcion, Precio, ID_Categoria, Stock } = req.body;
-  if (!Nombre || !Descripcion || !Precio || !ID_Categoria || !Stock) {
-    return res.status(400).send("Todos los campos son obligatorios");
-  }
-  const query =
-    "UPDATE producto SET Nombre = ?, Descripcion = ?, Precio = ?, ID_Categoria = ?, Stock = ? WHERE ID_Producto = ?";
-  config.query(
-    query,
-    [Nombre, Descripcion, Precio, ID_Categoria, Stock, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Error al actualizar el producto");
-      } else {
-        res.status(200).send("Producto actualizado correctamente");
-      }
-    }
-  );
-});
-
-app.delete("/producto/:id", (req, res) => {
-  const { id } = req.params;
-  const query = "DELETE FROM producto WHERE ID_Producto = ?";
-  config.query(query, [id], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error al eliminar el producto");
-    } else {
-      res.status(200).send("Producto eliminado correctamente");
     }
   });
 });
