@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    
+  }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.d-flex {
+  display: flex;
+  width: 100%;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  width: 220px;
+  height: 100%;
+  background-color: #ffffff;
+  padding-top: 60px; /* Altura de la barra de navegación */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 100; /* Para asegurarse de que este por encima de otros elementos */
+   /* Transición suave para mostrar/ocultar */
+}
+
+.sidebar a {
+  border: none;
+  color: #000000;
+  display: block;
+  padding: 16px;
+  text-decoration: none;
+  font-size: 20px;
+  box-shadow: 0px 2px 2px rgba(184, 181, 181, 0.2); /* Sombra en la parte baja */
+}
+
+.sidebar a:hover {
+  text-decoration: none;
+  color: #000000;
+  background-color: red;
+}
+
+.content {
+  flex-grow: 1;
+  transition: margin-left 0.3s;
+  width: 100%;
+}
+.navbar-custom {
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  background-color: #1cc2c2; /* Fondo blanco */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en la parte baja */
+}
+
+main {
+  margin-left: 0;
+  width: 100;
+}
+.container-custom {
+  bottom: 50x;
+  position: absolute;
+}
+.footer-custom {
+  background-color: #000;
+  text-align: center;
+}
+.btn-custom{
+  border: none;
+  color: #000000;
+  background-color: #f5b45a;
+}
