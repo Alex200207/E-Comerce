@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -28,3 +29,9 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+=======
+Proyecto E-commerce by Eddy Talavera el proyecto solo es capaz de traer los datos de la base de datos e insertarlos dinamicamente
+en el homepage usando bootstrap para generar cards donde se ven los productos.
+interfaz para el admin de la pagina por ahora solo muestra, busca ,edita y eliminar productos de la base de datos
+Eddy Alexis Talavera Espinoza 2024
+>>>>>>> 08f6c8e99fde2dc080577520537a88ac475c16a9
