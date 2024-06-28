@@ -14,6 +14,7 @@ export default defineConfig({
         "./src/assets/images"
       ) /*creamos un alias para resumir el codigo*/,
       "@components": path.resolve(__dirname, "./src/components"),
+  
     },
   },
 

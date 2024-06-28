@@ -20,11 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "paths": {
-      /*definir una ruta corta para lograr traer informacion del sistema*/
+    "paths": {/*definir una ruta corta para lograr traer informacion del sistema*/
       "@components/*": ["./src/components/*"],
-      "@images/*": ["./src/assets/images/*"]
-    }
+      "@images/*": ["./src/assets/images/*"],
+ 
+    },
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
