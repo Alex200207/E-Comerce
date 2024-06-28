@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 interface Producto {
@@ -7,21 +8,23 @@ interface Producto {
   Categoria: string;
   Stock: number;
   Precio: number;
+  Descripcion?: string;
 }
 
 const Table: React.FC = () => {
-  const [productos, setProductos] = useState<Producto[]>([]); 
+  const [productos, setProductos] = useState<Producto[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Producto | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     loadProducts();
-  }, []); 
+  }, []);
 
- 
   const loadProducts = () => {
     fetch("http://localhost:3000/productos")
       .then((response) => response.json())
       .then((data: Producto[]) => {
-        setProductos(data); // Actualizar estado con los productos obtenidos
+        setProductos(data);
       })
       .catch((error) => {
         console.error("Error al cargar productos:", error);
@@ -29,10 +32,63 @@ const Table: React.FC = () => {
       });
   };
 
-  
   const saveChanges = () => {
-    console.log("Guardando cambios...");
-    // aqui implentar logica para guardar producto
+    if (selectedProduct) {
+      if(window.confirm("Quieres actualizar este producto")){
+      fetch(`http://localhost:3000/productos/${selectedProduct.ID_Producto}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selectedProduct),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error al actualizar el producto");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          console.log(data); 
+          loadProducts();
+          setShowModal(false);
+          setSelectedProduct(null);
+        })
+        .catch((error) => {
+          console.error("Error al guardar cambios:", error);
+          alert("Error al guardar los cambios del producto");
+        });
+      }
+    }
+  };
+
+
+
+  const handleEditClick = (producto: Producto) => {
+    setSelectedProduct(producto);
+    setShowModal(true);
+  };
+
+  const handleDeleteClick = (id: number) => {
+    if (window.confirm("¿Estás seguro de eliminar este producto?")) {
+      fetch(`http://localhost:3000/productos/${id}`, {
+        method: "DELETE",
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al eliminar el producto");
+        }
+        return response.text();
+      })
+      .then((result) => {
+        alert(result); // Muestra un mensaje de éxito
+        loadProducts(); // Actualiza la lista de productos después de eliminar
+      })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Error al eliminar el producto");
+        });
+    }
   };
 
   return (
@@ -83,23 +139,13 @@ const Table: React.FC = () => {
                   <div className="col-md-2">
                     <button
                       className="btn btn-primary btn-sm btn-edit"
-                      data-id={producto.ID_Producto}
-                      onClick={() => {
-                        //  la lógica para editar el producto
-                        console.log(`Editar producto ${producto.ID_Producto}`);
-                      }}
+                      onClick={() => handleEditClick(producto)}
                     >
                       Editar
                     </button>
                     <button
                       className="btn btn-danger btn-sm btn-delete"
-                      data-id={producto.ID_Producto}
-                      onClick={() => {
-                        //  la lógica para eliminar el producto
-                        console.log(
-                          `Eliminar producto ${producto.ID_Producto}`
-                        );
-                      }}
+                      onClick={() => handleDeleteClick(producto.ID_Producto)}
                     >
                       Eliminar
                     </button>
@@ -110,100 +156,93 @@ const Table: React.FC = () => {
           </div>
         </section>
 
-        <div
-          className="modal fade modal-custom"
-          id="editProductModal"
-          tabIndex={-1}
-          aria-labelledby="editProductModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="editProductModalLabel">
-                  Editar Producto
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Editar Producto</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="edit-product-nombre">
+                <Form.Label>Nombre</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={selectedProduct?.Nombre || ""}
+                  onChange={(e) =>
+                    setSelectedProduct((prev) => ({
+                      ...prev!,
+                      Nombre: e.target.value,
+                    }))
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="edit-product-descripcion">
+                <Form.Label>Descripción</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={selectedProduct?.Descripcion || ""}
+                  onChange={(e) =>
+                    setSelectedProduct((prev) => ({
+                      ...prev!,
+                      Descripcion: e.target.value,
+                    }))
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="edit-product-precio">
+                <Form.Label>Precio</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={selectedProduct?.Precio || 0}
+                  onChange={(e) =>
+                    setSelectedProduct((prev) => ({
+                      ...prev!,
+                      Precio: parseFloat(e.target.value),
+                    }))
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="edit-product-stock">
+                <Form.Label>Stock</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={selectedProduct?.Stock || 0}
+                  onChange={(e) =>
+                    setSelectedProduct((prev) => ({
+                      ...prev!,
+                      Stock: parseInt(e.target.value, 10),
+                    }))
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="edit-product-categoria">
+                <Form.Label>Categoría</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={selectedProduct?.Categoria || ""}
+                  onChange={(e) =>
+                    setSelectedProduct((prev) => ({
+                      ...prev!,
+                      Categoria: e.target.value,
+                    }))
+                  }
                 >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form id="edit-product-form">
-                  <input type="hidden" id="edit-product-id" />
-                  <div className="form-group">
-                    <label htmlFor="edit-product-nombre">Nombre</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="edit-product-nombre"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="edit-product-descripcion">
-                      Descripción
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="edit-product-descripcion"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="edit-product-precio">Precio</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="edit-product-precio"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="edit-product-stock">Stock</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="edit-product-stock"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="edit-product-categoria">Categoría</label>
-                    <select
-                      className="form-control"
-                      id="edit-product-categoria"
-                      required
-                    >
-                      {/* Aquí puedes mostrar las opciones de categoría */}
-                    </select>
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Cerrar
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={saveChanges}
-                >
-                  Guardar Cambios
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+                  {/* Aquí puedes mostrar las opciones de categoría */}
+                  <option value="camisas">Camisas</option>
+                  <option value="Electrodomesticos">Electrodomésticos</option>
+                  <option value="Informatica">Informática</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Cerrar
+            </Button>
+            <Button variant="primary" onClick={saveChanges}>
+              Guardar Cambios
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </>
   );
