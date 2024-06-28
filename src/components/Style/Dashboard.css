@@ -78,6 +78,9 @@
     font-weight: bold;
     border: none;
   }
+  .btn{
+    margin-right: 10px;
+  }
   
   @media (min-width: 768px) {
     #sidebar-wrapper {

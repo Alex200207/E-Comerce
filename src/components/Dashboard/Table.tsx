@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+interface Producto {
+  ID_Producto: number;
+  Nombre: string;
+  Categoria: string;
+  Stock: number;
+  Precio: number;
+}
+
 const Table: React.FC = () => {
+  const [productos, setProductos] = useState<Producto[]>([]); 
+
+  useEffect(() => {
+    loadProducts();
+  }, []); 
+
+ 
+  const loadProducts = () => {
+    fetch("http://localhost:3000/productos")
+      .then((response) => response.json())
+      .then((data: Producto[]) => {
+        setProductos(data); // Actualizar estado con los productos obtenidos
+      })
+      .catch((error) => {
+        console.error("Error al cargar productos:", error);
+        alert("Error al cargar los productos");
+      });
+  };
+
+  
   const saveChanges = () => {
-    // Aquí deberías implementar la lógica para guardar los cambios del producto
     console.log("Guardando cambios...");
+    // aqui implentar logica para guardar producto
   };
 
   return (
@@ -44,7 +72,41 @@ const Table: React.FC = () => {
           </div>
 
           <div id="productos-list" className="list-group">
-            {/* Aquí puedes mostrar la lista de productos */}
+            {productos.map((producto) => (
+              <div key={producto.ID_Producto} className="list-group-item">
+                <div className="row">
+                  <div className="col-md-1">{producto.ID_Producto}</div>
+                  <div className="col-md-3">{producto.Nombre}</div>
+                  <div className="col-md-2">{producto.Categoria}</div>
+                  <div className="col-md-2">{producto.Stock}</div>
+                  <div className="col-md-2">${producto.Precio}</div>
+                  <div className="col-md-2">
+                    <button
+                      className="btn btn-primary btn-sm btn-edit"
+                      data-id={producto.ID_Producto}
+                      onClick={() => {
+                        //  la lógica para editar el producto
+                        console.log(`Editar producto ${producto.ID_Producto}`);
+                      }}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm btn-delete"
+                      data-id={producto.ID_Producto}
+                      onClick={() => {
+                        //  la lógica para eliminar el producto
+                        console.log(
+                          `Eliminar producto ${producto.ID_Producto}`
+                        );
+                      }}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
