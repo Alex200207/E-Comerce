@@ -23,7 +23,6 @@
     "paths": {/*definir una ruta corta para lograr traer informacion del sistema*/
       "@components/*": ["./src/components/*"],
       "@images/*": ["./src/assets/images/*"],
- 
     },
   },
   "include": ["src"],

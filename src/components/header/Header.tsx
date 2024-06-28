@@ -9,7 +9,8 @@ interface HeaderProps {
   height: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, height }) => {
+
+const Header: React.FC<HeaderProps> = ({ height }) => {
   return (
     <header className='header-custom'
       style={{
