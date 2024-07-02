@@ -5,19 +5,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 interface Producto {
   ID_Producto: number;
   Nombre: string;
-  Categoria: string;
+  ID_Categoria: number;
   Stock: number;
   Precio: number;
   Descripcion?: string;
+}
+
+interface Categoria {
+  ID_Categoria: number;
+  Nombre: string;
 }
 
 const Table: React.FC = () => {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Producto | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
 
   useEffect(() => {
     loadProducts();
+    loadCategorias();
   }, []);
 
   const loadProducts = () => {
@@ -32,37 +39,47 @@ const Table: React.FC = () => {
       });
   };
 
+  const loadCategorias = () => {
+    fetch("http://localhost:3000/categorias")
+      .then((response) => response.json())
+      .then((data: Categoria[]) => {
+        setCategorias(data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar categorías:", error);
+        alert("Error al cargar las categorías");
+      });
+  };
+
   const saveChanges = () => {
     if (selectedProduct) {
-      if(window.confirm("Quieres actualizar este producto")){
-      fetch(`http://localhost:3000/productos/${selectedProduct.ID_Producto}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(selectedProduct),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Error al actualizar el producto");
-          }
-          return response.json(); 
+      if (window.confirm("¿Quieres actualizar este producto?")) {
+        fetch(`http://localhost:3000/productos/${selectedProduct.ID_Producto}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(selectedProduct),
         })
-        .then((data) => {
-          console.log(data); 
-          loadProducts();
-          setShowModal(false);
-          setSelectedProduct(null);
-        })
-        .catch((error) => {
-          console.error("Error al guardar cambios:", error);
-          alert("Error al guardar los cambios del producto");
-        });
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error al actualizar el producto");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            loadProducts();
+            setShowModal(false);
+            setSelectedProduct(null);
+          })
+          .catch((error) => {
+            console.error("Error al guardar cambios:", error);
+            alert("Error al guardar los cambios del producto");
+          });
       }
     }
   };
-
-
 
   const handleEditClick = (producto: Producto) => {
     setSelectedProduct(producto);
@@ -74,21 +91,26 @@ const Table: React.FC = () => {
       fetch(`http://localhost:3000/productos/${id}`, {
         method: "DELETE",
       })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al eliminar el producto");
-        }
-        return response.text();
-      })
-      .then((result) => {
-        alert(result); // Muestra un mensaje de éxito
-        loadProducts(); // Actualiza la lista de productos después de eliminar
-      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error al eliminar el producto");
+          }
+          return response.text();
+        })
+        .then((result) => {
+          alert(result);
+          loadProducts();
+        })
         .catch((error) => {
           console.error("Error:", error);
           alert("Error al eliminar el producto");
         });
     }
+  };
+
+  const getNombreCategoria = (idCategoria: number): string => {
+    const categoria = categorias.find((cat) => cat.ID_Categoria === idCategoria);
+    return categoria ? categoria.Nombre : "Sin categoría";
   };
 
   return (
@@ -133,7 +155,7 @@ const Table: React.FC = () => {
                 <div className="row">
                   <div className="col-md-1">{producto.ID_Producto}</div>
                   <div className="col-md-3">{producto.Nombre}</div>
-                  <div className="col-md-2">{producto.Categoria}</div>
+                  <div className="col-md-2">{getNombreCategoria(producto.ID_Categoria)}</div>
                   <div className="col-md-2">{producto.Stock}</div>
                   <div className="col-md-2">${producto.Precio}</div>
                   <div className="col-md-2">
@@ -141,7 +163,7 @@ const Table: React.FC = () => {
                       className="btn btn-primary btn-sm btn-edit"
                       onClick={() => handleEditClick(producto)}
                     >
-                      Editar
+                      Ver
                     </button>
                     <button
                       className="btn btn-danger btn-sm btn-delete"
@@ -218,18 +240,20 @@ const Table: React.FC = () => {
                 <Form.Label>Categoría</Form.Label>
                 <Form.Control
                   as="select"
-                  value={selectedProduct?.Categoria || ""}
+                  value={selectedProduct?.ID_Categoria || ""}
                   onChange={(e) =>
                     setSelectedProduct((prev) => ({
                       ...prev!,
-                      Categoria: e.target.value,
+                      ID_Categoria: parseInt(e.target.value),
                     }))
                   }
                 >
-                  {/* Aquí puedes mostrar las opciones de categoría */}
-                  <option value="camisas">Camisas</option>
-                  <option value="Electrodomesticos">Electrodomésticos</option>
-                  <option value="Informatica">Informática</option>
+                  <option value="">Selecciona una categoría</option>
+                  {categorias.map((categoria) => (
+                    <option key={categoria.ID_Categoria} value={categoria.ID_Categoria}>
+                      {categoria.Nombre}
+                    </option>
+                  ))}
                 </Form.Control>
               </Form.Group>
             </Form>

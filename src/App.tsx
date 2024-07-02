@@ -1,5 +1,6 @@
 import React from 'react';
-import ProductPage from './Pages/ProductPage'; // Ajusta la ruta según tu estructura de archivos
+import LoginForm from '@components/Login/LoginForm';
+import ProductPage from './Pages/ProductPage';
 import AdminPage from './Pages/AdminPage';
 
 

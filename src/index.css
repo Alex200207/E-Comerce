@@ -76,3 +76,8 @@ main {
   color: #000000;
   background-color: #f5b45a;
 }
+#select__navbar option{
+  font-size: 20px;
+  color:#000;
+}
+

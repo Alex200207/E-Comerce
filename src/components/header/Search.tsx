@@ -1,13 +1,11 @@
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import Select from '../header/Select'
 
 function Search() {
   return (
     <form className="d-flex ms-auto" role="search">
-      <select className="form-select me-2" id="select__navbar">
-        <option value="0">Todas las categorias</option>
-        {/* Aquí puedes agregar más opciones de categorías si es necesario */}
-      </select>
+      <Select/>
       <input
         type="text"
         className="form-control me-2"
