@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../../index.css";
 
 interface Producto {
   ID_Producto: number;
@@ -21,6 +22,7 @@ const Table: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Producto | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     loadProducts();
@@ -54,13 +56,16 @@ const Table: React.FC = () => {
   const saveChanges = () => {
     if (selectedProduct) {
       if (window.confirm("¿Quieres actualizar este producto?")) {
-        fetch(`http://localhost:3000/productos/${selectedProduct.ID_Producto}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(selectedProduct),
-        })
+        fetch(
+          `http://localhost:3000/productos/${selectedProduct.ID_Producto}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedProduct),
+          }
+        )
           .then((response) => {
             if (!response.ok) {
               throw new Error("Error al actualizar el producto");
@@ -109,23 +114,34 @@ const Table: React.FC = () => {
   };
 
   const getNombreCategoria = (idCategoria: number): string => {
-    const categoria = categorias.find((cat) => cat.ID_Categoria === idCategoria);
+    const categoria = categorias.find(
+      (cat) => cat.ID_Categoria === idCategoria
+    );
     return categoria ? categoria.Nombre : "Sin categoría";
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredProducts = productos.filter((producto) =>
+    producto.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
+      <div className="search-bar mb-3">
+        <input
+          type="text"
+          id="search-product"
+          className="form-control"
+          placeholder="Buscar producto..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
       <div className="main-contenedor">
         <section id="productos" className="card">
-          <div className="search-bar mb-3">
-            <input
-              type="text"
-              id="search-product"
-              className="form-control"
-              placeholder="Buscar producto..."
-            />
-          </div>
-
           <div className="list-group-item list-group-header">
             <div className="row">
               <div className="col-md-1">
@@ -150,12 +166,14 @@ const Table: React.FC = () => {
           </div>
 
           <div id="productos-list" className="list-group">
-            {productos.map((producto) => (
+            {filteredProducts.map((producto) => (
               <div key={producto.ID_Producto} className="list-group-item">
                 <div className="row">
                   <div className="col-md-1">{producto.ID_Producto}</div>
                   <div className="col-md-3">{producto.Nombre}</div>
-                  <div className="col-md-2">{getNombreCategoria(producto.ID_Categoria)}</div>
+                  <div className="col-md-2">
+                    {getNombreCategoria(producto.ID_Categoria)}
+                  </div>
                   <div className="col-md-2">{producto.Stock}</div>
                   <div className="col-md-2">${producto.Precio}</div>
                   <div className="col-md-2">
@@ -250,7 +268,10 @@ const Table: React.FC = () => {
                 >
                   <option value="">Selecciona una categoría</option>
                   {categorias.map((categoria) => (
-                    <option key={categoria.ID_Categoria} value={categoria.ID_Categoria}>
+                    <option
+                      key={categoria.ID_Categoria}
+                      value={categoria.ID_Categoria}
+                    >
                       {categoria.Nombre}
                     </option>
                   ))}
