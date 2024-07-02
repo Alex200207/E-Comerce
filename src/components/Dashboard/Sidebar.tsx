@@ -12,9 +12,9 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to={"/Lista"}
-              className="list-group-item list-group-item-action bg-transparent second-text active"
+              className="list-group-item list-group-item-action bg-transparent "
             >
-              Lista
+              Inicio
             </Link>
           </li>
           <li>

@@ -4,6 +4,7 @@ interface Product {
   id: number;
   Nombre: string;
   Descripcion: string;
+  ImagenUrl: string;
   Precio: number;
 }
 
@@ -35,9 +36,16 @@ const Products: React.FC = () => {
             <div className="col-md-4 mb-4" key={product.id}>
               <div className="card">
                 <img
-                  src={`https://via.placeholder.com/350x250?text=${product.Nombre}`}
+                  src={product.ImagenUrl}
                   className="card-img-top"
                   alt={product.Nombre}
+                  style={{
+                    width: "350px",
+                    height: "250px",
+                    objectFit: "contain",
+                    display: "block", // Para asegurar que la imagen se comporte como un bloque
+                    margin: "20px", // Para centrar la imagen horizontalmente dentro del contenedor
+                  }}
                 />
                 <div className="card-body">
                   <h4 className="card-title">{product.Nombre}</h4>
