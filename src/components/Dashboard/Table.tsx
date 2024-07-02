@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
+import SearchBar from "../Dashboard/SearchBar";
 
 interface Producto {
   ID_Producto: number;
@@ -128,74 +130,64 @@ const Table: React.FC = () => {
     producto.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const columns = [
+    {
+      name: "ID",
+      selector: (row: Producto) => row.ID_Producto,
+      sortable: true,
+    },
+    {
+      name: "Nombre",
+      selector: (row: Producto) => row.Nombre,
+      sortable: true,
+    },
+    {
+      name: "Categoría",
+      selector: (row: Producto) => getNombreCategoria(row.ID_Categoria),
+      sortable: true,
+    },
+    {
+      name: "Stock",
+      selector: (row: Producto) => row.Stock,
+      sortable: true,
+    },
+    {
+      name: "Precio",
+      selector: (row: Producto) => `$${row.Precio}`,
+      sortable: true,
+    },
+    {
+      name: "Acciones",
+      cell: (row: Producto) => (
+        <>
+          <button
+            className="btn btn-primary btn-sm btn-edit"
+            onClick={() => handleEditClick(row)}
+          >
+            Ver
+          </button>
+          <button
+            className="btn btn-danger btn-sm btn-delete"
+            onClick={() => handleDeleteClick(row.ID_Producto)}
+          >
+            Eliminar
+          </button>
+        </>
+      ),
+    },
+  ];
+
   return (
     <>
-      <div className="search-bar mb-3">
-        <input
-          type="text"
-          id="search-product"
-          className="form-control"
-          placeholder="Buscar producto..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      </div>
+      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="main-contenedor">
-        <section id="productos" className="card">
-          <div className="list-group-item list-group-header">
-            <div className="row">
-              <div className="col-md-1">
-                <strong>ID</strong>
-              </div>
-              <div className="col-md-3">
-                <strong>Nombre</strong>
-              </div>
-              <div className="col-md-2">
-                <strong>Categoría</strong>
-              </div>
-              <div className="col-md-2">
-                <strong>Stock</strong>
-              </div>
-              <div className="col-md-2">
-                <strong>Precio</strong>
-              </div>
-              <div className="col-md-2">
-                <strong>Acciones</strong>
-              </div>
-            </div>
-          </div>
-
-          <div id="productos-list" className="list-group">
-            {filteredProducts.map((producto) => (
-              <div key={producto.ID_Producto} className="list-group-item">
-                <div className="row">
-                  <div className="col-md-1">{producto.ID_Producto}</div>
-                  <div className="col-md-3">{producto.Nombre}</div>
-                  <div className="col-md-2">
-                    {getNombreCategoria(producto.ID_Categoria)}
-                  </div>
-                  <div className="col-md-2">{producto.Stock}</div>
-                  <div className="col-md-2">${producto.Precio}</div>
-                  <div className="col-md-2">
-                    <button
-                      className="btn btn-primary btn-sm btn-edit"
-                      onClick={() => handleEditClick(producto)}
-                    >
-                      Ver
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm btn-delete"
-                      onClick={() => handleDeleteClick(producto.ID_Producto)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
+        <DataTable
+          columns={columns}
+          data={filteredProducts}
+          pagination
+          highlightOnHover
+          striped
+        />
         <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>Editar Producto</Modal.Title>

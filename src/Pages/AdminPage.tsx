@@ -17,8 +17,8 @@ function AdminPage() {
           <div className="container-fluid px-4">
             <Routes>
               <Route>
-              <Route path="/Lista" element={<Table />} />
-              <Route path="/Productos" element={<p>Productos</p>} />
+              <Route path="/Incio" element={'/'} />
+              <Route path="/Productos" element={<Table />} />
               <Route path="/Categoria" element={<p>Categorias</p>} />
               <Route path="/Clientes" element={<p>Clientes</p>} />
               <Route path="/Vendedores" element={<p>Vendedores</p>} />
