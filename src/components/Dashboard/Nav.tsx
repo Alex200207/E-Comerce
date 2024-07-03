@@ -9,7 +9,7 @@ const Nav: React.FC = () => {
             className="fas fa-align-left primary-text fs-4 me-3"
             id="menu-toggle"
           ></i>
-          <h2 className="fs-2 m-0">Gestor</h2>
+          <h2 className="fs-2 m-0">Gestor de la Tienda</h2>
         </div>
 
         <button

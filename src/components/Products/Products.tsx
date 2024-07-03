@@ -4,6 +4,7 @@ interface Product {
   id: number;
   Nombre: string;
   Descripcion: string;
+  ID_Categoria: number;
   ImagenUrl: string;
   Precio: number;
 }
@@ -17,7 +18,7 @@ const Products: React.FC = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("/api/productos"); // Utilizamos el prefijo /api configurado en el proxy
+      const response = await fetch("/api/productos");
       if (!response.ok) {
         throw new Error("Error al obtener los productos");
       }
@@ -52,6 +53,7 @@ const Products: React.FC = () => {
                   <p className="card-text">
                     Descripción: {product.Descripcion}
                   </p>
+                  <p className="card-text">Categoria: {product.ID_Categoria}</p>
                   <p className="card-text">Precio: ${product.Precio}</p>
                   <a href="#" className="btn btn-primary">
                     Ver producto

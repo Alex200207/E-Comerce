@@ -11,6 +11,7 @@ interface Producto {
   ID_Categoria: number;
   Stock: number;
   Precio: number;
+  ImagenUrl: string;
   Descripcion?: string;
 }
 
@@ -220,6 +221,20 @@ const Table: React.FC = () => {
                   }
                 />
               </Form.Group>
+              <Form.Group controlId="edit-product-Imagen">
+                  <Form.Label>Imagen</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={selectedProduct?.ImagenUrl|| ""}
+                    onChange={(e) =>
+                      setSelectedProduct((prev) => ({
+                        ...prev!,
+                        ImagenUrl: e.target.value,
+                      }))
+                    }
+                  />
+                </Form.Group>
+
               <Form.Group controlId="edit-product-precio">
                 <Form.Label>Precio</Form.Label>
                 <Form.Control
@@ -245,6 +260,8 @@ const Table: React.FC = () => {
                     }))
                   }
                 />
+
+               
               </Form.Group>
               <Form.Group controlId="edit-product-categoria">
                 <Form.Label>Categoría</Form.Label>
