@@ -1,16 +1,48 @@
-import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Form, Alert } from "react-bootstrap";
+
+interface Producto {
+  ID_Producto?: number; // Puede ser opcional si no se tiene ID al agregar
+  Nombre: string;
+  ID_Categoria: number;
+  Stock: number;
+  Precio: number;
+  ImagenUrl: string;
+  Descripcion?: string;
+}
+
+interface Categoria {
+  ID_Categoria: number;
+  Nombre: string;
+}
 
 const AddProductModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({
+  const [newProduct, setNewProduct] = useState<Producto>({
     Nombre: "",
-    Descripcion: "",
-    ImagenUrl: "",
-    Precio: 0,
+    ID_Categoria: 0,
     Stock: 0,
-    ID_Categoria: "",
+    Precio: 0,
+    ImagenUrl: "",
   });
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  useEffect(() => {
+    loadCategorias();
+  }, []);
+
+  const loadCategorias = () => {
+    fetch("http://localhost:3000/categorias")
+      .then((response) => response.json())
+      .then((data: Categoria[]) => {
+        setCategorias(data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar categorías:", error);
+        alert("Error al cargar las categorías");
+      });
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -22,18 +54,49 @@ const AddProductModal: React.FC = () => {
     }));
   };
 
-  const handleSaveChanges = () => {
-    // aqui debo implementar la logia para enviar los datos del nuevo producto al backend
-    console.log("Guardando nuevo producto:", newProduct);
-    // aqui debo hacer la petición POST al endpoint  para agregar el nuevo producto
+  const handleSaveChanges = async () => {
+    if (!window.confirm("¿Quieres agregar este producto?")) {
+      return;
+    }
 
-    // Una vez agregado correctamente, puedes cerrar el modal y hacer cualquier otra acción necesaria
-    setShowModal(false);
+    try {
+      const response = await fetch("http://localhost:3000/productos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      });
+
+      if (response.ok) {
+        setShowSuccessMessage(true);
+        console.log("Producto agregado exitosamente:", newProduct);
+        setNewProduct({
+          Nombre: "",
+          ID_Categoria: 0,
+          Stock: 0,
+          Precio: 0,
+          ImagenUrl: "",
+        });
+        loadCategorias(); // Recargar categorías si es necesario
+        setShowModal(false); // Cerrar modal después de agregar producto
+        // Ocultar el mensaje de éxito después de 3 segundos
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 3000);
+      } else {
+        console.error("Error al agregar producto:", response.statusText);
+        // Aquí podrías manejar el error de la petición, mostrar un mensaje al usuario, etc.
+      }
+    } catch (error) {
+      console.error("Error al realizar la petición:", error);
+      // Aquí maneja cualquier error de red u otros errores inesperados
+    }
   };
 
   return (
-    <div className="main-contenedor">
-      <Button variant="primary" onClick={() => setShowModal(true)}>
+    <div className="main-contenedor2 ">
+      <Button variant=" btn-custom" onClick={() => setShowModal(true)}>
         Agregar Producto
       </Button>
 
@@ -56,17 +119,16 @@ const AddProductModal: React.FC = () => {
               <Form.Label>Descripción</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={3}
+                rows={2}
                 name="Descripcion"
-                value={newProduct.Descripcion}
+                value={newProduct.Descripcion || ""}
                 onChange={handleInputChange}
               />
             </Form.Group>
             <Form.Group controlId="add-product-imagen">
               <Form.Label>Imagen URL</Form.Label>
               <Form.Control
-                as="textarea"
-                rows={3}
+                type="text"
                 name="ImagenUrl"
                 value={newProduct.ImagenUrl}
                 onChange={handleInputChange}
@@ -94,15 +156,23 @@ const AddProductModal: React.FC = () => {
               <Form.Label>Categoría</Form.Label>
               <Form.Control
                 as="select"
-                name="ID_Categoria"
-                value={newProduct.ID_Categoria}
-                onChange={handleInputChange}
+                value={newProduct?.ID_Categoria || ""}
+                onChange={(e) =>
+                  setNewProduct((prev) => ({
+                    ...prev,
+                    ID_Categoria: parseInt(e.target.value),
+                  }))
+                }
               >
                 <option value="">Selecciona una categoría</option>
-                {/* Aqui debo mapear las opciones de categorías disponibles */}
-                <option value="1">Categoría 1</option>
-                <option value="2">Categoría 2</option>
-                <option value="3">Categoría 3</option>
+                {categorias.map((categoria) => (
+                  <option
+                    key={categoria.ID_Categoria}
+                    value={categoria.ID_Categoria}
+                  >
+                    {categoria.Nombre}
+                  </option>
+                ))}
               </Form.Control>
             </Form.Group>
           </Form>
@@ -116,6 +186,16 @@ const AddProductModal: React.FC = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {showSuccessMessage && (
+        <Alert
+          variant="success"
+          className="position-fixed top-0 start-50 translate-middle-x mt-2"
+          style={{ zIndex: 1060, left: "50%", transform: "translateX(-50%)" }}
+        >
+          Producto agregado exitosamente.
+        </Alert>
+      )}
     </div>
   );
 };

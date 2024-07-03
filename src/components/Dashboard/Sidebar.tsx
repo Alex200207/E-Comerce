@@ -5,7 +5,7 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <div className="bg-white" id="sidebar-wrapper">
-        <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+        <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom sidebar__item">
           <i className="fas fa-user-secret me-2"></i>AlexStore
         </div>
         <ul className="list-group list-group-flush my-3">

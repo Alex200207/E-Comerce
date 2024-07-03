@@ -8,7 +8,7 @@ import AddProductModal from '@components/Dashboard/AddProductModal';
 const App: React.FC = () => {
   return (
    <>
-   <AddProductModal/>
+   <AdminPage/>
    </>
   );
 };

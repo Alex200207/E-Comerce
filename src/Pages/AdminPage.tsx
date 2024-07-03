@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Nav from "@components/Dashboard/Nav"
 import Sidebar from "@components/Dashboard/Sidebar";
 import "../components/Style/Dashboard.css"; // Importa tus estilos CSS si los tienes
+import AddProductModal from "@components/Dashboard/AddProductModal";
 
 
 // Función principal del componente App
@@ -14,6 +15,7 @@ function AdminPage() {
         <Sidebar />
         <div id="page-content-wrapper">
           <Nav/>
+          <AddProductModal/>
           <div className="container-fluid px-4">
             <Routes>
               <Route>
