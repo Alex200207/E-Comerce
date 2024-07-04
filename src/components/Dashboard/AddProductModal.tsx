@@ -8,6 +8,7 @@ interface Producto {
   Stock: number;
   Precio: number;
   ImagenUrl: string;
+  Codigo: string;
   Descripcion?: string;
 }
 
@@ -16,7 +17,13 @@ interface Categoria {
   Nombre: string;
 }
 
-const AddProductModal: React.FC = () => {
+interface AddProductModalProps {
+  onProductAdded: () => void; // Función para recargar productos después de agregar uno
+}
+
+const AddProductModal: React.FC<AddProductModalProps> = ({
+  onProductAdded,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [newProduct, setNewProduct] = useState<Producto>({
     Nombre: "",
@@ -24,6 +31,7 @@ const AddProductModal: React.FC = () => {
     Stock: 0,
     Precio: 0,
     ImagenUrl: "",
+    Codigo:"",
   });
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -76,10 +84,18 @@ const AddProductModal: React.FC = () => {
           ID_Categoria: 0,
           Stock: 0,
           Precio: 0,
-          ImagenUrl: "",
+          Codigo:"",
+          ImagenUrl: "", // Limpiar ImagenUrl después de agregar
         });
         loadCategorias(); // Recargar categorías si es necesario
-        setShowModal(false); // Cerrar modal después de agregar producto
+        // Cierra el modal después de agregar el producto
+        setShowModal(false);
+
+        // Recargar productos en la tabla (llamando a la función pasada por props)
+        if (typeof onProductAdded === "function") {
+          onProductAdded();
+        }
+
         // Ocultar el mensaje de éxito después de 3 segundos
         setTimeout(() => {
           setShowSuccessMessage(false);
@@ -95,8 +111,12 @@ const AddProductModal: React.FC = () => {
   };
 
   return (
-    <div className="main-contenedor2 ">
-      <Button variant=" btn-custom" onClick={() => setShowModal(true)}>
+    <div className="main-contenedor2">
+      <Button
+        variant="btn-custom"
+        className="btn-custom"
+        onClick={() => setShowModal(true)}
+      >
         Agregar Producto
       </Button>
 
@@ -115,6 +135,17 @@ const AddProductModal: React.FC = () => {
                 onChange={handleInputChange}
               />
             </Form.Group>
+
+            <Form.Group controlId="add-product-Codigo">
+              <Form.Label>Codigo</Form.Label>
+              <Form.Control
+                type="text"
+                name="Codigo"
+                value={newProduct.Codigo}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
             <Form.Group controlId="add-product-descripcion">
               <Form.Label>Descripción</Form.Label>
               <Form.Control
@@ -156,7 +187,7 @@ const AddProductModal: React.FC = () => {
               <Form.Label>Categoría</Form.Label>
               <Form.Control
                 as="select"
-                value={newProduct?.ID_Categoria || ""}
+                value={newProduct.ID_Categoria}
                 onChange={(e) =>
                   setNewProduct((prev) => ({
                     ...prev,

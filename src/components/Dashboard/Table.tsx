@@ -4,6 +4,7 @@ import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import SearchBar from "../Dashboard/SearchBar";
+import AddProductModal from "./AddProductModal";
 
 interface Producto {
   ID_Producto: number;
@@ -13,6 +14,7 @@ interface Producto {
   Precio: number;
   ImagenUrl: string;
   Descripcion?: string;
+  Codigo:string;
 }
 
 interface Categoria {
@@ -131,6 +133,10 @@ const Table: React.FC = () => {
     producto.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleProductAdded = () => {
+    loadProducts(); // Recargar productos después de agregar uno
+  };
+
   const columns = [
     {
       name: "ID",
@@ -150,6 +156,11 @@ const Table: React.FC = () => {
     {
       name: "Stock",
       selector: (row: Producto) => row.Stock,
+      sortable: true,
+    },
+    {
+      name: "Codigo",
+      selector: (row: Producto) => row.Codigo,
       sortable: true,
     },
     {
@@ -180,6 +191,7 @@ const Table: React.FC = () => {
 
   return (
     <>
+      <AddProductModal onProductAdded={handleProductAdded} />
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="main-contenedor">
         <DataTable
@@ -208,6 +220,21 @@ const Table: React.FC = () => {
                   }
                 />
               </Form.Group>
+
+              <Form.Group controlId="edit-product-Codigo">
+                <Form.Label>Codigo</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={selectedProduct?.Codigo || ""}
+                  onChange={(e) =>
+                    setSelectedProduct((prev) => ({
+                      ...prev!,
+                      Codigo: e.target.value,
+                    }))
+                  }
+                />
+              </Form.Group>
+
               <Form.Group controlId="edit-product-descripcion">
                 <Form.Label>Descripción</Form.Label>
                 <Form.Control

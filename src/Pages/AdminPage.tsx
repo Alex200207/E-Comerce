@@ -15,7 +15,7 @@ function AdminPage() {
         <Sidebar />
         <div id="page-content-wrapper">
           <Nav/>
-          <AddProductModal/>
+          
           <div className="container-fluid px-4">
             <Routes>
               <Route>

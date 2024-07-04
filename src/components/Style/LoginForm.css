@@ -43,7 +43,7 @@ body {
 .input-box input {
   width: 100%;
   height: 100%;
-  background: transparent;
+  background: white;
   border: 2px solid rgba(255, 255, 255, 0.2);
   outline: none;
   border-radius: 40px;
@@ -59,6 +59,7 @@ body {
   position: absolute;
   right: 28px;
   top: 50%;
+  color: #000000;
   transform: translateY(-50%);
   font-size: 16px;
 }
@@ -107,4 +108,16 @@ body {
 }
 .register-link p a:hover {
   text-decoration: underline;
+}
+.success-message {
+  top: 0;
+  position: absolute;
+  font-size: 24px;
+  background-color: transparent;
+  color: white;
+  padding: 5px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
 }
