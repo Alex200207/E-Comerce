@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Nav from "@components/Dashboard/Nav"
 import Sidebar from "@components/Dashboard/Sidebar";
 import "../components/Style/Dashboard.css"; // Importa tus estilos CSS si los tienes
-import AddProductModal from "@components/Dashboard/AddProductModal";
+
 import TableClient from "@components/Dashboard/TableClient";
 
 

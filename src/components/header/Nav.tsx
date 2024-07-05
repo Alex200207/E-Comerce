@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Search from "@components/header/Search"; // Asegúrate de que la ruta sea correcta
+import ShoppingCartModal from "@components/Products/ShoppingCartModal";
 
 interface NavProps {
   toggleAside: () => void;
@@ -47,17 +48,8 @@ const Nav: React.FC<NavProps> = ({ toggleAside }) => {
                 Facturas
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Precios
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" href="#" aria-disabled="true">
-                Disponible
-              </a>
-            </li>
           </ul>
+          <ShoppingCartModal/>
           {/* Aquí se incluye el componente Search */}
           <Search />
         </div>

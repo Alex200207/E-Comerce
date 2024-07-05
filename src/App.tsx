@@ -1,13 +1,12 @@
 import React from 'react';
-
-import TableClient from '@components/Dashboard/TableClient';
-import AdminPage from './Pages/AdminPage';
+import ProductPage from './Pages/ProductPage';
+import ShoppingCartModal from '@components/Products/ShoppingCartModal';
 
 
 const App: React.FC = () => {
   return (
    <>
-   <AdminPage/>
+   <ProductPage/>
    </>
   );
 };

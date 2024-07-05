@@ -18,6 +18,9 @@
   display: flex;
   width: 100%;
 }
+.form-control{
+  width: 40%;
+}
 .sidebar {
   position: fixed;
   top: 0;
@@ -76,6 +79,9 @@ main {
   color: #000000;
   background-color: #f5b45a;
 }
+#select__navbar{
+  width: 30%;
+}
 #select__navbar option{
   font-size: 20px;
   color:#000;
@@ -96,4 +102,29 @@ main {
   transform: scale(1.05);
   opacity: 1;
 }
+.btn_Shop{
+  margin: 0 10px;
+  background-color: transparent;
+  border: none;
+  color: #000;
+  outline: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.icon__shop{
+  width: 24px;
+  height: 24px;
+}
+.icon__shop:hover{
+  background: transparent;
+}
+.btn_Shop:hover {
+  background-color: transparent;
+  color: #000;
+  transform: scale(1.1);
+}
 
+.btn_Shop:active {
+  background-color: transparent !important;
+  outline: none;
+
+}
