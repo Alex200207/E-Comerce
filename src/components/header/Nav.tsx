@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Search from "@components/header/Search"; // Asegúrate de que la ruta sea correcta
 import ShoppingCartModal from "@components/Products/ShoppingCartModal";
@@ -39,9 +40,9 @@ const Nav: React.FC<NavProps> = ({ toggleAside }) => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <Link to={"/Inicio"} className="nav-link " aria-current="page">
                 Inicio
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
@@ -49,7 +50,7 @@ const Nav: React.FC<NavProps> = ({ toggleAside }) => {
               </a>
             </li>
           </ul>
-          <ShoppingCartModal/>
+          <ShoppingCartModal />
           {/* Aquí se incluye el componente Search */}
           <Search />
         </div>

@@ -19,7 +19,7 @@
   width: 100%;
 }
 .form-control{
-  width: 40%;
+  width: 100%;
 }
 .sidebar {
   position: fixed;
@@ -127,4 +127,32 @@ main {
   background-color: transparent !important;
   outline: none;
 
+}
+hr{
+  color: #f45757;
+}
+.card-body{
+  display: flex;
+  flex-direction: column;
+  color: #401a14;
+  font-weight: 400;
+  background-color: transparent ;
+  border: none;
+  outline: none;
+  border-radius:  0  0 10px 10px;
+}
+.btn-buy{
+  background-color: #f45757;
+  color: white;
+  border: none;
+  width: 40%;
+  align-self: center;
+  transition: 0.5s ease;
+  box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.5);
+}
+.btn-buy:hover{
+  
+  transform: scale(1.1);
+  background-color: #9d3838;
+  color: white;
 }
