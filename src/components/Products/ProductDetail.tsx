@@ -33,8 +33,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) 
         <Button  onClick={onHide}>
           Cerrar
         </Button>
-        <Button variant="primary" onClick={() => alert(`Agregado al carrito: ${product.Nombre}`)}>
+        <Button variant="primary" onClick={() => alert(`Agregado al carrito: ${product.id}`)}>
           Agregar al carrito
+        </Button>
+        <Button variant="primary" onClick={() => alert(`Producto Comprado: ${product.id}`)}>
+          Comprar
         </Button>
       </Modal.Footer>
     </Modal>

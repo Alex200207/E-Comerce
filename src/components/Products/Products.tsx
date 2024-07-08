@@ -1,3 +1,4 @@
+// src/components/Products/Products.tsx
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import ProductDetail from "./ProductDetail"; // Asegúrate de que la ruta del archivo sea correcta
@@ -11,7 +12,11 @@ interface Product {
   Precio: number; // Ajustar Precio a price
 }
 
-const Products: React.FC = () => {
+interface ProductsProps {
+  searchTerm: string;
+}
+
+const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -40,11 +45,17 @@ const Products: React.FC = () => {
     setSelectedProduct(null);
   };
 
+  const filteredProducts = products.filter(
+    (product) =>
+      product.Nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.Descripcion.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <section id="productos" className="py-5">
       <div className="container">
         <div className="row" id="contenedor-productos">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div className="col-md-4 mb-4" key={product.id}>
               <div className="card">
                 <img
@@ -66,7 +77,8 @@ const Products: React.FC = () => {
                   </p>
                   <p className="card-text">Precio: ${product.Precio}</p>
                   <hr />
-                  <Button className="btn-buy"
+                  <Button
+                    className="btn-buy"
                     onClick={() => openProductDetail(product)}
                   >
                     Ver producto

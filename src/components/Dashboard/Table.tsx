@@ -160,7 +160,7 @@ const Table: React.FC = () => {
     },
     {
       name: "Codigo",
-      selector: (row: Producto) => row.Codigo,
+      selector: (row: Producto) => `#${row.Codigo}`,
       sortable: true,
     },
     {

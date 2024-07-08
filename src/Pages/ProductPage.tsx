@@ -10,14 +10,19 @@ import "../index.css"; // Asegúrate de tener un archivo CSS para los estilos
 
 const ProductPage: React.FC = () => {
   const [isAsideOpen, setIsAsideOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const toggleAside = () => {
     setIsAsideOpen(!isAsideOpen);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <>
-      <Nav toggleAside={toggleAside} />
+      <Nav toggleAside={toggleAside} searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="d-flex">
         <Aside isOpen={isAsideOpen} />
         <div className={`content ${isAsideOpen ? "aside-open" : ""}`}>
@@ -28,7 +33,7 @@ const ProductPage: React.FC = () => {
               height="600px"
             />
             <Routes>
-              <Route path="/inicio" element={<Products />} />
+              <Route path="/inicio" element={<Products searchTerm={searchTerm} />} />
               <Route path="/cuenta" element={<p>Cuenta</p>} />
               <Route path="/productos" element={<p>Producto</p>} />
               <Route path="/ofertas" element={<p>Oferta</p>} />

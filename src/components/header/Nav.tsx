@@ -1,3 +1,4 @@
+// src/components/header/Nav.tsx
 import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -6,13 +7,15 @@ import ShoppingCartModal from "@components/Products/ShoppingCartModal";
 
 interface NavProps {
   toggleAside: () => void;
+  searchTerm: string;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Nav: React.FC<NavProps> = ({ toggleAside }) => {
+const Nav: React.FC<NavProps> = ({ toggleAside, searchTerm, onSearchChange }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light  navbar-custom">
+    <nav className="navbar navbar-expand-lg navbar-light navbar-custom">
       <div className="container-fluid">
-        <button className="btn  me-2" onClick={toggleAside}>
+        <button className="btn me-2" onClick={toggleAside}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -40,19 +43,19 @@ const Nav: React.FC<NavProps> = ({ toggleAside }) => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <Link to={"/Inicio"} className="nav-link " aria-current="page">
+              <Link to={"/inicio"} className="nav-link" aria-current="page">
                 Inicio
               </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
-                Facturas
+                Nosotros
               </a>
             </li>
           </ul>
           <ShoppingCartModal />
           {/* Aquí se incluye el componente Search */}
-          <Search />
+          <Search searchTerm={searchTerm} onSearchChange={onSearchChange} />
         </div>
       </div>
     </nav>

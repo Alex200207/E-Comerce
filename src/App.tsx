@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductPage from './Pages/ProductPage';
 import AdminPage from './Pages/AdminPage';
+import RegisterForm from '@components/Login/RegisterForm';
 
 
 
