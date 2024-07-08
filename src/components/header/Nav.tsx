@@ -1,5 +1,5 @@
 // src/components/header/Nav.tsx
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Search from "@components/header/Search"; // Asegúrate de que la ruta sea correcta
@@ -7,11 +7,20 @@ import ShoppingCartModal from "@components/Products/ShoppingCartModal";
 
 interface NavProps {
   toggleAside: () => void;
-  searchTerm: string;
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: (term: string) => void;
 }
 
-const Nav: React.FC<NavProps> = ({ toggleAside, searchTerm, onSearchChange }) => {
+const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    onSearch(searchTerm);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light navbar-custom">
       <div className="container-fluid">
@@ -55,7 +64,11 @@ const Nav: React.FC<NavProps> = ({ toggleAside, searchTerm, onSearchChange }) =>
           </ul>
           <ShoppingCartModal />
           {/* Aquí se incluye el componente Search */}
-          <Search searchTerm={searchTerm} onSearchChange={onSearchChange} />
+          <Search
+            searchTerm={searchTerm}
+            onSearchChange={handleSearchChange}
+            onSearchSubmit={handleSearchSubmit}
+          />
         </div>
       </div>
     </nav>

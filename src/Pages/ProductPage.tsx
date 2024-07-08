@@ -16,13 +16,13 @@ const ProductPage: React.FC = () => {
     setIsAsideOpen(!isAsideOpen);
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
   };
 
   return (
     <>
-      <Nav toggleAside={toggleAside} searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      <Nav toggleAside={toggleAside} onSearch={handleSearch} />
       <div className="d-flex">
         <Aside isOpen={isAsideOpen} />
         <div className={`content ${isAsideOpen ? "aside-open" : ""}`}>
