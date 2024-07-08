@@ -11,7 +11,7 @@ interface Product {
   Cantidad: number;
   fecha_agregado: Date;
   name: string;
-  precio?: number; // Precio puede ser opcional
+  precio?: number; 
 }
 
 const ShoppingCartModal: React.FC = () => {
@@ -89,7 +89,7 @@ const ShoppingCartModal: React.FC = () => {
         <FaShoppingCart className="icon__shop" />
       </Button>
 
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Carrito de Compras</Modal.Title>
         </Modal.Header>

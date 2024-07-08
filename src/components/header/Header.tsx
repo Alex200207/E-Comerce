@@ -12,18 +12,21 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ height }) => {
   return (
+    
     <header className='header-custom'
+    
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'contain',
         height ,
-
+        position: 'relative', 
+  
       }}
     >
-        <div className="container h-100">
+        <div className="container h-100 background-custom">
           <div className="row h-100 align-items-center container-custom">
-            <div className="col-lg-12">
-              <h1 className="display-4 text-dark mt-5 mb-2">
+            <div className="col-lg-12 present-custom">
+              <h1 className="display-4  mt-5 ">
                 Bienvenido a AlexStore
               </h1>
               <p className="lead mb-5 text-dark">

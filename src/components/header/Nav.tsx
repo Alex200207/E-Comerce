@@ -1,8 +1,7 @@
-// src/components/header/Nav.tsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Search from "@components/header/Search"; // Asegúrate de que la ruta sea correcta
+import Search from "@components/header/Search";
 import ShoppingCartModal from "@components/Products/ShoppingCartModal";
 
 interface NavProps {
@@ -11,7 +10,7 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -21,10 +20,15 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
     onSearch(searchTerm);
   };
 
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    onSearch(""); // Llama a la función de búsqueda con una cadena vacía para borrar la búsqueda
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light navbar-custom">
       <div className="container-fluid">
-        <button className="btn me-2" onClick={toggleAside}>
+        <button className="btn me-22" onClick={toggleAside}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -68,6 +72,7 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}
             onSearchSubmit={handleSearchSubmit}
+            onClearSearch={handleClearSearch} // Pasa la función de limpieza al componente Search
           />
         </div>
       </div>
