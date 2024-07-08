@@ -37,6 +37,7 @@ const Search: React.FC<SearchProps> = ({
       </button>
     </div>
   );
+  
 }
 
 export default Search;
