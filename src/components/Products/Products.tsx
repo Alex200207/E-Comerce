@@ -1,15 +1,14 @@
-// src/components/Products/Products.tsx
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import ProductDetail from "./ProductDetail"; // Asegúrate de que la ruta del archivo sea correcta
+import ProductDetail from "./ProductDetail";
 
 interface Product {
   id: number;
-  Nombre: string; // Ajustar Nombre a name
-  Descripcion: string; // Ajustar Descripcion a description
+  Nombre: string;
+  Descripcion: string;
   ID_Categoria: number;
-  ImagenUrl: string; // Ajustar ImagenUrl a imageUrl
-  Precio: number; // Ajustar Precio a price
+  ImagenUrl: string;
+  Precio: number;
 }
 
 interface ProductsProps {
@@ -72,9 +71,7 @@ const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
                 />
                 <div className="card-body">
                   <h4 className="card-title">{product.Nombre}</h4>
-                  <p className="card-text">
-                    Descripción: {product.Descripcion}
-                  </p>
+
                   <p className="card-text">Precio: ${product.Precio}</p>
                   <hr />
                   <Button

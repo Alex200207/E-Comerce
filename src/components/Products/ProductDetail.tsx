@@ -1,7 +1,10 @@
-import React from 'react';
-import { Modal, Button, Container, Row, Col, Form } from 'react-bootstrap';
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
+import React from "react";
+import { Modal, Button, Container, Row, Col, Form } from "react-bootstrap";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import { MdAddShoppingCart } from "react-icons/md";
+import { MdOutlinePayment } from "react-icons/md";
+import { AiOutlineClose } from "react-icons/ai";
 
 interface Product {
   id: number;
@@ -10,7 +13,6 @@ interface Product {
   ID_Categoria: number;
   ImagenUrl: string;
   Precio: number;
-  Vendedor: string;
 }
 
 interface ProductDetailProps {
@@ -19,13 +21,17 @@ interface ProductDetailProps {
   product: Product;
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({
+  show,
+  onHide,
+  product,
+}) => {
   return (
     <Modal show={show} onHide={onHide} size="xl" centered>
       <Modal.Header closeButton>
         <Modal.Title>{product.Nombre}</Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ overflowY: 'auto' }}>
+      <Modal.Body style={{ overflowY: "auto" }}>
         <Container>
           <Row>
             <Col md={5} className="text-center">
@@ -34,28 +40,41 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) 
                   src={product.ImagenUrl}
                   alt={product.Nombre}
                   className="img-fluid"
-                  style={{ maxHeight: '300px', objectFit: 'contain', cursor: 'zoom-in', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
+                  style={{
+                    maxHeight: "400px",
+                    objectFit: "contain",
+                    cursor: "zoom-in",
+                    borderRadius: "10px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  }}
                 />
               </Zoom>
             </Col>
             <Col md={7}>
-              <div style={{ padding: '20px' }}>
+              <div style={{ padding: "20px" }}>
                 <Row>
-                  <Col xs={12} className="mb-3">
-                    <h5>Descripción del producto</h5>
-                    <p style={{ fontSize: '16px', color: '#555' }}>{product.Descripcion}</p>
+                  <Col xs={12} className="mb-3 title-products" >
+                    <h5 >Descripción del producto</h5>
+                    <p style={{ fontSize: "16px", color: "#555" }}>
+                      {product.Descripcion}
+                    </p>
+                    <hr/>
                   </Col>
                   <Col xs={6} className="mb-3">
                     <h5>Vendedor</h5>
-                    <p>{product.Vendedor}</p>
+                    <p>Por ahora esta en prueba</p>
                   </Col>
                   <Col xs={6} className="mb-3">
                     <h5>Precio</h5>
-                    <p style={{ color: '#28a745' }}>${product.Precio}</p>
+                    <p style={{ color: "#28a745" }}>${product.Precio}</p>
                   </Col>
                   <Col xs={6} className="mb-3">
                     <h5>Cantidad</h5>
-                    <Form.Control type="number" min="1" placeholder="Cantidad" />
+                    <Form.Control
+                      type="number"
+                      min="1"
+                      placeholder="Cantidad"
+                    />
                   </Col>
                   <Col xs={6} className="mb-3">
                     <h5>Método de Pago</h5>
@@ -68,10 +87,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) 
                   </Col>
                 </Row>
                 <div className="d-flex justify-content-end mt-4">
-                  <Button variant="primary" onClick={() => alert(`Agregado al carrito: ${product.id}`)} style={{ marginRight: '10px' }}>
+                  <Button
+                    variant="primary"
+                    onClick={() => alert(`Agregado al carrito: ${product.id}`)}
+                    style={{ marginRight: "10px" }}
+                  ><MdAddShoppingCart />
                     Agregar al carrito
                   </Button>
-                  <Button variant="success" onClick={() => alert(`Producto Comprado: ${product.id}`)}>
+                  <Button
+                    variant="success"
+                    onClick={() => alert(`Producto Comprado: ${product.id}`)}
+                  ><MdOutlinePayment />
                     Comprar
                   </Button>
                 </div>
@@ -81,7 +107,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) 
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
+        <Button variant="secondary" onClick={onHide}><AiOutlineClose />
           Cerrar
         </Button>
       </Modal.Footer>

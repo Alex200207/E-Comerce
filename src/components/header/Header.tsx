@@ -1,41 +1,59 @@
-
-import React from 'react';
-import "bootstrap/dist/css/bootstrap.min.css";
-import backgroundImage from '../../assets/images/ecommerceM.jpg';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Carousel } from 'react-bootstrap';
+import backgroundImage1 from '@images/ecommerceM.jpg';
+import backgroundImage2 from '@images/ecommerce.jpg'; // Ejemplo de otra imagen de fondo
 
 interface HeaderProps {
-  title: string;
   backgroundImage: string;
   height: string;
 }
 
+const Header: React.FC<HeaderProps> = ({ backgroundImage, height }) => {
+  const [index, setIndex] = useState(0);
+  const images = [
+    { src: backgroundImage1, title: 'Bienvenido a AlexStore', description: 'Descubre nuestras mejores ofertas en productos.' },
+    { src: backgroundImage2, title: 'Ofertas exclusivas para ti', description: 'Descubre nuestros productos exclusivos.' },
+  ];
 
-const Header: React.FC<HeaderProps> = ({ height }) => {
+  const handleSelect = (selectedIndex: number) => {
+    setIndex(selectedIndex);
+  };
+
   return (
-    
-    <header className='header-custom'
-    
+    <header
+      className='header-custom'
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'contain',
-        height ,
-        position: 'relative', 
-  
+        height,
+        position: 'relative',
       }}
     >
-        <div className="container h-100 background-custom">
-          <div className="row h-100 align-items-center container-custom">
-            <div className="col-lg-12 present-custom">
-              <h1 className="display-4  mt-5 ">
-                Bienvenido a AlexStore
-              </h1>
-              <p className="lead mb-5 text-dark">
-                Descubre nuestras mejores ofertas en productos.
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Carousel
+        activeIndex={index}
+        onSelect={handleSelect}
+        interval={3000} // Intervalo en milisegundos para el movimiento automático
+        pause="hover" // Se pausa al pasar el mouse sobre él
+      >
+        {images.map((image, idx) => (
+          <Carousel.Item key={idx}>
+            <img
+              className="d-block w-100 block-custom"
+              src={image.src}
+              alt={`Slide ${idx + 1}`}
+              style={{
+                height,
+              }}
+            />
+            <Carousel.Caption className=" present-custom" style={{ position: 'absolute', bottom: '25%', right: '50%' }}>
+              <h1 className="display-4">{image.title}</h1>
+              <p className="lead mb-5">{image.description}</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </header>
   );
 };
 

@@ -28,7 +28,7 @@ const ProductPage: React.FC = () => {
         <div className={`content ${isAsideOpen ? "aside-open" : ""}`}>
           <main>
             <Header
-              title="Bienvenido a AlexStore"
+  
               backgroundImage="path/to/image.jpg"
               height="600px"
             />

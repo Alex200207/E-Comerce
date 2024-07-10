@@ -73,6 +73,9 @@
 }
 
 .present-custom{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  user-select: none;
+  white-space: nowrap;
   transition: .5s ease;
   color: #000000;
 }
@@ -84,7 +87,7 @@
 }
 .present-custom:active{
   
-  transform: translate(50%) scale(1.1);
+  transform: translate(30%) scale(1.1);
 }
 
 
@@ -148,10 +151,12 @@ main {
   margin: 20px;
   border: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)inset;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: 0.3s ease;
 }
 
 .card:hover{
+  cursor: pointer;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transform: scale(1.05);
   opacity: 1;
@@ -221,5 +226,15 @@ hr{
   color: rgb(255, 255, 255);
 }
 .modal-header{
+  border: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #4d3535;
   background-color: #1cc2c2;
+}
+.title-products{
+  text-align: center;
+}
+.py-5{
+  background-color: #eff9f3;
+  box-shadow: 0px 35px 0px  0px rgba(111, 111, 111, 0.499)inset;
 }
