@@ -4,7 +4,6 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { MdAddShoppingCart } from "react-icons/md";
 import { MdOutlinePayment } from "react-icons/md";
-import { AiOutlineClose } from "react-icons/ai";
 
 interface Product {
   id: number;
@@ -62,7 +61,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                   </Col>
                   <Col xs={6} className="mb-3">
                     <h5>Vendedor</h5>
-                    <p>Por ahora esta en prueba</p>
+                    <p>Esta en desarrollo</p>
                   </Col>
                   <Col xs={6} className="mb-3">
                     <h5>Precio</h5>
@@ -80,23 +79,23 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                     <h5>Método de Pago</h5>
                     <Form.Select>
                       <option>Selecciona método de pago...</option>
-                      <option>Efectivo</option>
-                      <option>Tarjeta de crédito</option>
-                      <option>Transferencia bancaria</option>
+                      <option>En Desarrollo</option>
+                      <option>1</option>
+                      <option>2</option>
                     </Form.Select>
                   </Col>
                 </Row>
                 <div className="d-flex justify-content-end mt-4">
                   <Button
                     variant="primary"
-                    onClick={() => alert(`Agregado al carrito: ${product.id}`)}
+                    onClick={() => alert(`en desarrollo: ${product.id}`)}
                     style={{ marginRight: "10px" }}
                   ><MdAddShoppingCart />
                     Agregar al carrito
                   </Button>
                   <Button
                     variant="success"
-                    onClick={() => alert(`Producto Comprado: ${product.id}`)}
+                    onClick={() => alert(`en desarrollo: ${product.id}`)}
                   ><MdOutlinePayment />
                     Comprar
                   </Button>
@@ -107,9 +106,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}><AiOutlineClose />
-          Cerrar
-        </Button>
+        <footer className="footer-detail"></footer>
       </Modal.Footer>
     </Modal>
   );

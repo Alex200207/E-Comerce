@@ -97,7 +97,7 @@ const Table: React.FC = () => {
   };
 
   const handleDeleteClick = (id: number) => {
-    if (window.confirm("¿Estás seguro de eliminar este producto?")) {
+    if (window.confirm("¿Estas seguro de eliminar este producto?")) {
       fetch(`http://localhost:3000/productos/${id}`, {
         method: "DELETE",
       })

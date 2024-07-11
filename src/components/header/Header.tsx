@@ -33,13 +33,13 @@ const Header: React.FC<HeaderProps> = ({ backgroundImage, height }) => {
       <Carousel
         activeIndex={index}
         onSelect={handleSelect}
-        interval={3000} // Intervalo en milisegundos para el movimiento automático
-        pause="hover" // Se pausa al pasar el mouse sobre él
+        interval={2500} 
+        pause="hover" 
       >
         {images.map((image, idx) => (
           <Carousel.Item key={idx}>
             <img
-              className="d-block w-100 block-custom"
+              className="d-block w-100 block-custom"//esto es de bootstrap
               src={image.src}
               alt={`Slide ${idx + 1}`}
               style={{

@@ -66,7 +66,7 @@ const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
                     height: "250px",
                     objectFit: "contain",
                     display: "block",
-                    margin: "20px",
+                    margin: "15px",
                   }}
                 />
                 <div className="card-body">
