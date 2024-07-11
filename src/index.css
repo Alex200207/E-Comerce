@@ -26,11 +26,13 @@
   top: 0;
   width: 220px;
   height: 100%;
-  background-color: #ffffff;
+  background-color: #fffcfc;
   padding-top: 60px; /* Altura de la barra de navegación */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   z-index: 100; /* Para asegurarse de que este por encima de otros elementos */
-   
+  margin-top: 10px;
+
+  
 }
 
 .sidebar a {
@@ -46,7 +48,7 @@
 .sidebar a:hover {
   text-decoration: none;
   color: #000000;
-  background-color: red;
+  background-color: rgb(249, 65, 65);
 }
 
 .content {
@@ -100,9 +102,27 @@ main {
   position: absolute;
 }
 .footer-custom {
-  background-color: #000;
+  background-color: #0e0e0f;
   text-align: center;
 }
+.footer-custom span{
+  color: #fffcfc !important;
+}
+.footer-custom p {
+  color: #fbfbfb ; 
+  margin:20px ;
+  text-align: center;
+}
+.footer-custom p a{
+  font-weight: 500;
+  color: #e32626;
+  text-decoration: none;
+}
+.footer-custom  a:hover{
+  color: #d14444;
+  text-decoration: underline;
+}
+
 
 .btn-custom{
   outline: none;
@@ -133,11 +153,17 @@ main {
 .nav-link{
   border-radius: 5px;
   margin-right: 10px;
-  color: #000;
+  color: #000000;
   transition: .2s;
 }
 .nav-link:hover{
   transform: scale(1.1);
+}
+.nav-link:focus{
+  color: #db4f4f;
+  font-weight: 500;
+  transform: (30%);
+  transform: translate(2px) scale(1.1);
 }
 #select__navbar option{
   font-size: 20px;
@@ -148,10 +174,11 @@ main {
 
 }
 .card{
+  user-select: none;
   margin: 20px;
   border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)inset;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3)inset;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: 0.3s ease;
 }
 
@@ -237,4 +264,7 @@ hr{
 .py-5{
   background-color: #eff9f3;
   box-shadow: 0px 35px 0px  0px rgba(111, 111, 111, 0.499)inset;
+}
+hr{
+  border: 1px solid rgb(7, 7, 7);
 }
