@@ -60,7 +60,7 @@
   z-index: 1000;
   position: fixed;
   width: 100%;
-  background-color: #1cc2c2; /* Fondo blanco */
+  background-color: #3bcdcd; /* Fondo blanco */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en la parte baja */
 }
 .navbar-brand{
@@ -100,29 +100,8 @@ main {
 .container-custom {
   bottom: 50x;
   position: absolute;
-}
-.footer-custom {
-  background-color: #0e0e0f;
-  text-align: center;
-}
-.footer-custom span{
-  color: #fffcfc !important;
-}
-.footer-custom p {
-  color: #fbfbfb ; 
-  margin:20px ;
-  text-align: center;
-}
-.footer-custom p a{
-  font-weight: 500;
-  color: #e32626;
-  text-decoration: none;
-}
-.footer-custom  a:hover{
-  color: #d14444;
-  text-decoration: underline;
-}
 
+}
 
 .btn-custom{
   outline: none;
@@ -267,4 +246,10 @@ hr{
 }
 hr{
   border: 1px solid rgb(7, 7, 7);
+}
+.icon_footer{
+  transition: 0.5s ease;
+}
+.icon_footer:hover{
+  transform: scale(1.2);
 }

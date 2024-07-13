@@ -162,7 +162,7 @@ const Footer = () => {
                     className="btn-floating btn-sm text-white"
                     style={{ fontSize: "23px" }}
                   >
-                    <FontAwesomeIcon icon={faFacebook} />
+                    <FontAwesomeIcon className="icon_footer" icon={faFacebook} />
                   </a>
                 </li>
                 <li className="list-inline-item">
@@ -171,7 +171,7 @@ const Footer = () => {
                     className="btn-floating btn-sm text-white"
                     style={{ fontSize: "23px" }}
                   >
-                    <FontAwesomeIcon icon={faTwitter} />
+                    <FontAwesomeIcon className="icon_footer" icon={faTwitter} />
                   </a>
                 </li>
                 <li className="list-inline-item">
@@ -180,7 +180,7 @@ const Footer = () => {
                     className="btn-floating btn-sm text-white"
                     style={{ fontSize: "23px" }}
                   >
-                    <FontAwesomeIcon icon={faGooglePlus} />
+                    <FontAwesomeIcon  className="icon_footer" icon={faGooglePlus} />
                   </a>
                 </li>
                 <li className="list-inline-item">
@@ -189,7 +189,7 @@ const Footer = () => {
                     className="btn-floating btn-sm text-white"
                     style={{ fontSize: "23px" }}
                   >
-                    <FontAwesomeIcon icon={faLinkedin} />
+                    <FontAwesomeIcon className="icon_footer" icon={faLinkedin} />
                   </a>
                 </li>
                 <li className="list-inline-item">
@@ -198,7 +198,7 @@ const Footer = () => {
                     className="btn-floating btn-sm text-white"
                     style={{ fontSize: "23px" }}
                   >
-                    <FontAwesomeIcon icon={faInstagram} />
+                    <FontAwesomeIcon className="icon_footer" icon={faInstagram} />
                   </a>
                 </li>
               </ul>
