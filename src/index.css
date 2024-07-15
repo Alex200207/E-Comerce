@@ -237,7 +237,7 @@ hr{
   color: #4d3535;
   background-color: #1cc2c2;
 }
-.title-products{
+.title-products h5{ 
   text-align: center;
 }
 .py-5{
@@ -252,4 +252,30 @@ hr{
 }
 .icon_footer:hover{
   transform: scale(1.2);
+}
+
+.modal-footer{
+  background-color: #1cc2c2;
+  padding: 20px;
+}
+.row-custom{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+}
+.add-custom{
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #000;
+  transition: 0.3s ease;
+}
+.add-custom:hover{
+  background-color: transparent;
+  color: #000;
+  transform: scale(1.1);
+}
+.icon-add{
+  width: 30px;
+  height: 30px;
 }

@@ -1,9 +1,8 @@
 import React from "react";
-import { Modal, Button, Container, Row, Col, Form } from "react-bootstrap";
+import { Modal, Button, Container, Row, Col, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import { MdAddShoppingCart } from "react-icons/md";
-import { MdOutlinePayment } from "react-icons/md";
+import { MdAddShoppingCart, MdOutlinePayment } from "react-icons/md";
 
 interface Product {
   id: number;
@@ -51,13 +50,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
             </Col>
             <Col md={7}>
               <div style={{ padding: "20px" }}>
-                <Row>
-                  <Col xs={12} className="mb-3 title-products" >
-                    <h5 >Descripción del producto</h5>
+                <Row className="row-custom">
+                  <Col xs={12} className="mb-3 title-products">
+                    <h5>Descripción del producto</h5>
                     <p style={{ fontSize: "16px", color: "#555" }}>
                       {product.Descripcion}
                     </p>
-                    <hr/>
+                    <hr />
                   </Col>
                   <Col xs={6} className="mb-3">
                     <h5>Vendedor</h5>
@@ -86,19 +85,29 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                   </Col>
                 </Row>
                 <div className="d-flex justify-content-end mt-4">
-                  <Button
-                    variant="primary"
-                    onClick={() => alert(`en desarrollo: ${product.id}`)}
-                    style={{ marginRight: "10px" }}
-                  ><MdAddShoppingCart />
-                    Agregar al carrito
-                  </Button>
-                  <Button
-                    variant="success"
-                    onClick={() => alert(`en desarrollo: ${product.id}`)}
-                  ><MdOutlinePayment />
-                    Comprar
-                  </Button>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id={`tooltip-add`}>Agregar al carrito</Tooltip>}
+                  >
+                    <Button
+                      className="add-custom"
+                      onClick={() => alert(`en desarrollo: ${product.id}`)}
+                      style={{ marginRight: "10px" }}
+                    >
+                      <MdAddShoppingCart className="icon-add" />
+                    </Button>
+                  </OverlayTrigger>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id={`tooltip-buy`}>Comprar</Tooltip>}
+                  >
+                    <Button
+                      className="add-custom"
+                      onClick={() => alert(`en desarrollo: ${product.id}`)}
+                    >
+                      <MdOutlinePayment className="icon-add" />
+                    </Button>
+                  </OverlayTrigger>
                 </div>
               </div>
             </Col>
