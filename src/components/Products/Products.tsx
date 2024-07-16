@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import ProductDetail from "./ProductDetail";
 
 interface Product {
@@ -50,42 +50,68 @@ const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
       product.Descripcion.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleCardClick = (product: Product) => {
+    openProductDetail(product);
+  };
+
   return (
     <section id="productos" className="py-5">
-      <div className="container">
-        <div className="row" id="contenedor-productos">
+      <Container>
+        <Row xs={1} md={2} lg={3} xl={4} className="g-4">
           {filteredProducts.map((product) => (
-            <div className="col-md-4 mb-4" key={product.id}>
-              <div className="card">
-                <img
-                  src={product.ImagenUrl}
-                  className="card-img-top"
-                  alt={product.Nombre}
-                  style={{
-                    width: "350px",
-                    height: "250px",
-                    objectFit: "contain",
-                    display: "block",
-                    margin: "14px",
-                  }}
-                />
-                <div className="card-body">
-                  <h4 className="card-title">{product.Nombre}</h4>
-
-                  <p className="card-text">Precio: ${product.Precio}</p>
-                  <hr />
-                  <Button
-                    className="btn-buy"
-                    onClick={() => openProductDetail(product)}
+            <Col key={product.id} className="mb-4">
+              <Card
+                className="h-100 border-0 shadow"
+                style={{ cursor: "pointer", height: "100%" }}
+                onClick={() => handleCardClick(product)}
+              >
+                <div
+                  className="position-relative overflow-hidden"
+                  style={{ height: "300px" }} // Altura fija del contenedor
+                >
+                  <Card.Img
+                    variant="top"
+                    src={product.ImagenUrl}
+                    alt={product.Nombre}
+                    className="img-fluid rounded"
+                    style={{
+                      objectFit: "contain", // Ajuste para mostrar toda la imagen sin recortes
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                  <div
+                    className="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                    style={{
+                      opacity: 0,
+                      transition: "opacity 0.2s ease-in-out",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    }}
                   >
-                    Ver producto
-                  </Button>
+                    <Button
+                      variant="outline-light"
+                      size="sm"
+                      className="fw-bold btn-buy"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openProductDetail(product);
+                      }}
+                    >
+                      Ver producto
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </div>
+                <Card.Body className="p-3 d-flex flex-column justify-content-between">
+                  <Card.Title className="h6 mb-0">{product.Nombre}</Card.Title>
+                  <Card.Text className="text-muted">
+                    Precio: ${product.Precio}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
           ))}
-        </div>
-      </div>
+        </Row>
+      </Container>
 
       {/* Modal para mostrar detalles del producto */}
       {selectedProduct && (

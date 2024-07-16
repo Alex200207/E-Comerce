@@ -27,6 +27,9 @@ const TableVendedores: React.FC = () => {
   const [showProductosModal, setShowProductosModal] = useState<boolean>(false);
   const [productosDelVendedor, setProductosDelVendedor] = useState<Producto[]>([]);
   const [selectedVendedor, setSelectedVendedor] = useState<Vendedor | null>(null);
+  const [showProductoDetalleModal, setShowProductoDetalleModal] = useState<boolean>(false);
+  const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     loadProductos();
@@ -84,6 +87,24 @@ const TableVendedores: React.FC = () => {
     setSelectedVendedor(null);
   };
 
+  const openProductoDetalleModal = (producto: Producto) => {
+    setProductoSeleccionado(producto);
+    setShowProductoDetalleModal(true);
+  };
+
+  const closeProductoDetalleModal = () => {
+    setShowProductoDetalleModal(false);
+    setProductoSeleccionado(null);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredVendedores = vendedores.filter((vendedor) =>
+    vendedor.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const columns = [
     {
       name: "ID Vendedor",
@@ -132,36 +153,22 @@ const TableVendedores: React.FC = () => {
       sortable: true,
     },
     {
-      name: "Imagen",
+      name: "Acciones",
       cell: (row: Producto) => (
-        <div className="zoom-image">
-          <img
-            src={row.ImagenUrl}
-            alt={row.Nombre}
-            style={{ maxWidth: "50px", cursor: "zoom-in" }}
-            onClick={() => window.open(row.ImagenUrl, "_blank")}
-          />
-        </div>
+        <Button variant="info" onClick={() => openProductoDetalleModal(row)}>
+          Ver Detalles
+        </Button>
       ),
-    },
-    {
-      name: "Descripción",
-      selector: (row: Producto) => row.Descripcion || "N/A",
-    },
-    {
-      name: "Código",
-      selector: (row: Producto) => row.Codigo,
-      sortable: true,
     },
   ];
 
   return (
     <>
-      <SearchBar searchTerm={""} onSearchChange={() => {}} />
+      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="main-contenedor">
         <DataTable
           columns={columns}
-          data={vendedores}
+          data={filteredVendedores}
           pagination
           highlightOnHover
           striped
@@ -172,7 +179,7 @@ const TableVendedores: React.FC = () => {
           <Modal.Header closeButton>
             <Modal.Title>Productos de {selectedVendedor?.Nombre}</Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ height: "500px", overflowY: "auto" }}>
+          <Modal.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
             <DataTable
               columns={productosColumns}
               data={productosDelVendedor}
@@ -183,6 +190,42 @@ const TableVendedores: React.FC = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseProductosModal}>
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        {/* Modal para mostrar detalle de producto */}
+        <Modal show={showProductoDetalleModal} onHide={closeProductoDetalleModal} size="xl">
+          <Modal.Header closeButton>
+            <Modal.Title>Detalles del Producto</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="row">
+              <div className="col-md-4">
+                <div className="imagen-container">
+                  <img
+                    src={productoSeleccionado?.ImagenUrl}
+                    alt={productoSeleccionado?.Nombre}
+                    className="producto-imagen"
+                    style={{ maxWidth: "100%", cursor: "pointer" }}
+                    onClick={() => window.open(productoSeleccionado?.ImagenUrl, "_blank")}
+                  />
+                </div>
+              </div>
+              <div className="col-md-8">
+                <h5>ID Producto: {productoSeleccionado?.ID_Producto}</h5>
+                <p>Nombre: {productoSeleccionado?.Nombre}</p>
+                <p>ID Categoría: {productoSeleccionado?.ID_Categoria}</p>
+                <p>Stock: {productoSeleccionado?.Stock}</p>
+                <p>Precio: {productoSeleccionado?.Precio}</p>
+                <p>Descripción: {productoSeleccionado?.Descripcion || "N/A"}</p>
+                <p>Código: {productoSeleccionado?.Codigo}</p>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeProductoDetalleModal}>
               Cerrar
             </Button>
           </Modal.Footer>

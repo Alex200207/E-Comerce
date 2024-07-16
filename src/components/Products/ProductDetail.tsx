@@ -1,5 +1,14 @@
 import React from "react";
-import { Modal, Button, Container, Row, Col, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  Container,
+  Row,
+  Col,
+  Form,
+  Tooltip,
+  OverlayTrigger,
+} from "react-bootstrap";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { MdAddShoppingCart, MdOutlinePayment } from "react-icons/md";
@@ -26,9 +35,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 }) => {
   return (
     <Modal show={show} onHide={onHide} size="xl" centered>
-      <Modal.Header closeButton>
-        <Modal.Title>{product.Nombre}</Modal.Title>
+      <Modal.Header
+        className="title-pro"
+        closeButton
+        style={{ paddingLeft: "unset", paddingRight: "1rem" }}
+      >
+        <Modal.Title
+          className="title-detail"
+          style={{ marginLeft: "auto", marginRight: "10px" }}
+        >
+          {product.Nombre}
+        </Modal.Title>
       </Modal.Header>
+
       <Modal.Body style={{ overflowY: "auto" }}>
         <Container>
           <Row>
@@ -87,7 +106,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                 <div className="d-flex justify-content-end mt-4">
                   <OverlayTrigger
                     placement="top"
-                    overlay={<Tooltip id={`tooltip-add`}>Agregar al carrito</Tooltip>}
+                    overlay={
+                      <Tooltip id={`tooltip-add`}>Agregar al carrito</Tooltip>
+                    }
                   >
                     <Button
                       className="add-custom"
