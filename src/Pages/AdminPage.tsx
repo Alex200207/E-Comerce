@@ -1,16 +1,15 @@
-// Importaciones necesarias
+
 import Table from "@components/Dashboard/Table"
 import { Route, Routes } from "react-router-dom";
 import Nav from "@components/Dashboard/Nav"
 import Sidebar from "@components/Dashboard/Sidebar";
-import "../components/Style/Dashboard.css"; // Importa tus estilos CSS si los tienes
-
+import "../components/Style/Dashboard.css"; 
 import TableClient from "@components/Dashboard/TableClient";
 import TableVendedores from "@components/Dashboard/TableVendedores";
 import TableCategorias from "@components/Dashboard/TableCategorias";
 
 
-// Función principal del componente App
+
 function AdminPage() {
   return (
     <>

@@ -1,4 +1,4 @@
-// LoginPage.tsx
+
 import React from "react";
 import "../components/Styles/LoginPage.css";
 

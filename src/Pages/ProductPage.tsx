@@ -1,4 +1,4 @@
-// src/Pages/ProductPage.tsx
+
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Aside from "@components/header/Aside";
@@ -6,7 +6,8 @@ import Footer from "@components/footer/Footer";
 import Header from "@components/header/Header";
 import Nav from "@components/header/Nav";
 import Products from "@components/Products/Products";
-import "../index.css"; // Asegúrate de tener un archivo CSS para los estilos
+import "../index.css";
+import MiCuenta from "@components/Login/MiCuenta";
 
 const ProductPage: React.FC = () => {
   const [isAsideOpen, setIsAsideOpen] = useState(false);
@@ -34,7 +35,7 @@ const ProductPage: React.FC = () => {
             />
             <Routes>
               <Route path="/inicio" element={<Products searchTerm={searchTerm} />} />
-              <Route path="/cuenta" element={<p>Cuenta</p>} />
+              <Route path="/cuenta" element={<MiCuenta/>} />
               <Route path="/productos" element={<p>Producto</p>} />
               <Route path="/ofertas" element={<p>Oferta</p>} />
               <Route path="/contactos" element={<p>Contactos</p>} />
