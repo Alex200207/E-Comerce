@@ -7,6 +7,7 @@ import "../components/Style/Dashboard.css"; // Importa tus estilos CSS si los ti
 
 import TableClient from "@components/Dashboard/TableClient";
 import TableVendedores from "@components/Dashboard/TableVendedores";
+import TableCategorias from "@components/Dashboard/TableCategorias";
 
 
 // Función principal del componente App
@@ -23,7 +24,7 @@ function AdminPage() {
               <Route>
               <Route path="/Incio" element={'/'} />
               <Route path="/Productos" element={<Table />} />
-              <Route path="/Categoria" element={<p>Categorias</p>} />
+              <Route path="/Categoria" element={<TableCategorias/>} />
               <Route path="/Clientes" element={<TableClient/>} />
               <Route path="/Vendedores" element={<TableVendedores/>} />
               <Route path="/Proveedores" element={<p>Proveedores</p>} />
