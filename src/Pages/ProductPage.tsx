@@ -8,6 +8,7 @@ import Nav from "@components/header/Nav";
 import Products from "@components/Products/Products";
 import "../index.css";
 import MiCuenta from "@components/Login/MiCuenta";
+import ProductCategorias from "@components/Products/ProductCategorias";
 
 const ProductPage: React.FC = () => {
   const [isAsideOpen, setIsAsideOpen] = useState(false);
@@ -38,7 +39,7 @@ const ProductPage: React.FC = () => {
               <Route path="/cuenta" element={<MiCuenta/>} />
               <Route path="/productos" element={<p>Producto</p>} />
               <Route path="/ofertas" element={<p>Oferta</p>} />
-              <Route path="/contactos" element={<p>Contactos</p>} />
+              <Route path="/categorias" element={<ProductCategorias/>} />
             </Routes>
           </main>
           <Footer />

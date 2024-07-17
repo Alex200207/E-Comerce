@@ -32,7 +32,7 @@ const Aside: React.FC<AsideProps> = ({ isOpen }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/contactos"} className="nav-link">
+              <Link to={"/categorias"} className="nav-link">
               <BiSolidCategory />Categorias
               </Link>
             </li>
