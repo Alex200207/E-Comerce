@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
-import backgroundImage1 from '@images/ecommerceM.jpg';
-import backgroundImage2 from '@images/ecommerce.jpg'; // Ejemplo de otra imagen de fondo
+import backgroundImage1 from '@images/banner-negro.png';
+import backgroundImage2 from '@images/banner-rosa.png';
+import backgroundImage3 from '@images/banner-azul.png';
 
 interface HeaderProps {
   backgroundImage: string;
@@ -12,8 +13,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ backgroundImage, height }) => {
   const [index, setIndex] = useState(0);
   const images = [
-    { src: backgroundImage1, title: 'Bienvenido a AlexStore', description: 'Descubre nuestras mejores ofertas en productos.' },
-    { src: backgroundImage2, title: 'Ofertas exclusivas para ti', description: 'Descubre nuestros productos exclusivos.' },
+    { src: backgroundImage1, title: 'Bienvenido a AlexStore', description: 'Descubre nuestras mejores ofertas en productos.', textColor: '#000' },
+    { src: backgroundImage2, title: 'Ofertas exclusivas para ti', description: 'Descubre nuestros productos exclusivos.', textColor: '#000000' },
+    { src: backgroundImage3, title: 'Los mejores productos', description: 'Las mejores ofertas.', textColor: '#fff' }, 
   ];
 
   const handleSelect = (selectedIndex: number) => {
@@ -25,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundImage, height }) => {
       className='header-custom'
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'contain',
+        backgroundSize: 'cover',
         height,
         position: 'relative',
       }}
@@ -33,22 +35,22 @@ const Header: React.FC<HeaderProps> = ({ backgroundImage, height }) => {
       <Carousel
         activeIndex={index}
         onSelect={handleSelect}
-        interval={2500} 
-        pause="hover" 
+        interval={2500}
+        pause="hover"
       >
         {images.map((image, idx) => (
           <Carousel.Item key={idx}>
             <img
-              className="d-block w-100 block-custom"//esto es de bootstrap
+              className="d-block w-100 block-custom"
               src={image.src}
               alt={`Slide ${idx + 1}`}
               style={{
                 height,
               }}
             />
-            <Carousel.Caption className=" present-custom" style={{ position: 'absolute', bottom: '25%', right: '50%' }}>
-              <h1 className="display-4">{image.title}</h1>
-              <p className="lead mb-5">{image.description}</p>
+            <Carousel.Caption className="present-custom" style={{ position: 'absolute', bottom: '25%', right: '50%' }}>
+              <h1 className="display-4" style={{ color: image.textColor }}>{image.title}</h1>
+              <p className="lead mb-5" style={{ color: image.textColor }}>{image.description}</p>
             </Carousel.Caption>
           </Carousel.Item>
         ))}

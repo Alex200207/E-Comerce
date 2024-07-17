@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Select from "../header/Select";
 import '../../index.css'
 import { MdClear } from "react-icons/md";
+import { IoSearch } from "react-icons/io5";
 
 interface SearchProps {
   searchTerm: string;
@@ -47,7 +48,7 @@ const Search: React.FC<SearchProps> = ({
         type="button"
         onClick={handleSearchClick} // Usa la función local para el clic de búsqueda
       >
-        Buscar
+        <IoSearch className="btn-search"/>
       </button>
       {searchTerm && ( // Muestra el botón de limpieza solo si hay un término de búsqueda
         <button

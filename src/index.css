@@ -60,17 +60,18 @@
   z-index: 1000;
   position: fixed;
   width: 100%;
-  background-color: #3bcdcd; /* Fondo blanco */
+  
+  background-color: #000000; /* Fondo blanco */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en la parte baja */
 }
 .navbar-brand{
-  color: #010101;
+  color: #ffffff;
   margin: 0 15px ;
   font-weight: 700;
   transition: .2s ease;
 }
 .navbar-brand:hover{
-  color: #424242;
+  color: #bbb9b9;
   transform: rotate(10deg);
 }
 
@@ -106,15 +107,16 @@ main {
 .btn-custom{
   outline: none;
   border: none;
-  color: #ffffff;
-  background-color: #f54e4e;
+  color: #000000;
+  background-color: #75dff7;
   box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.5);
   transition: 0.2s linear;
 }
 
 .btn-custom:hover{
   transform: scale(1.1);
-  background-color: #db4f4f;
+  color: #000;
+  background-color: #1871f7;
 }
 #select__navbar{
   width: 30%;
@@ -129,14 +131,24 @@ main {
   color: #000;
   transform: rotate(90deg);
 }
+.me-26{
+  border: none;
+  margin-right: 10px;
+  background-color: #d4d0d0;
+}
+.me-2{
+  border: none;
+  outline: none;
+}
 .nav-link{
   border-radius: 5px;
   margin-right: 10px;
-  color: #000000;
+  color: #ffffff;
   transition: .2s;
 }
 .nav-link:hover{
   transform: scale(1.1);
+  color: #eff9f3;
 }
 .nav-link:focus{
   color: #db4f4f;
@@ -153,6 +165,7 @@ main {
 
 }
 .card{
+  background-color: #ece6e6;
   padding: 10px;
   user-select: none;
   margin: 15px;
@@ -172,9 +185,13 @@ main {
   margin: 0 10px;
   background-color: transparent;
   border: none;
-  color: #000;
+  color: #ffffff;
   outline: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-search{
+  width: 24px;
+  height: 24px;
 }
 .icon__shop{
   width: 24px;
@@ -228,8 +245,7 @@ hr{
   text-align: center;
 }
 .py-5{
-  background-color: #eff9f3;
-  box-shadow: 0px 35px 0px  0px rgba(111, 111, 111, 0.499)inset;
+  background: linear-gradient(to bottom,#292828,#1cc2c2, #000000);
 }
 hr{
   border: 1px solid rgb(7, 7, 7);

@@ -25,7 +25,7 @@ const Select: React.FC = () => {
   };
 
   return (
-    <select className="form-select me-2" id="select__navbar">
+    <select className="form-select me-26" id="select__navbar">
       <option value="0" selected>
         Todas las Categorias
       </option>
