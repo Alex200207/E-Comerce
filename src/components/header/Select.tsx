@@ -26,7 +26,7 @@ const Select: React.FC = () => {
 
   return (
     <select className="form-select me-26" id="select__navbar">
-      <option value="0" selected>
+      <option className="option__select" value="0" selected>
         Todas las Categorias
       </option>
       {categorias.map((categorias) => (

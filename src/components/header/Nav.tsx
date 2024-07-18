@@ -67,7 +67,6 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
             </li>
           </ul>
           <ShoppingCartModal />
-          {/* Aquí se incluye el componente Search */}
           <Search
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../index.css";
+import "../Style/Dashboard.css";
 import SearchBar from "../Dashboard/SearchBar";
 import AddProductModal from "./AddProductModal";
 
@@ -14,7 +14,7 @@ interface Producto {
   Precio: number;
   ImagenUrl: string;
   Descripcion?: string;
-  Codigo:string;
+  Codigo: string;
 }
 
 interface Categoria {
@@ -191,8 +191,15 @@ const Table: React.FC = () => {
 
   return (
     <>
-      <AddProductModal onProductAdded={handleProductAdded} />
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      <div className="togeter">
+        <div className="search-bar-wrapper">
+          <SearchBar
+            searchTerm={searchTerm}
+            onSearchChange={handleSearchChange}
+          />
+        </div>
+        <AddProductModal onProductAdded={handleProductAdded} />
+      </div>
       <div className="main-contenedor">
         <DataTable
           columns={columns}
@@ -205,7 +212,7 @@ const Table: React.FC = () => {
           <Modal.Header closeButton>
             <Modal.Title>Editar Producto</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="edit-product">
             <Form>
               <Form.Group controlId="edit-product-nombre">
                 <Form.Label>Nombre</Form.Label>
@@ -249,18 +256,18 @@ const Table: React.FC = () => {
                 />
               </Form.Group>
               <Form.Group controlId="edit-product-Imagen">
-                  <Form.Label>Imagen</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={selectedProduct?.ImagenUrl|| ""}
-                    onChange={(e) =>
-                      setSelectedProduct((prev) => ({
-                        ...prev!,
-                        ImagenUrl: e.target.value,
-                      }))
-                    }
-                  />
-                </Form.Group>
+                <Form.Label>Imagen</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={selectedProduct?.ImagenUrl || ""}
+                  onChange={(e) =>
+                    setSelectedProduct((prev) => ({
+                      ...prev!,
+                      ImagenUrl: e.target.value,
+                    }))
+                  }
+                />
+              </Form.Group>
 
               <Form.Group controlId="edit-product-precio">
                 <Form.Label>Precio</Form.Label>
@@ -287,8 +294,6 @@ const Table: React.FC = () => {
                     }))
                   }
                 />
-
-               
               </Form.Group>
               <Form.Group controlId="edit-product-categoria">
                 <Form.Label>Categoría</Form.Label>

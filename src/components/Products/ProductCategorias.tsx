@@ -24,7 +24,9 @@ const ProductCategorias: React.FC = () => {
   }, []);
 
   return (
+    
     <div className="container mt-4">
+      <p>Esta parte esta en desarrollo papu...</p>
       <h2 className="text-center mb-4">Categorías</h2>
       <div className="row">
         {categorias.map((categoria) => (

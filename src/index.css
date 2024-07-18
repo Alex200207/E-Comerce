@@ -42,13 +42,13 @@
   padding: 16px;
   text-decoration: none;
   font-size: 20px;
-  box-shadow: 0px 2px 2px rgba(184, 181, 181, 0.2); /* Sombra en la parte baja */
+  box-shadow: 0px 2px 2px rgba(184, 181, 181, 0.2); 
 }
 
 .sidebar a:hover {
   text-decoration: none;
-  color: #000000;
-  background-color: rgb(249, 65, 65);
+  color: #ffffff;
+  background: linear-gradient(to right,#131212,#3b3e3e,#1cc2c2);
 }
 
 .content {
@@ -61,14 +61,17 @@
   position: fixed;
   width: 100%;
   
-  background-color: #000000; /* Fondo blanco */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en la parte baja */
+  background-color: #000000; 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); 
 }
 .navbar-brand{
   color: #ffffff;
   margin: 0 15px ;
   font-weight: 700;
   transition: .2s ease;
+}
+.navbar-brand:focus{
+color: #ece6e6 !important;
 }
 .navbar-brand:hover{
   color: #bbb9b9;
@@ -121,41 +124,60 @@ main {
 #select__navbar{
   width: 30%;
 }
+
 .me-22{
   padding: 6px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border: none;
   transition: 0.2s ease ;
 }
+.me-22:hover{
+  outline: 2px solid white;
+}
 .me-22:focus{
-  color: #000;
+  box-shadow: 1px 2px 5px rgba(255, 255, 255, 0.2);
   transform: rotate(90deg);
 }
 .me-26{
+  text-align: center;
+  color: #222223;
+  font-weight: 500;
+  border-radius: 5px;
+  font-size: 14px;
   border: none;
   margin-right: 10px;
   background-color: #d4d0d0;
+}
+
+.option__select{
+  background: white;
+  font-size: 13px !important;
 }
 .me-2{
   border: none;
   outline: none;
 }
-.nav-link{
+.me-2::placeholder{
+  color: #707478;
+}
+.me-2:focus{
+  outline:2px solid #0049b8;
+}
+.nav-link{    
   border-radius: 5px;
   margin-right: 10px;
   color: #ffffff;
   transition: .2s;
 }
 .nav-link:hover{
+  outline: 2px solid white;
   transform: scale(1.1);
   color: #eff9f3;
 }
 .nav-link:focus{
-  color: #db4f4f;
-  font-weight: 500;
-  transform: (30%);
-  transform: translate(2px) scale(1.1);
+  font-weight: 600;
+  color: #6795d1;
 }
+
 #select__navbar option{
   font-size: 20px;
   color:#000;
@@ -164,6 +186,7 @@ main {
   margin-bottom: 5px;
 
 }
+
 .card{
   background-color: #ece6e6;
   padding: 10px;
@@ -228,7 +251,7 @@ hr{
 .icon-clear{
   width: 24px;
   height: 24px;
-  color: #000;
+  color: #ffffff;
   transition: 0.5s ease;
 }
 .icon-clear:hover{
@@ -238,14 +261,14 @@ hr{
 .modal-header{
   border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-  color: #4d3535;
-  background-color: #1cc2c2;
+  color: #ffffff;
+  background-color: #000000;
 }
 .title-products h5{ 
   text-align: center;
 }
 .py-5{
-  background: linear-gradient(to bottom,#292828,#1cc2c2, #000000);
+  background: linear-gradient(to bottom,#131212,#1cc2c2, #000000);
 }
 hr{
   border: 1px solid rgb(7, 7, 7);
@@ -258,7 +281,7 @@ hr{
 }
 
 .modal-footer{
-  background-color: #1cc2c2;
+  background-color: #ffffff;
   padding: 20px;
 }
 .row-custom{
@@ -284,10 +307,9 @@ hr{
 }
 
 .title-detail{
-  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
-  color: #000000;
+  text-shadow: 2px 4px 8px rgba(255, 255, 255, 0.4);
+  color: #ffffff;
   font-size: 30px;
   font-weight: 700;
   text-align: center;
 }
-

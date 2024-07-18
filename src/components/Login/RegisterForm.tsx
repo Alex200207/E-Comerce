@@ -19,7 +19,7 @@ const RegisterForm: React.FC = () => {
 
   const [usuario, setUsuario] = useState<Usuario>(initialState);
   const [registroExitoso, setRegistroExitoso] = useState(false);
-  const [loading, setLoading] = useState(false); // Estado para controlar el loading
+  const [loading, setLoading] = useState(false); // Estado para controlar el loading que agregue
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,7 +39,7 @@ const RegisterForm: React.FC = () => {
       return;
     }
 
-    setLoading(true); // Mostrar loading al enviar formulario
+    setLoading(true); // Mostrarmos el loading
 
     try {
       const response = await fetch("http://localhost:3000/usuarios", {
@@ -54,14 +54,14 @@ const RegisterForm: React.FC = () => {
         const data = await response.json();
         console.log("Usuario registrado:", data);
         setRegistroExitoso(true);
-        setUsuario(initialState); // Limpiar el formulario
+        setUsuario(initialState); // limpiar formuario
       } else {
         console.error("Error al registrar usuario");
       }
     } catch (error) {
       console.error("Error al enviar la solicitud:", error);
     } finally {
-      setLoading(false); // Ocultar loading después de completar el proceso
+      setLoading(false); // oculta el loading
     }
   };
 

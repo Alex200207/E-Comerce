@@ -20,7 +20,7 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to={"/Productos"}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+              className="list-group-item list-group-item-action "
             >
               Productos
             </Link>
@@ -28,7 +28,7 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to={"/Categoria"}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+              className="list-group-item list-group-item-action "
             >
               Categoria
             </Link>
@@ -36,7 +36,7 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to={"/Clientes"}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+              className="list-group-item list-group-item-action"
             >
               clientes
             </Link>
@@ -44,7 +44,7 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to={"/Vendedores"}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+              className="list-group-item list-group-item-action "
             >
               Vendedores
             </Link>
@@ -52,7 +52,7 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to={"/Proveedores"}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+              className="list-group-item list-group-item-action "
             >
               Proveedores
             </Link>
@@ -60,7 +60,7 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to={"/Salir"}
-              className="list-group-item list-group-item-action bg-transparent text-danger fw-bold"
+              className="list-group-item list-group-item-action "
             >
               Salir
             </Link>

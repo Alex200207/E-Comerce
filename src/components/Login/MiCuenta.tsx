@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Button, ListGroup } from 'react-bootstrap';
 const MiCuenta: React.FC = () => {
   return (
     <Container className="py-4">
+      <p>Este apartado esta en desarrollo.....</p>
       <Row>
         <Col md={6} className="mb-4">
           <Card className="shadow-sm">
@@ -31,7 +32,7 @@ const MiCuenta: React.FC = () => {
         <Col md={6}>
           <Card className="shadow-sm">
             <Card.Body>
-              <Card.Title className="text-center mb-4">Historial de Pedidos</Card.Title>
+              <Card.Title className="text-center mb-4">Historial de Pedidos <b>En desarrollo</b></Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <strong>Pedido #1</strong> - 05/07/2024

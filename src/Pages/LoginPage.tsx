@@ -1,11 +1,12 @@
 
 import React from "react";
-import "../components/Styles/LoginPage.css";
+import "../components/Style/LoginForm.css";
+import LoginForm from "@components/Login/LoginForm";
 
 const LoginPage: React.FC = () => {
   return (
     <>
-    <LoginPage/>
+    <LoginForm/>
     </>
   );
 };

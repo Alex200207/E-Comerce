@@ -38,7 +38,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
       <Modal.Header
         className="title-pro"
         closeButton
-        style={{ paddingLeft: "unset", paddingRight: "1rem" }}
+        style={{ paddingLeft: "unset", paddingRight: "1rem" , background:'#29a4f0'}}
       >
         <Modal.Title
           className="title-detail"

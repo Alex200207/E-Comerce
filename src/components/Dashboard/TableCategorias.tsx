@@ -132,8 +132,16 @@ const TableCategorias: React.FC = () => {
 
     return (
         <>
+         <div className="togeter">
+        <div className="search-bar-wrapper">
+          <SearchBar
+            searchTerm={searchTerm}
+            onSearchChange={handleSearchChange}
+          />
+        </div>
         <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
-            <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      </div>
+        
             <div className="main-contenedor">
                 <DataTable
                     columns={columns}

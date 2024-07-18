@@ -1,4 +1,5 @@
 import React from "react";
+import '@components/Style/Dashboard.css'
 
 interface SearchBarProps {
   searchTerm: string;
@@ -14,7 +15,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       <input
         type="text"
         id="search-product"
-        className="form-control"
+        className="form-control bar-custom"
         placeholder="Buscar..."
         value={searchTerm}
         onChange={onSearchChange}

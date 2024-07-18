@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
-import backgroundImage1 from '@images/banner-negro.png';
+import backgroundImage3 from '@images/banner-negro.png';
 import backgroundImage2 from '@images/banner-rosa.png';
-import backgroundImage3 from '@images/banner-azul.png';
+import backgroundImage1 from '@images/banner-azul.png';
 
 interface HeaderProps {
   backgroundImage: string;

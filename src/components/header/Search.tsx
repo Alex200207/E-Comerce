@@ -9,7 +9,7 @@ interface SearchProps {
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearchSubmit: () => void;
-  onClearSearch: () => void; // Agregamos la función de limpieza
+  onClearSearch: () => void; //una funcion para limpiar los textos del buscador
 }
 
 const Search: React.FC<SearchProps> = ({
@@ -19,7 +19,7 @@ const Search: React.FC<SearchProps> = ({
   onClearSearch,
 }) => {
   const handleSearchClick = () => {
-    onSearchSubmit(); // Llama a la función de envío de búsqueda desde las props
+    onSearchSubmit(); // Llama a la función 
   };
 
   const handleClearClick = () => {

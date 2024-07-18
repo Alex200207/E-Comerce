@@ -6,9 +6,8 @@ body {
   align-items: center;
   flex-direction: none;
   min-height: 100vh;
-  background: url("../../assets/images/ecommerceM.jpg");
-
-  background-size: contain;
+  background: url("../../assets/images/banner-azul.png");
+  background-size: cover;
   background-position: center;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -84,7 +83,7 @@ body {
 .wrapper button {
   width: 100%;
   height: 45px;
-  background: #f26161;
+  background: linear-gradient(to right,#131212,#323232, #9c9c9c);
   border: none;
   outline: none;
   border-radius: 40px;
@@ -92,6 +91,10 @@ body {
   font-size: 16px;
   color: #ffffff;
   font-weight: 700;
+  transition: 0.5s linear;
+}
+.wrapper button:hover{
+  transform: scale(1.1);
 }
 
 .wrapper .register-link {
