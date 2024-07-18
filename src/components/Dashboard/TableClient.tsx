@@ -4,6 +4,8 @@ import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import SearchBar from "../Dashboard/SearchBar";
+import { MdModeEditOutline } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 interface Usuario {
     ID_Usuario:number;
@@ -128,16 +130,16 @@ const TableClient: React.FC = () => {
       cell: (row: Usuario) => (
         <>
           <button
-            className="btn btn-primary btn-sm btn-edit"
+            className="btn  btn-sm btn-edit"
             onClick={() => handleEditClick(row)}
           >
-            Ver
+            <MdModeEditOutline className="btn-modal-custom" />
           </button>
           <button
-            className="btn btn-danger btn-sm btn-delete"
+            className="btn  btn-sm btn-delete"
             onClick={() => handleDeleteClick(row.ID_Usuario)}
           >
-            Eliminar
+             <MdDelete className="btn-modal-custom"/>
           </button>
         </>
       ),

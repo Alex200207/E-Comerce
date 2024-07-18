@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-
+import { IoIosAddCircleOutline } from "react-icons/io";
 interface Producto {
   ID_Producto?: number; // Puede ser opcional si no se tiene ID al agregar
   Nombre: string;
@@ -117,7 +117,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         className="btn-custom"
         onClick={() => setShowModal(true)}
       >
-        Agregar Producto
+        <IoIosAddCircleOutline className="icon-modal-add" />
       </Button>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">

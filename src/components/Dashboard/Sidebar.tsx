@@ -1,20 +1,26 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import { GoHome } from "react-icons/go";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { BiSolidCategory } from "react-icons/bi";
+import { FaPerson } from "react-icons/fa6";
+import { IoPersonSharp } from "react-icons/io5";
+import { FaPersonBreastfeeding } from "react-icons/fa6";
+import { CiLogout } from "react-icons/ci";
+
 const Sidebar: React.FC = () => {
   return (
     <>
       <div className="bg-white" id="sidebar-wrapper">
-        <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom sidebar__item">
-          <i className="fas fa-user-secret me-2"></i>AlexStore
-        </div>
+        {/*agregare un encabezado un pcoo mas atractivo*/ }
         <ul className="list-group list-group-flush my-3">
           <li>
             <Link
               to={"/Lista"}
-              className="list-group-item list-group-item-action bg-transparent "
+              className="list-group-item list-group-item-action "
             >
-              Inicio
+              <GoHome /> Inicio
             </Link>
           </li>
           <li>
@@ -22,7 +28,7 @@ const Sidebar: React.FC = () => {
               to={"/Productos"}
               className="list-group-item list-group-item-action "
             >
-              Productos
+             <MdOutlineProductionQuantityLimits /> Productos
             </Link>
           </li>
           <li>
@@ -30,7 +36,7 @@ const Sidebar: React.FC = () => {
               to={"/Categoria"}
               className="list-group-item list-group-item-action "
             >
-              Categoria
+             <BiSolidCategory /> Categoria
             </Link>
           </li>
           <li>
@@ -38,7 +44,7 @@ const Sidebar: React.FC = () => {
               to={"/Clientes"}
               className="list-group-item list-group-item-action"
             >
-              clientes
+             <FaPerson /> clientes
             </Link>
           </li>
           <li>
@@ -46,7 +52,7 @@ const Sidebar: React.FC = () => {
               to={"/Vendedores"}
               className="list-group-item list-group-item-action "
             >
-              Vendedores
+             <IoPersonSharp /> Vendedores
             </Link>
           </li>
           <li>
@@ -54,7 +60,7 @@ const Sidebar: React.FC = () => {
               to={"/Proveedores"}
               className="list-group-item list-group-item-action "
             >
-              Proveedores
+             <FaPersonBreastfeeding /> Proveedores
             </Link>
           </li>
           <li>
@@ -62,7 +68,7 @@ const Sidebar: React.FC = () => {
               to={"/Salir"}
               className="list-group-item list-group-item-action "
             >
-              Salir
+             <CiLogout /> Salir
             </Link>
           </li>
         </ul>

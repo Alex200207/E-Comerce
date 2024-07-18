@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 interface Categoria {
   ID_Categoria?: number;
@@ -77,7 +78,7 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
         className="btn-custom"
         onClick={() => setShowModal(true)}
       >
-        Agregar categoria
+        <IoIosAddCircleOutline className="icon-modal-add" />
       </Button>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">

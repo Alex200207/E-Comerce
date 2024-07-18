@@ -5,6 +5,8 @@ import SearchBar from "../Dashboard/SearchBar";
 import DataTable from "react-data-table-component";
 import { Modal, Button, Form } from "react-bootstrap";
 import AddCategoriaModal from "./AddCategoriaModal";
+import { MdModeEditOutline } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 interface Categorias {
     ID_Categoria: number;
@@ -114,16 +116,16 @@ const TableCategorias: React.FC = () => {
             cell: (row: Categorias) => (
                 <>
                     <button
-                        className="btn btn-primary btn-sm btn-edit"
+                        className="btn  btn-sm btn-edit"
                         onClick={() => handleEditClick(row)}
                     >
-                        Ver
+                        <MdModeEditOutline className="btn-modal-custom" />
                     </button>
                     <button
-                        className="btn btn-danger btn-sm btn-delete"
+                        className="btn btn-sm btn-delete"
                         onClick={() => handleDeleteClick(row.ID_Categoria)}
                     >
-                        Eliminar
+                         <MdDelete className="btn-modal-custom"/>
                     </button>
                 </>
             ),

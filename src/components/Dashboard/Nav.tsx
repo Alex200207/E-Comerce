@@ -1,5 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 const Nav: React.FC = () => {
   return (
     <>
@@ -9,7 +10,7 @@ const Nav: React.FC = () => {
             className="fas fa-align-left primary-text fs-4 me-3"
             id="menu-toggle"
           ></i>
-          <h2 className="fs-2 m-0 h2-custom">Gestor de la Tienda</h2>
+          <h2 className="fs-2 m-0 h2-custom">AlexStore Gestor</h2>
         </div>
         <button
           className="navbar-toggler"
@@ -22,42 +23,6 @@ const Nav: React.FC = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
-        
-
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle second-text fw-bold"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i className="fas fa-user me-2"></i>Admin
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Profile
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
       </nav>
     </>
   );
