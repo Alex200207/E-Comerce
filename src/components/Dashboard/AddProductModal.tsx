@@ -113,8 +113,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   return (
     <div className="main-contenedor2">
       <Button
-        variant="btn-custom"
-        className="btn-custom"
+        className="btn-custom4"
         onClick={() => setShowModal(true)}
       >
         <IoIosAddCircleOutline className="icon-modal-add" />

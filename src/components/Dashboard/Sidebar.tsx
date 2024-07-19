@@ -13,7 +13,9 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <div className="bg-white" id="sidebar-wrapper">
-        {/*agregare un encabezado un pcoo mas atractivo*/ }
+        <div className="sidebar-wrapper__Log">
+          AlexStore
+        </div>
         <ul className="list-group list-group-flush my-3">
           <li>
             <Link

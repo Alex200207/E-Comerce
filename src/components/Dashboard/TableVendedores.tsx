@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
-import SearchBar from "../Dashboard/SearchBar";
 import { Button, Modal } from "react-bootstrap";
 
 interface Vendedor {
@@ -21,7 +20,11 @@ interface Producto {
   Codigo: string;
 }
 
-const TableVendedores: React.FC = () => {
+interface TableProps {
+  searchTerm: string;
+}
+
+const TableVendedores: React.FC<TableProps> = ({ searchTerm }) => {
   const [vendedores, setVendedores] = useState<Vendedor[]>([]);
   const [productos, setProductos] = useState<Producto[]>([]);
   const [showProductosModal, setShowProductosModal] = useState<boolean>(false);
@@ -29,56 +32,48 @@ const TableVendedores: React.FC = () => {
   const [selectedVendedor, setSelectedVendedor] = useState<Vendedor | null>(null);
   const [showProductoDetalleModal, setShowProductoDetalleModal] = useState<boolean>(false);
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     loadProductos();
     loadVendedores();
   }, []);
 
-  const loadProductos = () => {
-    fetch("http://localhost:3000/productos")
-      .then((response) => response.json())
-      .then((data: Producto[]) => {
-        console.log("Datos de productos:", data);
-        setProductos(data);
-      })
-      .catch((error) => {
-        console.error("Error al cargar productos:", error);
-        alert("Error al cargar los productos");
-      });
+  const loadProductos = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/productos");
+      const data: Producto[] = await response.json();
+      setProductos(data);
+    } catch (error) {
+      console.error("Error al cargar productos:", error);
+      alert("Error al cargar los productos");
+    }
   };
 
-  const loadVendedores = () => {
-    fetch("http://localhost:3000/vendedores")
-      .then((response) => response.json())
-      .then((data: Vendedor[]) => {
-        console.log("Datos de vendedores:", data);
-        setVendedores(data);
-      })
-      .catch((error) => {
-        console.error("Error al cargar los vendedores:", error);
-        alert("Error al cargar los vendedores");
-      });
+  const loadVendedores = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/vendedores");
+      const data: Vendedor[] = await response.json();
+      setVendedores(data);
+    } catch (error) {
+      console.error("Error al cargar los vendedores:", error);
+      alert("Error al cargar los vendedores");
+    }
   };
 
-  const loadProductosVendedor = (ID_Vendedor: number) => {
-    fetch(`http://localhost:3000/productosVendedores/${ID_Vendedor}`)
-      .then((response) => response.json())
-      .then((data: Producto[]) => {
-        console.log("Datos de productos del vendedor:", data);
-        // Filtrar los productos que pertenecen al vendedor seleccionado
-        const productosDelVendedor = productos.filter((producto) =>
-          data.some((pv) => pv.ID_Producto === producto.ID_Producto)
-        );
-        setProductosDelVendedor(productosDelVendedor);
-        setSelectedVendedor(vendedores.find((v) => v.ID_Vendedor === ID_Vendedor) || null);
-        setShowProductosModal(true);
-      })
-      .catch((error) => {
-        console.error("Error al cargar los productos del vendedor:", error);
-        alert("Error al cargar los productos del vendedor");
-      });
+  const loadProductosVendedor = async (ID_Vendedor: number) => {
+    try {
+      const response = await fetch(`http://localhost:3000/productosVendedores/${ID_Vendedor}`);
+      const data: Producto[] = await response.json();
+      const productosDelVendedor = productos.filter((producto) =>
+        data.some((pv) => pv.ID_Producto === producto.ID_Producto)
+      );
+      setProductosDelVendedor(productosDelVendedor);
+      setSelectedVendedor(vendedores.find((v) => v.ID_Vendedor === ID_Vendedor) || null);
+      setShowProductosModal(true);
+    } catch (error) {
+      console.error("Error al cargar los productos del vendedor:", error);
+      alert("Error al cargar los productos del vendedor");
+    }
   };
 
   const handleCloseProductosModal = () => {
@@ -95,10 +90,6 @@ const TableVendedores: React.FC = () => {
   const closeProductoDetalleModal = () => {
     setShowProductoDetalleModal(false);
     setProductoSeleccionado(null);
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
   };
 
   const filteredVendedores = vendedores.filter((vendedor) =>
@@ -164,7 +155,6 @@ const TableVendedores: React.FC = () => {
 
   return (
     <>
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="main-contenedor">
         <DataTable
           columns={columns}

@@ -1,35 +1,46 @@
-import Table from "@components/Dashboard/Table";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import Nav from "@components/Dashboard/Nav";
 import Sidebar from "@components/Dashboard/Sidebar";
 import "../components/Style/Dashboard.css";
 import TableClient from "@components/Dashboard/TableClient";
 import TableVendedores from "@components/Dashboard/TableVendedores";
 import TableCategorias from "@components/Dashboard/TableCategorias";
+import SearchBar from "../components/Dashboard/SearchBar";
+import Table from "@components/Dashboard/Table"; 
 
-function AdminPage() {
+const AdminPage: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <>
-    <Nav />
-    <Sidebar />
-      <main className="contenedorMain" >
-
-        <div className="contendorMain__div">                 
-              <Routes>
-                <Route>
-                  <Route path="/Incio" element={"/"} />
-                  <Route path="/Productos" element={<Table />} />
-                  <Route path="/Categoria" element={<TableCategorias />} />
-                  <Route path="/Clientes" element={<TableClient />} />
-                  <Route path="/Vendedores" element={<TableVendedores />} />
-                  <Route path="/Proveedores" element={<p>Proveedores</p>} />
-                </Route>
-              </Routes>
-            </div>
+      <Sidebar />
+      <nav className="header-admin">  
+          <div className="search-bar-wrapper">
+            <SearchBar
+              searchTerm={searchTerm}
+              onSearchChange={handleSearchChange}
+            />
+          
+          
+        </div>
+      </nav>
+      <main className="contenedorMain">
+          <Routes>
+            <Route path="/Inicio" element={<p>Inicio</p>} />
+            <Route path="/Productos" element={<Table searchTerm={searchTerm} />} />
+            <Route path="/Categoria" element={<TableCategorias searchTerm={searchTerm} />} />
+            <Route path="/Clientes" element={<TableClient searchTerm={searchTerm}/>} />
+            <Route path="/Vendedores" element={<TableVendedores searchTerm={searchTerm}/>} />
+            <Route path="/Proveedores" element={<p>Proveedores</p>} />
+          </Routes>
+       
       </main>
-      <footer><p className="footer__p">&copy; 2024 - Todos los derechos reservados</p></footer>
     </>
   );
-}
+};
 
 export default AdminPage;

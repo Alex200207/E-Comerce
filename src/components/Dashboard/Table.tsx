@@ -3,10 +3,8 @@ import { Modal, Button, Form } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Style/Dashboard.css";
-import SearchBar from "../Dashboard/SearchBar";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import AddProductModal from "./AddProductModal";
-import { MdModeEditOutline } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
 
 interface Producto {
   ID_Producto: number;
@@ -24,12 +22,15 @@ interface Categoria {
   Nombre: string;
 }
 
-const Table: React.FC = () => {
+interface TableProps {
+  searchTerm: string;
+}
+
+const Table: React.FC<TableProps> = ({ searchTerm }) => {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Producto | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     loadProducts();
@@ -39,9 +40,7 @@ const Table: React.FC = () => {
   const loadProducts = () => {
     fetch("http://localhost:3000/productos")
       .then((response) => response.json())
-      .then((data: Producto[]) => {
-        setProductos(data);
-      })
+      .then((data: Producto[]) => setProductos(data))
       .catch((error) => {
         console.error("Error al cargar productos:", error);
         alert("Error al cargar los productos");
@@ -51,9 +50,7 @@ const Table: React.FC = () => {
   const loadCategorias = () => {
     fetch("http://localhost:3000/categorias")
       .then((response) => response.json())
-      .then((data: Categoria[]) => {
-        setCategorias(data);
-      })
+      .then((data: Categoria[]) => setCategorias(data))
       .catch((error) => {
         console.error("Error al cargar categorías:", error);
         alert("Error al cargar las categorías");
@@ -74,13 +71,11 @@ const Table: React.FC = () => {
           }
         )
           .then((response) => {
-            if (!response.ok) {
+            if (!response.ok)
               throw new Error("Error al actualizar el producto");
-            }
             return response.json();
           })
-          .then((data) => {
-            console.log(data);
+          .then(() => {
             loadProducts();
             setShowModal(false);
             setSelectedProduct(null);
@@ -99,14 +94,12 @@ const Table: React.FC = () => {
   };
 
   const handleDeleteClick = (id: number) => {
-    if (window.confirm("¿Estas seguro de eliminar este producto?")) {
+    if (window.confirm("¿Estás seguro de eliminar este producto?")) {
       fetch(`http://localhost:3000/productos/${id}`, {
         method: "DELETE",
       })
         .then((response) => {
-          if (!response.ok) {
-            throw new Error("Error al eliminar el producto");
-          }
+          if (!response.ok) throw new Error("Error al eliminar el producto");
           return response.text();
         })
         .then((result) => {
@@ -127,17 +120,9 @@ const Table: React.FC = () => {
     return categoria ? categoria.Nombre : "Sin categoría";
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
   const filteredProducts = productos.filter((producto) =>
     producto.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const handleProductAdded = () => {
-    loadProducts(); // Recargar productos después de agregar uno
-  };
 
   const columns = [
     {
@@ -161,7 +146,7 @@ const Table: React.FC = () => {
       sortable: true,
     },
     {
-      name: "Codigo",
+      name: "Código",
       selector: (row: Producto) => `#${row.Codigo}`,
       sortable: true,
     },
@@ -174,18 +159,18 @@ const Table: React.FC = () => {
       name: "Acciones",
       cell: (row: Producto) => (
         <>
-          <button
-            className="btn  btn-sm btn-edit"
+          <Button
+            className="btn btn-sm btn-edit"
             onClick={() => handleEditClick(row)}
           >
-            <MdModeEditOutline className="btn-modal-custom" />
-          </button>
-          <button
-            className="btn  btn-sm btn-delete"
+            <MdModeEditOutline className="btn-modal-custom"/>
+          </Button>
+          <Button
+            className="btn btn-sm  btn-delete ms-2"
             onClick={() => handleDeleteClick(row.ID_Producto)}
           >
             <MdDelete className="btn-modal-custom"/>
-          </button>
+          </Button>
         </>
       ),
     },
@@ -193,145 +178,88 @@ const Table: React.FC = () => {
 
   return (
     <>
-      <div className="togeter">
-        <div className="search-bar-wrapper">
-          <SearchBar
-            searchTerm={searchTerm}
-            onSearchChange={handleSearchChange}
-          />
-        </div>
-        <AddProductModal onProductAdded={handleProductAdded} />
+      <div className="contendorMain__titles">
+        <h4>Administracion de Productos</h4>
       </div>
-      <div className="main-contenedor">
-        <DataTable
-          columns={columns}
-          data={filteredProducts}
-          pagination
-          highlightOnHover
-          striped
-        />
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Editar Producto</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="edit-product">
+      <AddProductModal onProductAdded={() => loadProducts()} />
+      <DataTable
+        columns={columns}
+        data={filteredProducts}
+        pagination
+        highlightOnHover
+      />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Producto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedProduct && (
             <Form>
-              <Form.Group controlId="edit-product-nombre">
+              <Form.Group controlId="formProductName">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
-                  value={selectedProduct?.Nombre || ""}
+                  value={selectedProduct.Nombre}
                   onChange={(e) =>
-                    setSelectedProduct((prev) => ({
-                      ...prev!,
+                    setSelectedProduct({
+                      ...selectedProduct,
                       Nombre: e.target.value,
-                    }))
+                    })
                   }
                 />
               </Form.Group>
-
-              <Form.Group controlId="edit-product-Codigo">
-                <Form.Label>Codigo</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={selectedProduct?.Codigo || ""}
-                  onChange={(e) =>
-                    setSelectedProduct((prev) => ({
-                      ...prev!,
-                      Codigo: e.target.value,
-                    }))
-                  }
-                />
-              </Form.Group>
-
-              <Form.Group controlId="edit-product-descripcion">
-                <Form.Label>Descripción</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={selectedProduct?.Descripcion || ""}
-                  onChange={(e) =>
-                    setSelectedProduct((prev) => ({
-                      ...prev!,
-                      Descripcion: e.target.value,
-                    }))
-                  }
-                />
-              </Form.Group>
-              <Form.Group controlId="edit-product-Imagen">
-                <Form.Label>Imagen</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={selectedProduct?.ImagenUrl || ""}
-                  onChange={(e) =>
-                    setSelectedProduct((prev) => ({
-                      ...prev!,
-                      ImagenUrl: e.target.value,
-                    }))
-                  }
-                />
-              </Form.Group>
-
-              <Form.Group controlId="edit-product-precio">
-                <Form.Label>Precio</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={selectedProduct?.Precio || 0}
-                  onChange={(e) =>
-                    setSelectedProduct((prev) => ({
-                      ...prev!,
-                      Precio: parseFloat(e.target.value),
-                    }))
-                  }
-                />
-              </Form.Group>
-              <Form.Group controlId="edit-product-stock">
+              <Form.Group controlId="formProductStock">
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
                   type="number"
-                  value={selectedProduct?.Stock || 0}
+                  value={selectedProduct.Stock}
                   onChange={(e) =>
-                    setSelectedProduct((prev) => ({
-                      ...prev!,
-                      Stock: parseInt(e.target.value, 10),
-                    }))
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      Stock: +e.target.value,
+                    })
                   }
                 />
               </Form.Group>
-              <Form.Group controlId="edit-product-categoria">
-                <Form.Label>Categoría</Form.Label>
+              <Form.Group controlId="formProductPrice">
+                <Form.Label>Precio</Form.Label>
                 <Form.Control
-                  as="select"
-                  value={selectedProduct?.ID_Categoria || ""}
+                  type="number"
+                  value={selectedProduct.Precio}
                   onChange={(e) =>
-                    setSelectedProduct((prev) => ({
-                      ...prev!,
-                      ID_Categoria: parseInt(e.target.value),
-                    }))
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      Precio: +e.target.value,
+                    })
                   }
-                >
-                  <option value="">Selecciona una categoría</option>
-                  {categorias.map((categoria) => (
-                    <option
-                      key={categoria.ID_Categoria}
-                      value={categoria.ID_Categoria}
-                    >
-                      {categoria.Nombre}
-                    </option>
-                  ))}
-                </Form.Control>
+                />
+              </Form.Group>
+              <Form.Group controlId="formProductDescripcion">
+                <Form.Label>Descripción</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={selectedProduct.Descripcion || ""}
+                  onChange={(e) =>
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      Descripcion: e.target.value,
+                    })
+                  }
+                />
               </Form.Group>
             </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Cerrar
-            </Button>
-            <Button variant="primary" onClick={saveChanges}>
-              Guardar Cambios
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cerrar
+          </Button>
+          <Button variant="primary" onClick={saveChanges}>
+            Guardar Cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
