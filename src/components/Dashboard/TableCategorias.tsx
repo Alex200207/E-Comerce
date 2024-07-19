@@ -2,26 +2,23 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import DataTable from "react-data-table-component";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
 import AddCategoriaModal from "./AddCategoriaModal";
-import { MdModeEditOutline } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
 interface Categorias {
   ID_Categoria: number;
   Nombre: string;
 }
-interface TableProps {
-    searchTerm: string;
-  }
 
-const TableCategorias: React.FC<TableProps> = ({searchTerm}) => {
-  const [selectedCategoria, setSelectedCategoria] = useState<Categorias | null>(
-    null
-  );
+interface TableProps {
+  searchTerm: string;
+}
+
+const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
+  const [selectedCategoria, setSelectedCategoria] = useState<Categorias | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categorias[]>([]);
-
 
   useEffect(() => {
     loadCategorias();
@@ -66,11 +63,6 @@ const TableCategorias: React.FC<TableProps> = ({searchTerm}) => {
     }
   };
 
-
-  const filteredCategorias = categorias.filter((categoria) =>
-    categoria.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const handleSaveChanges = () => {
     if (selectedCategoria) {
       fetch(
@@ -100,8 +92,9 @@ const TableCategorias: React.FC<TableProps> = ({searchTerm}) => {
         });
     }
   };
+
   const handleCategoriaAdded = () => {
-    loadCategorias(); // Recargar productos después de agregar uno
+    loadCategorias(); // Recargar categorías después de agregar una
   };
 
   const columns = [
@@ -119,18 +112,28 @@ const TableCategorias: React.FC<TableProps> = ({searchTerm}) => {
       name: "Acciones",
       cell: (row: Categorias) => (
         <>
-          <button
-            className="btn  btn-sm btn-edit"
-            onClick={() => handleEditClick(row)}
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>Editar</Tooltip>}
           >
-            <MdModeEditOutline className="btn-modal-custom" />
-          </button>
-          <button
-            className="btn btn-sm btn-delete"
-            onClick={() => handleDeleteClick(row.ID_Categoria)}
+            <Button
+              className="btn btn-sm btn-edit"
+              onClick={() => handleEditClick(row)}
+            >
+              <MdModeEditOutline className="btn-modal-custom" />
+            </Button>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>Eliminar</Tooltip>}
           >
-            <MdDelete className="btn-modal-custom" />
-          </button>
+            <Button
+              className="btn btn-sm btn-delete"
+              onClick={() => handleDeleteClick(row.ID_Categoria)}
+            >
+              <MdDelete className="btn-modal-custom" />
+            </Button>
+          </OverlayTrigger>
         </>
       ),
     },
@@ -138,14 +141,14 @@ const TableCategorias: React.FC<TableProps> = ({searchTerm}) => {
 
   return (
     <>
-    
-        <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
-      
+      <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
 
       <div className="main-contenedor">
         <DataTable
           columns={columns}
-          data={filteredCategorias}
+          data={categorias.filter((categoria) =>
+            categoria.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
+          )}
           pagination
           highlightOnHover
           striped

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
@@ -117,18 +117,28 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
             name: "Acciones",
             cell: (row: Usuario) => (
                 <>
-                    <button
-                        className="btn btn-sm btn-edit"
-                        onClick={() => handleEditClick(row)}
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Editar</Tooltip>}
                     >
-                        <MdModeEditOutline className="btn-modal-custom" />
-                    </button>
-                    <button
-                        className="btn btn-sm btn-delete"
-                        onClick={() => handleDeleteClick(row.ID_Usuario)}
+                        <Button
+                            className="btn btn-sm btn-edit"
+                            onClick={() => handleEditClick(row)}
+                        >
+                            <MdModeEditOutline className="btn-modal-custom" />
+                        </Button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Eliminar</Tooltip>}
                     >
-                        <MdDelete className="btn-modal-custom"/>
-                    </button>
+                        <Button
+                            className="btn btn-sm btn-delete"
+                            onClick={() => handleDeleteClick(row.ID_Usuario)}
+                        >
+                            <MdDelete className="btn-modal-custom" />
+                        </Button>
+                    </OverlayTrigger>
                 </>
             ),
         },
@@ -166,7 +176,7 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
                             <Form.Group controlId="edit-user-email">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control
-                                    type="text"
+                                    type="email"
                                     value={selectedUsuario?.email || ""}
                                     onChange={(e) =>
                                         setSelectedUsuario((prev) => ({

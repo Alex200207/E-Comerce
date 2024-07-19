@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
+import { Modal, Button, Form, Alert, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { IoIosAddCircleOutline } from "react-icons/io";
 interface Producto {
   ID_Producto?: number; // Puede ser opcional si no se tiene ID al agregar
@@ -112,13 +112,17 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
   return (
     <div className="main-contenedor2">
-      <Button
-        className="btn-custom4"
-        onClick={() => setShowModal(true)}
+      <OverlayTrigger
+        placement="top"
+        overlay={<Tooltip id="tooltip-add-product">Agregar producto</Tooltip>}
       >
-        <IoIosAddCircleOutline className="icon-modal-add" />
-      </Button>
-
+        <Button
+          className="btn-custom4"
+          onClick={() => setShowModal(true)}
+        >
+          <IoIosAddCircleOutline className="icon-modal-add" />
+        </Button>
+      </OverlayTrigger>
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Agregar Producto</Modal.Title>

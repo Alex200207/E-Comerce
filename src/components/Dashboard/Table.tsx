@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Style/Dashboard.css";
@@ -159,18 +159,28 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       name: "Acciones",
       cell: (row: Producto) => (
         <>
-          <Button
-            className="btn btn-sm btn-edit"
-            onClick={() => handleEditClick(row)}
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id={`edit-tooltip-${row.ID_Producto}`}>Editar Producto</Tooltip>}
           >
-            <MdModeEditOutline className="btn-modal-custom"/>
-          </Button>
-          <Button
-            className="btn btn-sm  btn-delete ms-2"
-            onClick={() => handleDeleteClick(row.ID_Producto)}
+            <Button
+              className="btn btn-sm btn-edit"
+              onClick={() => handleEditClick(row)}
+            >
+              <MdModeEditOutline className="btn-modal-custom"/>
+            </Button>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id={`delete-tooltip-${row.ID_Producto}`}>Eliminar Producto</Tooltip>}
           >
-            <MdDelete className="btn-modal-custom"/>
-          </Button>
+            <Button
+              className="btn btn-sm  btn-delete ms-2"
+              onClick={() => handleDeleteClick(row.ID_Producto)}
+            >
+              <MdDelete className="btn-modal-custom"/>
+            </Button>
+          </OverlayTrigger>
         </>
       ),
     },
@@ -179,7 +189,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   return (
     <>
       <div className="contendorMain__titles">
-        <h4>Administracion de Productos</h4>
+        <h4>Administración de Productos</h4>
       </div>
       <AddProductModal onProductAdded={() => loadProducts()} />
       <DataTable
