@@ -13,13 +13,11 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <div className="bg-white" id="sidebar-wrapper">
-        <div className="sidebar-wrapper__Log">
-          AlexStore
-        </div>
+        <div className="sidebar-wrapper__Log">AlexStore</div>
         <ul className="list-group list-group-flush my-3">
           <li>
             <Link
-              to={"/Lista"}
+              to="/adminPage"
               className="list-group-item list-group-item-action "
             >
               <GoHome /> Inicio
@@ -27,50 +25,50 @@ const Sidebar: React.FC = () => {
           </li>
           <li>
             <Link
-              to={"/Productos"}
-              className="list-group-item list-group-item-action "
-            >
-             <MdOutlineProductionQuantityLimits /> Productos
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/Categoria"}
-              className="list-group-item list-group-item-action "
-            >
-             <BiSolidCategory /> Categoria
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/Clientes"}
+              to="productos"
               className="list-group-item list-group-item-action"
             >
-             <FaPerson /> clientes
+              <MdOutlineProductionQuantityLimits /> Productos
             </Link>
           </li>
           <li>
             <Link
-              to={"/Vendedores"}
+              to="/adminPage/categorias"
               className="list-group-item list-group-item-action "
             >
-             <IoPersonSharp /> Vendedores
+              <BiSolidCategory /> Categorías
             </Link>
           </li>
           <li>
             <Link
-              to={"/Proveedores"}
-              className="list-group-item list-group-item-action "
+              to="/adminPage/clientes"
+              className="list-group-item list-group-item-action"
             >
-             <FaPersonBreastfeeding /> Proveedores
+              <FaPerson /> Clientes
             </Link>
           </li>
           <li>
             <Link
-              to={"/Salir"}
+              to="/adminPage/vendedores"
               className="list-group-item list-group-item-action "
             >
-             <CiLogout /> Salir
+              <IoPersonSharp /> Vendedores
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/adminPage/proveedores"
+              className="list-group-item list-group-item-action "
+            >
+              <FaPersonBreastfeeding /> Proveedores
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/salir"
+              className="list-group-item list-group-item-action "
+            >
+              <CiLogout /> Salir
             </Link>
           </li>
         </ul>

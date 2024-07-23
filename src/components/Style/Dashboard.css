@@ -27,13 +27,19 @@
   background-color: black;
   transform: scale(1.1);
 }
+.main-wrapper .main-content {
+  padding: 1.5rem;
+}
+.main-wrapper-lost{
+  margin: 0 !important;
+  background-color: #000000 !important;
+}
 
-.contenedorMain {
-  padding: 24px;
+.main-wrapper {
   margin-top: 70px;
   padding-bottom: 20px;
   margin-left: 260px;
-  transition: ease-out 0.3s;
+  transition: ease-out .3s;
 }
 .navbar-test {
   color: white;
@@ -49,11 +55,7 @@
 .btn {
   margin-right: 10px;
 }
-.main-contenedor2 {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 50px;
-}
+
 
 .btn-custom4 {
   border: none;

@@ -1,14 +1,13 @@
-import React from 'react';
-import ProductPage from './Pages/ProductPage';
-import AdminPage from './Pages/AdminPage';
+import AppRouter from "./AppRouter.tsx";
+import { AuthProvider } from "./utils/AuthProvider.tsx";
 
-
-const App: React.FC = () => {
+function App() {
   return (
-   <>
-   <AdminPage/>
-   </>
+    <AuthProvider>
+      {" "}
+      <AppRouter />
+    </AuthProvider>
   );
-};
+}
 
 export default App;
