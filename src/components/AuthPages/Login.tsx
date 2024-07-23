@@ -41,7 +41,7 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateEmail() && validatePassword()) {
-      login({ email, password }).then(() => navigate('/AdminPage'));
+      login({ email, password }).then(() => navigate('/home'));
     }
   };
 

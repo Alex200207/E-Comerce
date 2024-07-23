@@ -31,6 +31,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   const [selectedProduct, setSelectedProduct] = useState<Producto | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
+ 
 
   useEffect(() => {
     loadProducts();

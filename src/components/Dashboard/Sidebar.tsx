@@ -13,11 +13,12 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <div className="bg-white" id="sidebar-wrapper">
-        <div className="sidebar-wrapper__Log">AlexStore</div>
+        <div className="sidebar-wrapper__Log">AlexStore <hr /></div>
+        
         <ul className="list-group list-group-flush my-3">
           <li>
             <Link
-              to="/adminPage"
+              to="/home"
               className="list-group-item list-group-item-action "
             >
               <GoHome /> Inicio
@@ -33,7 +34,7 @@ const Sidebar: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/adminPage/categorias"
+              to="categorias"
               className="list-group-item list-group-item-action "
             >
               <BiSolidCategory /> Categorías
@@ -41,7 +42,7 @@ const Sidebar: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/adminPage/clientes"
+              to="clientes"
               className="list-group-item list-group-item-action"
             >
               <FaPerson /> Clientes
@@ -49,7 +50,7 @@ const Sidebar: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/adminPage/vendedores"
+              to="vendedores"
               className="list-group-item list-group-item-action "
             >
               <IoPersonSharp /> Vendedores
@@ -57,7 +58,7 @@ const Sidebar: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/adminPage/proveedores"
+              to="proveedores"
               className="list-group-item list-group-item-action "
             >
               <FaPersonBreastfeeding /> Proveedores

@@ -4,19 +4,22 @@ import Login from "./components/AuthPages/Login";
 import AdminPage from "./Pages/AdminPage";
 
 import TableCategorias from "@components/Dashboard/TableCategorias";
+import Table from "@components/Dashboard/Table";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route element={<PrivateRoutes />}>
-        <Route path="/adminPage" element={<AdminPage />}>
-          <Route path="productos" element={<span>ddd</span>} />
-          <Route path="categorias" element={<TableCategorias searchTerm={""}/>} />
-          {/* Agrega otras rutas hijas aquí */}
-        </Route>
+        <Route path="/home" element={<p>Inicio</p>}></Route>
+        <Route path="/adminPage" element={<AdminPage />}></Route>
+        <Route path="/Productos" element={<Table searchTerm={""}/>}></Route>
+        <Route path="/categorias" element={<TableCategorias searchTerm={""}/>}></Route>
+        <Route path="/clientes" element={<span>Clientes</span>}></Route>
+        <Route path="/vendedores" element={<span>Vendedores</span>}></Route>
+        <Route path="/proveedores" element={<span>Proveedores</span>}></Route>
       </Route>
-      <Route path="/" element={<Login />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />}></Route>
+      <Route path="/login" element={<Login />}> </Route>
     </Routes>
   );
 };
