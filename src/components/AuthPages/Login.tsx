@@ -52,7 +52,7 @@ const Login = () => {
           <div className="col-lg-6 d-flex align-items-center">
             <div className="card-body">
              
-              <h4 className="fw-bold">Bienvenido</h4>
+              <h4 className="fw-bold">Bienvenido </h4>
               <p className="mb-0">Ingrese los datos de su cuenta</p>
 
               {emailError ? <div className="alert alert-danger">{emailError}</div> : <></>}
@@ -69,7 +69,7 @@ const Login = () => {
                       type="email"
                       className="form-control"
                       id="inputEmailAddress"
-                      placeholder="jhon@example.com"
+                      placeholder="user@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
