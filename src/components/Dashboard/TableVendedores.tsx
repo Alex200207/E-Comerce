@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import { Button, Modal } from "react-bootstrap";
+import { API_URL } from '../../constants/index.ts';
 
 interface Vendedor {
   ID_Vendedor: number;
@@ -39,14 +40,21 @@ const TableVendedores: React.FC<TableProps> = ({ searchTerm }) => {
   }, []);
 
   const loadProductos = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/productos");
-      const data: Producto[] = await response.json();
-      setProductos(data);
-    } catch (error) {
-      console.error("Error al cargar productos:", error);
-      alert("Error al cargar los productos");
-    }
+    fetch(`${API_URL}/productos`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setProductos(data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar productos:", error);
+        alert("Error al cargar los productos");
+      });
   };
 
   const loadVendedores = async () => {
