@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { API_URL } from '../../constants/index.ts';
 
 interface Categoria {
   ID_Categoria?: number;
@@ -36,7 +37,7 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
     }
 
     try {
-      const response = await fetch("http://localhost:3000/categorias", {
+      const response = await fetch(`${API_URL}/categorias`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

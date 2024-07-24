@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Alert, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { API_URL } from '../../constants/index.ts';
+
 interface Producto {
-  ID_Producto?: number; // Puede ser opcional si no se tiene ID al agregar
+  ID_Producto?: number; 
   Nombre: string;
   ID_Categoria: number;
   Stock: number;
@@ -41,13 +43,17 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   }, []);
 
   const loadCategorias = () => {
-    fetch("http://localhost:3000/categorias")
+    fetch(`${API_URL}/categorias`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => response.json())
-      .then((data: Categoria[]) => {
-        setCategorias(data);
-      })
+      .then((data: Categoria[]) => setCategorias(data))
       .catch((error) => {
-        console.error("Error al cargar categorías:", error);
+        console.error("Error al cargar las categorias:", error);
         alert("Error al cargar las categorías");
       });
   };
@@ -68,10 +74,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     }
 
     try {
-      const response = await fetch("http://localhost:3000/productos", {
+      const response = await fetch(`${API_URL}/productos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify(newProduct),
       });

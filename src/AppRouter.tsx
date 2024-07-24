@@ -18,7 +18,7 @@ const AppRouter = () => {
 
  
   const isProtectedRoute = location.pathname !== '/' && location.pathname !== '/login';//uso de operador ternario 
-  //para resolver el problema del navbar en el login 
+  //por el problema del navbar en el login
 
   return (
     <>

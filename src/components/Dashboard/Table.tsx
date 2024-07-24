@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Modal, Button, Form, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Style/Dashboard.css";
@@ -32,6 +32,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   const [selectedProduct, setSelectedProduct] = useState<Producto | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [deleteSuccess, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     loadProducts();
@@ -67,7 +68,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       .then((response) => response.json())
       .then((data: Categoria[]) => setCategorias(data))
       .catch((error) => {
-        console.error("Error al cargar categorías:", error);
+        console.error("Error al cargar las categorias:", error);
         alert("Error al cargar las categorías");
       });
   };
@@ -75,27 +76,37 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   const saveChanges = () => {
     if (selectedProduct) {
       if (window.confirm("¿Quieres actualizar este producto?")) {
-        fetch(`${API_URL}/productos/${selectedProduct.ID_Producto}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(selectedProduct),
-        })
-          .then((response) => {
-            if (!response.ok)
-              throw new Error("Error al actualizar el producto");
-            return response.json();
+   
+        if (
+          selectedProduct.Nombre &&
+          selectedProduct.Precio >= 0 &&
+          selectedProduct.Stock >= 0
+        ) {
+          fetch(`${API_URL}/productos/${selectedProduct.ID_Producto}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(selectedProduct),
           })
-          .then(() => {
-            loadProducts();
-            setShowModal(false);
-            setSelectedProduct(null);
-          })
-          .catch((error) => {
-            console.error("Error al guardar cambios:", error);
-            alert("Error al guardar los cambios del producto");
-          });
+            .then((response) => {
+              if (!response.ok)
+                throw new Error("Error al actualizar el producto");
+              return response.json();
+            })
+            .then(() => {
+              loadProducts();
+              setShowModal(false);
+              setSelectedProduct(null);
+            })
+            .catch((error) => {
+              console.error("Error al guardar cambios:", error);
+              alert("Error al guardar los cambios del producto");
+            });
+        } else {
+          alert("Datos del producto no válidos.");
+        }
       }
     }
   };
@@ -109,14 +120,21 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
     if (window.confirm("¿Estás seguro de eliminar este producto?")) {
       fetch(`${API_URL}/productos/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
       })
         .then((response) => {
-          if (!response.ok) throw new Error("Error al eliminar el producto");
-          return response.text();
-        })
-        .then((result) => {
-          alert(result);
-          loadProducts();
+          if (response.ok) {
+            loadProducts();
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+              setShowSuccessMessage(false);
+            }, 3000);
+          } else {
+            throw new Error("Error al eliminar el producto");
+          }
         })
         .catch((error) => {
           console.error("Error al eliminar el producto:", error);
@@ -187,7 +205,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
             overlay={<Tooltip id={`delete-tooltip-${row.ID_Producto}`}>Eliminar Producto</Tooltip>}
           >
             <Button
-              className="btn btn-sm  btn-delete ms-2"
+              className="btn btn-sm btn-delete ms-2"
               onClick={() => handleDeleteClick(row.ID_Producto)}
             >
               <MdDelete className="btn-modal-custom"/>
@@ -200,16 +218,32 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
 
   return (
     <>
+      {/* Mensaje de éxito por eliminación de producto */}
+      {deleteSuccess && (
+        <Alert
+          variant="success"
+          onClose={() => setShowSuccessMessage(false)}
+          dismissible
+          className="position-fixed top-0 start-50 translate-middle-x mt-2"
+          style={{ zIndex: 1060, left: "50%", transform: "translateX(-50%)" }}
+        >
+          Producto eliminado con éxito.
+        </Alert>
+      )}
+
       <div className="contendorMain__titles">
         <h4>Administración de Productos</h4>
       </div>
+      
       <AddProductModal onProductAdded={() => loadProducts()} />
+
       <DataTable
         columns={columns}
         data={filteredProducts}
         pagination
         highlightOnHover
       />
+
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Editar Producto</Modal.Title>
@@ -217,7 +251,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
         <Modal.Body>
           {selectedProduct && (
             <Form>
-              <Form.Group controlId="formProductName">
+              <Form.Group controlId="edit-product-nombre">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
@@ -230,7 +264,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
-              <Form.Group controlId="formProductStock">
+              <Form.Group controlId="edit-producto-stock">
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
                   type="number"
@@ -243,7 +277,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
-              <Form.Group controlId="formProductPrice">
+              <Form.Group controlId="edit-producto-precio">
                 <Form.Label>Precio</Form.Label>
                 <Form.Control
                   type="number"
@@ -256,7 +290,33 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
-              <Form.Group controlId="formProductCategoria">
+              <Form.Group controlId="edit-product-descripcion">
+                <Form.Label>Descripción</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={selectedProduct.Descripcion || ''}
+                  onChange={(e) =>
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      Descripcion: e.target.value,
+                    })
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="edit-product-imagenurl">
+                <Form.Label>Url Imagen</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={selectedProduct.ImagenUrl}
+                  onChange={(e) =>
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      ImagenUrl: e.target.value,
+                    })
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="edit-product-categoria">
                 <Form.Label>Categoría</Form.Label>
                 <Form.Control
                   as="select"
@@ -269,28 +329,11 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 >
                   {categorias.map((categoria) => (
-                    <option
-                      key={categoria.ID_Categoria}
-                      value={categoria.ID_Categoria}
-                    >
+                    <option key={categoria.ID_Categoria} value={categoria.ID_Categoria}>
                       {categoria.Nombre}
                     </option>
                   ))}
                 </Form.Control>
-              </Form.Group>
-              <Form.Group controlId="formProductDescripcion">
-                <Form.Label>Descripción</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={selectedProduct.Descripcion || ""}
-                  onChange={(e) =>
-                    setSelectedProduct({
-                      ...selectedProduct,
-                      Descripcion: e.target.value,
-                    })
-                  }
-                />
               </Form.Group>
             </Form>
           )}
@@ -300,7 +343,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
             Cerrar
           </Button>
           <Button variant="primary" onClick={saveChanges}>
-            Guardar cambios
+            Guardar Cambios
           </Button>
         </Modal.Footer>
       </Modal>

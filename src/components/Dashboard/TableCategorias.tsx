@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import { Modal, Button, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
 import AddCategoriaModal from "./AddCategoriaModal";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import { API_URL } from '../../constants/index.ts';
 
 interface Categorias {
   ID_Categoria: number;
@@ -24,16 +25,22 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
     loadCategorias();
   }, []);
 
-  const loadCategorias = () => {
-    fetch("http://localhost:3000/categorias")
-      .then((response) => response.json())
-      .then((categorias: Categorias[]) => {
-        setCategorias(categorias);
-      })
-      .catch((error) => {
-        console.error("Error al cargar categorías:", error);
-        alert("Error al cargar las categorías");
+  const loadCategorias = async () => {
+    try {
+      const response = await fetch(`${API_URL}/categorias`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
       });
+      if (!response.ok) throw new Error('Error al cargar las categorias');
+      const data = await response.json();
+      setCategorias(data);
+    } catch (error) {
+      console.error(error);
+      alert("Error al cargar las categorias");
+    }
   };
 
   const handleEditClick = (categoria: Categorias) => {
@@ -41,55 +48,42 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
     setShowModal(true);
   };
 
-  const handleDeleteClick = (id: number) => {
+  const handleDeleteClick = async (id: number) => {
     if (window.confirm("¿Estás seguro de eliminar esta categoría?")) {
-      fetch(`http://localhost:3000/categorias/${id}`, {
-        method: "DELETE",
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Error al eliminar la categoría");
-          }
-          return response.text();
-        })
-        .then((result) => {
-          alert(result);
-          loadCategorias();
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("Error al eliminar la categoría");
+      try {
+        const response = await fetch(`${API_URL}/categorias/${id}`, {
+          method: "DELETE",
         });
+        if (!response.ok) throw new Error('Error al eliminar la categoría');
+        const result = await response.text();
+        alert(result);
+        loadCategorias();
+      } catch (error) {
+        console.error(error);
+        alert("Error al eliminar la categoría");
+      }
     }
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (selectedCategoria) {
-      fetch(
-        `http://localhost:3000/categorias/${selectedCategoria.ID_Categoria}`,
-        {
+      try {
+        const response = await fetch(`${API_URL}/categorias/${selectedCategoria.ID_Categoria}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(selectedCategoria),
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Error al guardar los cambios");
-          }
-          return response.json();
-        })
-        .then(() => {
-          alert("Cambios guardados con éxito");
-          setShowModal(false);
-          loadCategorias();
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("Error al guardar los cambios");
         });
+        if (!response.ok) throw new Error('Error al guardar los cambios');
+        await response.json();
+        alert("Cambios guardados con éxito");
+        setShowModal(false);
+        loadCategorias();
+      } catch (error) {
+        console.error(error);
+        alert("Error al guardar los cambios");
+      }
     }
   };
 
