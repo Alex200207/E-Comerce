@@ -7,6 +7,7 @@ import Table from "@components/Dashboard/Table";
 import TableVendedores from "@components/Dashboard/TableVendedores";
 import Navbar from "@components/Dashboard/Navbar";
 import { useState } from "react";
+import IndexPage from "./layout/IndexPage";
 
 const AppRouter = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,7 +29,7 @@ const AppRouter = () => {
         <Route path="/login" element={<Login />} />
 
         <Route element={<PrivateRoutes />}>
-          <Route path="/home" element={<p>Inicio</p>} />
+          <Route path="/home" element={<IndexPage/>} />
           <Route path="/adminPage" element={<AdminPage />} />
           <Route path="/productos" element={<Table searchTerm={searchTerm} />} />
           <Route path="/categorias" element={<TableCategorias searchTerm={searchTerm} />} />
