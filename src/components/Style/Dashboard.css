@@ -1,3 +1,6 @@
+/* En tu archivo CSS, por ejemplo en Dashboard.css */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css');
+
 * {
   padding: 0;
   margin: 0;
@@ -41,7 +44,16 @@
   background-color: #000000 !important;
   height: 50px;
 }
-
+.item-drop{
+align-self: center;
+}
+.user-name{
+  text-align: center;
+}
+.header-admin .dropdown-toggle i {
+  font-size: 30px;
+  color: #000000 !important;
+}
 .list-group-item {
   border: none;
   padding: 20px 30px;
@@ -119,11 +131,13 @@ footer {
 .togeter {
   width: 100%;
   background-color: black;
-  display: flex; /* Para utilizar flexbox y alinear elementos */
-  justify-content: center; /* Para espaciar los elementos a lo largo del contenedor */
-  align-items: center; /* Para alinear verticalmente los elementos */
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
 }
 .header-admin {
+  display:flex;
+  justify-content: space-between;
   background-color: #ffffff;
   height: 70px;
   position: fixed;
@@ -135,8 +149,9 @@ footer {
   transition: ease-out 0.3s;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049);
 }
-.search-bar-wrapper {
-  width: 60%;
+.search-bar {
+  margin-left: 50px;
+  width: 70%!important;
 }
 .bar-custom {
   border-radius: 50px;
