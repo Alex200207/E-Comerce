@@ -20,6 +20,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
   const [selectedCategoria, setSelectedCategoria] = useState<Categorias | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categorias[]>([]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     loadCategorias();
@@ -34,12 +35,12 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      if (!response.ok) throw new Error('Error al cargar las categorias');
+      if (!response.ok) throw new Error('Error al cargar las categorías');
       const data = await response.json();
       setCategorias(data);
     } catch (error) {
       console.error(error);
-      alert("Error al cargar las categorias");
+      alert("Error al cargar las categorías");
     }
   };
 
@@ -48,47 +49,67 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
     setShowModal(true);
   };
 
-  const handleDeleteClick = async (id: number) => {
+  const handleDeleteClick = (id: number) => {
     if (window.confirm("¿Estás seguro de eliminar esta categoría?")) {
-      try {
-        const response = await fetch(`${API_URL}/categorias/${id}`, {
-          method: "DELETE",
+      fetch(`${API_URL}/categorias/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            loadCategorias();
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+              setShowSuccessMessage(false);
+            }, 3000);
+          } else {
+            throw new Error("Error al eliminar la categoría");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al eliminar la categoría:", error);
+          alert("Error al eliminar la categoría");
         });
-        if (!response.ok) throw new Error('Error al eliminar la categoría');
-        const result = await response.text();
-        alert(result);
-        loadCategorias();
-      } catch (error) {
-        console.error(error);
-        alert("Error al eliminar la categoría");
-      }
     }
   };
 
-  const handleSaveChanges = async () => {
+  const saveChanges = () => {
     if (selectedCategoria) {
-      try {
-        const response = await fetch(`${API_URL}/categorias/${selectedCategoria.ID_Categoria}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(selectedCategoria),
-        });
-        if (!response.ok) throw new Error('Error al guardar los cambios');
-        await response.json();
-        alert("Cambios guardados con éxito");
-        setShowModal(false);
-        loadCategorias();
-      } catch (error) {
-        console.error(error);
-        alert("Error al guardar los cambios");
+      if (window.confirm("¿Quieres actualizar esta categoría?")) {
+        if (selectedCategoria.Nombre) {
+          fetch(`${API_URL}/categorias/${selectedCategoria.ID_Categoria}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(selectedCategoria),
+          })
+            .then((response) => {
+              if (!response.ok) throw new Error("Error al actualizar la categoría");
+              return response.json();
+            })
+            .then(() => {
+              loadCategorias();
+              setShowModal(false);
+              setSelectedCategoria(null);
+            })
+            .catch((error) => {
+              console.error("Error al guardar cambios:", error);
+              alert("Error al guardar los cambios de la categoría");
+            });
+        } else {
+          alert("Datos de la categoría no válidos.");
+        }
       }
     }
   };
 
   const handleCategoriaAdded = () => {
-    loadCategorias(); // Recargar categorías después de agregar una
+    loadCategorias(); 
   };
 
   const columns = [
@@ -138,6 +159,11 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
       <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
 
       <div className="main-contenedor">
+        {showSuccessMessage && (
+          <div className="alert alert-success" role="alert">
+            Categoría eliminada con éxito.
+          </div>
+        )}
         <DataTable
           columns={columns}
           data={categorias.filter((categoria) =>
@@ -152,27 +178,29 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
             <Modal.Title>Editar Categoría</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>
-              <Form.Group controlId="edit-categoria-nombre">
-                <Form.Label>Nombre</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={selectedCategoria?.Nombre || ""}
-                  onChange={(e) =>
-                    setSelectedCategoria((prev) => ({
-                      ...prev!,
-                      Nombre: e.target.value,
-                    }))
-                  }
-                />
-              </Form.Group>
-            </Form>
+            {selectedCategoria && (
+              <Form>
+                <Form.Group controlId="edit-categoria-nombre">
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={selectedCategoria.Nombre}
+                    onChange={(e) =>
+                      setSelectedCategoria({
+                        ...selectedCategoria,
+                        Nombre: e.target.value,
+                      })
+                    }
+                  />
+                </Form.Group>       
+              </Form>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Cerrar
             </Button>
-            <Button variant="primary" onClick={handleSaveChanges}>
+            <Button variant="primary" onClick={saveChanges}>
               Guardar Cambios
             </Button>
           </Modal.Footer>

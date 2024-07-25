@@ -32,7 +32,7 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
   };
 
   const handleSaveChanges = async () => {
-    if (!window.confirm("¿Quieres agregar este categoria?")) {
+    if (!window.confirm("¿Quieres agregar esta categoria?")) {
       return;
     }
 
@@ -41,18 +41,18 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify(newCategoria),
       });
 
       if (response.ok) {
         setShowSuccessMessage(true);
-        console.log("Categoria agregada exitosamente:", newCategoria);
+        console.log("categoria agregada exitosamente:", newCategoria);
         setNewCategoria({
-          Nombre: "",
+          Nombre: ""
         });
 
-        // Cierra el modal después de agregar el categoria
         setShowModal(false);
 
         // Recargar categorias en la tabla (llamando a la función pasada por props)
@@ -66,9 +66,11 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
         }, 3000);
       } else {
         console.error("Error al agregar categoria:", response.statusText);
+        // aqui se puede manejar algun error de peticion 
       }
     } catch (error) {
       console.error("Error al realizar la petición:", error);
+      // Aqui maneja cualquier error de red o otros errores inesperados
     }
   };
 

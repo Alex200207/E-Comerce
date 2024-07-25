@@ -2,8 +2,7 @@ import AuthLayout from "../../layout/AuthLayout.tsx";
 import React, { useState } from "react";
 import { useAuth } from "../../utils/AuthProvider.tsx";
 import { useNavigate } from "react-router-dom";
-import '../Style/login.css'
-
+import '../Style/login.css';
 
 const Login = () => {
   const { login } = useAuth();
@@ -14,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState(""); 
 
   const validateEmail = () => {
     if (!email) {
@@ -38,17 +38,24 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setGeneralError(""); // Reinicia el mensaje de error general al intentar enviar el formulario
+
     if (validateEmail() && validatePassword()) {
-      login({ email, password }).then(() => navigate("/home"));
+      try {
+        await login({ email, password });
+        navigate("/home");
+      } catch (error) {
+        setGeneralError("Correo electrónico o contraseña incorrectos"); 
+      }
     }
   };
 
   return (
     <AuthLayout>
       <div
-        className="d-flex align-items-center justify-content-center "
+        className="d-flex align-items-center justify-content-center"
         style={{ height: "100vh" }}
       >
         <div className="card-main col-xl-5 col-xxl-4 mx-auto overflow-hidden">
@@ -68,9 +75,13 @@ const Login = () => {
                   <div className="alert alert-danger">{passwordError}</div>
                 )}
 
-                <div className="form-body ">
+                {generalError && (
+                  <div className="alert alert-danger">{generalError}</div>
+                )}
+
+                <div className="form-body">
                   <form onSubmit={handleSubmit} className="row g-3">
-                    <div className="col-12 form-body__div" >
+                    <div className="col-12 form-body__div">
                       <label htmlFor="inputEmailAddress" className="form-body__label">
                         Email
                       </label>
@@ -83,7 +94,7 @@ const Login = () => {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
-                    <div className="col-12 ">
+                    <div className="col-12">
                       <label
                         htmlFor="inputChoosePassword"
                         className="form-body__label"
@@ -93,7 +104,7 @@ const Login = () => {
                       <div className="form-body__div">
                         <input
                           type="password"
-                          className="form-controler "
+                          className="form-controler"
                           id="inputChoosePassword"
                           value={password}
                           onBlur={validatePassword}
@@ -103,7 +114,7 @@ const Login = () => {
                       </div>
                     </div>
 
-                    <div className=" contain-buttons ">
+                    <div className="contain-buttons">
                       <div className="contain-button__div">
                         <button type="submit" className="btn-log">
                           Acceder
