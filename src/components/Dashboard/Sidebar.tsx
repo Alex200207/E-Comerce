@@ -7,7 +7,7 @@ import { BiSolidCategory } from "react-icons/bi";
 import { FaPerson } from "react-icons/fa6";
 import { IoPersonSharp } from "react-icons/io5";
 import { FaPersonBreastfeeding } from "react-icons/fa6";
-import { CiLogout } from "react-icons/ci";
+
 
 const Sidebar: React.FC = () => {
   return (
@@ -64,14 +64,7 @@ const Sidebar: React.FC = () => {
               <FaPersonBreastfeeding /> Proveedores
             </Link>
           </li>
-          <li>
-            <Link
-              to="/salir"
-              className="list-group-item list-group-item-action "
-            >
-              <CiLogout /> Salir
-            </Link>
-          </li>
+        
         </ul>
       </div>
     </>

@@ -30,9 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange }) => {
     };
   return (
     
-    <nav>
-      
-      <div className="header-admin">
+    <nav  className="header-admin">
         <SearchBar searchTerm={searchTerm} onSearchChange={onSearchChange} />
         
         <Dropdown className="item-drop">
@@ -45,14 +43,14 @@ const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange }) => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu align="end">
-          <h5 className="user-name">Hola, {user?.name}</h5>
+            <h5 className="user-name">Hola, {user?.name}</h5>
+            <Dropdown.Divider />
             <Dropdown.Item href="#/profile">Perfil</Dropdown.Item>
             <Dropdown.Item href="#/settings">Configuraciones</Dropdown.Item>
-            <Dropdown.Divider />
+            
             <Dropdown.Item href="/" onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-      </div>
     </nav>
   );
 };

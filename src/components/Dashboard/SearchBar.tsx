@@ -11,7 +11,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onSearchChange,
 }) => {
   return (
-    <div className="search-bar mb-3">
+    <div className="search-bar ">
       <input
         type="text"
         id="search-product"

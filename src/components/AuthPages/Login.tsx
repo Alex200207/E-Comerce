@@ -2,7 +2,7 @@ import AuthLayout from "../../layout/AuthLayout.tsx";
 import React, { useState } from "react";
 import { useAuth } from "../../utils/AuthProvider.tsx";
 import { useNavigate } from "react-router-dom";
-import '../Style/login.css';
+import "../Style/login.css";
 
 const Login = () => {
   const { login } = useAuth();
@@ -13,7 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [generalError, setGeneralError] = useState(""); 
+  const [generalError, setGeneralError] = useState("");
 
   const validateEmail = () => {
     if (!email) {
@@ -47,7 +47,7 @@ const Login = () => {
         await login({ email, password });
         navigate("/home");
       } catch (error) {
-        setGeneralError("Correo electrónico o contraseña incorrectos"); 
+        setGeneralError("Correo electrónico o contraseña incorrectos");
       }
     }
   };
@@ -58,12 +58,13 @@ const Login = () => {
         className="d-flex align-items-center justify-content-center"
         style={{ height: "100vh" }}
       >
+        <div className="BackgroundBanner"></div>
         <div className="card-main col-xl-5 col-xxl-4 mx-auto overflow-hidden">
           <div className="card-main__contendor">
             <div className="col-lg-6 d-flex align-items-center">
               <div className="card-body">
                 <div className="titles">
-                  <h4 className="fw-bold">Bienvenido</h4>
+                  <h4 className="fw-bold">Bienvenido a AlexStore</h4>
                   <p className="mb-0">Ingrese tus datos</p>
                 </div>
 
@@ -82,25 +83,16 @@ const Login = () => {
                 <div className="form-body">
                   <form onSubmit={handleSubmit} className="row g-3">
                     <div className="col-12 form-body__div">
-                      <label htmlFor="inputEmailAddress" className="form-body__label">
-                        Email
-                      </label>
                       <input
                         type="email"
                         className="form-controler"
                         id="inputEmailAddress"
-                        placeholder="user@example.com"
+                        placeholder="Username"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     <div className="col-12">
-                      <label
-                        htmlFor="inputChoosePassword"
-                        className="form-body__label"
-                      >
-                        Clave
-                      </label>
                       <div className="form-body__div">
                         <input
                           type="password"
@@ -112,6 +104,14 @@ const Login = () => {
                           placeholder="Enter Password"
                         />
                       </div>
+                    </div>
+                    <div className="remember-forgot">
+                      <label>
+                        <input type="checkbox" className="remember__checkbox"/> Recordarme
+                      </label>
+                      <label>
+                        <a href="#">Haz olvidado tu cuenta?</a>
+                      </label>
                     </div>
 
                     <div className="contain-buttons">

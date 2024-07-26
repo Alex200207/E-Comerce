@@ -1,55 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
 .card-main {
-    box-shadow: 2px 1px  5px rgba(0, 0, 0, 0.2);
-    border-radius: 5%;
-    width: 420px;
-    padding: 30px 30px ;
-    display: flex;
+  border: 1px solid #ffffff;
+  z-index: 1000;
+  background-color: transparent;
+  border-radius: 5%;
+  width: 420px;
+  padding: 30px 30px;
+  display: flex;
+  backdrop-filter: blur(5px);
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+  
 }
-.card-main__contendor{
-    width: 100% ;
+.card-main__contendor {
+  width: 100%;
 }
-.form-body__div{
-    display: flex;
-    flex-direction: column;
+.form-body__div {
+  display: flex;
+  flex-direction: column;
 }
-
 
 .contain-buttons {
-    padding: 0 !important;
-
+  padding: 0 !important;
 }
-.contain-button__div{
-    display: flex;
-    justify-content: center;
-    width: 100%;
+.contain-button__div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
-.titles{
-    text-align: center;
-    padding-bottom: 25px;
+.titles {
+  font-size: 25;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 25px;
 }
-.form-body__label{
-    margin-bottom: 20px;
-}
-
-.btn-log{
-    color: #fff;
-    border: none;
-    background-color: #1951ca;
-    width: 50%;
-    margin: 20px;
-    padding: 10px 30px;
-    align-items: center;
-    border-radius: 50px;
-
-}
-.form-controler{
-    padding-left:20px ;
-    border: 1px solid #333334;
-    height: 50px;
-    margin-bottom: 20px;
-    border-radius: 50px;
+.form-body__label {
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #090909;
 }
 
-  
+.btn-log {
+  color: #faf3f3;
+  border: none;
+  background-color: #080808;
+  width: 100%;
+  margin: 20px;
+  padding: 10px 30px;
+  align-items: center;
+  border-radius: 50px;
+}
+.form-controler {
+  background: transparent;
+  padding-left: 20px;
+  outline: none;
+  height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid #fff;
+  border-radius: 50px;
+  color: #faf3f3;
+}
 
+.form-controler::placeholder {
+  color: #fff;
+}
+
+.BackgroundBanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -100;
+  background: url("../../assets/images/bannerlog2.png") no-repeat;
+  background-size: cover;
+}
+
+.remember-forgot {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0 0 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.remember-forgot a {
+  text-decoration: none;
+  color: #faf3f3;
+}
+.remember-forgot a:hover{
+  text-decoration: underline;
+}
