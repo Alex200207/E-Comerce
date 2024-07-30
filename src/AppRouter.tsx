@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import PrivateRoutes from "./utils/ProtectedRoutes";
 import Login from "./components/AuthPages/Login";
@@ -6,7 +7,6 @@ import TableCategorias from "@components/Dashboard/TableCategorias";
 import Table from "@components/Dashboard/Table";
 import TableVendedores from "@components/Dashboard/TableVendedores";
 import Navbar from "@components/Dashboard/Navbar";
-import { useState } from "react";
 import IndexPage from "./layout/IndexPage";
 
 const AppRouter = () => {
@@ -17,20 +17,24 @@ const AppRouter = () => {
     setSearchTerm(e.target.value);
   };
 
- 
-  const isProtectedRoute = location.pathname !== '/' && location.pathname !== '/login';//uso de operador ternario 
-  //por el problema del navbar en el login
+  const isProtectedRoute = location.pathname !== '/' && location.pathname !== '/login';
 
   return (
     <>
-      {isProtectedRoute && <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />}
+      {isProtectedRoute && (
+        <Navbar
+          searchTerm={searchTerm}
+          onSearchChange={handleSearchChange}
+          toggleSidebar={() => {}}
+        />
+      )}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
 
-        <Route element={<PrivateRoutes />}>
-          <Route path="/home" element={<IndexPage/>} />
-          <Route path="/adminPage" element={<AdminPage />} />
+        <Route element={<PrivateRoutes searchTerm={searchTerm} onSearchChange={handleSearchChange} />}>
+          <Route path="/home" element={<IndexPage />} />
+          <Route path="/adminPage" element={<AdminPage searchTerm={searchTerm} onSearchChange={handleSearchChange} />} />
           <Route path="/productos" element={<Table searchTerm={searchTerm} />} />
           <Route path="/categorias" element={<TableCategorias searchTerm={searchTerm} />} />
           <Route path="/clientes" element={<span>Clientes</span>} />

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
-import backgroundImage3 from '@images/banner-negro.png';
+import backgroundImage3 from '@images/bannerlog3.png';
 import backgroundImage2 from '@images/banner-rosa.png';
-import backgroundImage1 from '@images/banner-azul.png';
+import backgroundImage1 from '@images/bannerlog.png';
 
 interface HeaderProps {
   backgroundImage: string;
@@ -13,7 +13,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ backgroundImage, height }) => {
   const [index, setIndex] = useState(0);
   const images = [
-    { src: backgroundImage1, title: 'Bienvenido a AlexStore', description: 'Descubre nuestras mejores ofertas en productos.', textColor: '#000' },
+    { src: backgroundImage1, title: 'Bienvenido a AlexStore', description: 'Descubre nuestras mejores ofertas en productos.', textColor: '#fff' },
     { src: backgroundImage2, title: 'Ofertas exclusivas para ti', description: 'Descubre nuestros productos exclusivos.', textColor: '#000000' },
     { src: backgroundImage3, title: 'Los mejores productos', description: 'Las mejores ofertas.', textColor: '#fff' }, 
   ];

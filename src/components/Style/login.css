@@ -58,6 +58,9 @@
   align-items: center;
   border-radius: 50px;
 }
+.btn-log:hover{
+  background-color: #2b2b2b;
+}
 .form-controler {
   background: transparent;
   padding-left: 20px;

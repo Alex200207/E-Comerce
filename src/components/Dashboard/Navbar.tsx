@@ -13,11 +13,12 @@ interface UserDataToken extends JwtPayload {
   name: string;
 }
 interface NavbarProps {
+  toggleSidebar: () => void;
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange }) => {
+const Navbar: React.FC<NavbarProps> = ({ toggleSidebar,searchTerm, onSearchChange }) => {
 
     const { token } = useAuth();
 
@@ -31,6 +32,9 @@ const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange }) => {
   return (
     
     <nav  className="header-admin">
+      <button className="btn btn-link" onClick={toggleSidebar}>
+        <i className="bi bi-list"></i>
+      </button>
         <SearchBar searchTerm={searchTerm} onSearchChange={onSearchChange} />
         
         <Dropdown className="item-drop">
