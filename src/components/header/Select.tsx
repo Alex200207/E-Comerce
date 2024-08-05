@@ -1,26 +1,31 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { API_URL } from '../../constants';
 
-interface Categorias {
+interface Categoria {
+  ID: number;
   Nombre: string;
 }
 
 const Select: React.FC = () => {
-  const [categorias, setcategorias] = useState<Categorias[]>([]);
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
 
   useEffect(() => {
     loadCategorias();
   }, []);
 
   const loadCategorias = () => {
-    fetch("http://localhost:3000/categorias")
+    fetch(`${API_URL}/categorias`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => response.json())
-      .then((data: Categorias[]) => {
-        setcategorias(data);
-      })
+      .then((data: Categoria[]) => setCategorias(data))
       .catch((error) => {
-        console.error("Error al cargar Categorias:", error);
-        alert("Error al cargar los Categorias");
+        console.error("Error al cargar las categorias:", error);
+        alert("Error al cargar las categorías");
       });
   };
 
@@ -29,8 +34,10 @@ const Select: React.FC = () => {
       <option className="option__select" value="0" selected>
         Todas las Categorias
       </option>
-      {categorias.map((categorias) => (
-        <option className="option__select">{categorias.Nombre}</option>
+      {categorias.map((categoria) => (
+        <option key={categoria.ID} className="option__select" value={categoria.ID}>
+          {categoria.Nombre}
+        </option>
       ))}
     </select>
   );
