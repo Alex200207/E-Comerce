@@ -14,26 +14,26 @@ const Aside: React.FC<AsideProps> = ({ isOpen }) => {
   return (
     <>
       {isOpen && (
-        <div className=" sidebar">
+        <div className="sidebar">
           <ul className="nav nav-pills flex-column mb-auto">
             <li className="nav-item">
-              <Link to={"/Inicio"} className="nav-link " aria-current="page">
-              <IoMdHome />Inicio
+              <Link to="/productPage/inicio" className="nav-link" aria-current="page">
+                <IoMdHome /> Inicio
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/Cuenta"} className="nav-link">
-              <MdAccountCircle />Cuenta 
+              <Link to="/productPage/cuenta" className="nav-link">
+                <MdAccountCircle /> Cuenta
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/productos"} className="nav-link">
-              <MdProductionQuantityLimits />Productos
+              <Link to="/productPage/productos" className="nav-link">
+                <MdProductionQuantityLimits /> Productos
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/categorias"} className="nav-link">
-              <BiSolidCategory />Categorias
+              <Link to="/productPage/categorias" className="nav-link">
+                <BiSolidCategory /> Categorias
               </Link>
             </li>
           </ul>

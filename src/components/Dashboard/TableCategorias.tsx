@@ -156,9 +156,9 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
 
   return (
     <>
-      <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
-
       <div className="main-contenedor">
+      <h4>Administración de Categorias</h4>
+      <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
         {showSuccessMessage && (
           <div className="alert alert-success" role="alert">
             Categoría eliminada con éxito.

@@ -6,29 +6,24 @@ import AdminPage from "./Pages/AdminPage";
 import TableCategorias from "@components/Dashboard/TableCategorias";
 import Table from "@components/Dashboard/Table";
 import TableVendedores from "@components/Dashboard/TableVendedores";
-import Navbar from "@components/Dashboard/Navbar";
 import IndexPage from "./layout/IndexPage";
+import ProductPage from "./Pages/ProductPage";
 
 const AppRouter = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const location = useLocation();
+
+ 
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const isProtectedRoute = location.pathname !== '/' && location.pathname !== '/login';
 
   return (
     <>
-      {isProtectedRoute && (
-        <Navbar
-          searchTerm={searchTerm}
-          onSearchChange={handleSearchChange}
-          toggleSidebar={() => {}}
-        />
-      )}
       <Routes>
+        {/* Public Routes */}
+        <Route path="/productPage/*" element={<ProductPage />} />
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
 

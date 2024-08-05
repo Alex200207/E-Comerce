@@ -30,7 +30,8 @@
     "react-medium-image-zoom": "^5.2.7",
     "react-router-dom": "^6.24.1",
     "react-tooltip": "^5.27.1",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.12",
+    "sweetalert2": "^11.12.4"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.30",

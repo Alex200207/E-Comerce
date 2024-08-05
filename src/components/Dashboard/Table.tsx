@@ -117,30 +117,46 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   };
 
   const handleDeleteClick = (id: number) => {
-    if (window.confirm("¿Estás seguro de eliminar este producto?")) {
-      fetch(`${API_URL}/productos/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-      })
-        .then((response) => {
-          if (response.ok) {
-            loadProducts();
-            setShowSuccessMessage(true);
-            setTimeout(() => {
-              setShowSuccessMessage(false);
-            }, 3000);
-          } else {
-            throw new Error("Error al eliminar el producto");
-          }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    Swal.fire({
+      title: " Estás seguro?",
+      text: "No podras revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Eliminarlo",
+      cancelButtonText: 'Cancelar'
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${API_URL}/productos/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
         })
-        .catch((error) => {
-          console.error("Error al eliminar el producto:", error);
-          alert("Error al eliminar el producto");
-        });
-    }
+          .then((response) => {
+            if (response.ok) {
+              loadProducts();
+              setShowSuccessMessage(true);
+              setTimeout(() => {
+                setShowSuccessMessage(false);
+              }, 3000);
+            } else {
+              throw new Error("Error al eliminar el producto");
+            }
+          })
+          .catch((error) => {
+            console.error("Error al eliminar el producto:", error);
+            alert("Error al eliminar el producto");
+          });
+      }
+      })
+    
   };
 
   const getNombreCategoria = (idCategoria: number): string => {
@@ -218,7 +234,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
 
   return (
     <>
-      {/* Mensaje de éxito por eliminación de producto */}
+      
       {deleteSuccess && (
         <Alert
           variant="success"

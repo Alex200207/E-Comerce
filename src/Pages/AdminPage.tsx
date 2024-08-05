@@ -30,8 +30,8 @@ const AdminPage: FC<AdminPageProps> = ({ searchTerm, onSearchChange, children })
             {children}
           </div>
         </main>
-        <footer>
-          <p>
+        <footer className="footer-admin">
+          <p className="footer-admin__p">
             <b>AlexStore</b> Todos los derechos reservados
           </p>
         </footer>

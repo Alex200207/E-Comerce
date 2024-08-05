@@ -164,6 +164,7 @@ const TableVendedores: React.FC<TableProps> = ({ searchTerm }) => {
   return (
     <>
       <div className="main-contenedor">
+      <h4>Administración de Vendedores</h4>
         <DataTable
           columns={columns}
           data={filteredVendedores}
