@@ -1,41 +1,64 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from '../../constants';
 
 interface Category {
-  id: number;
-  name: string;
-  description: string;
+  ID_Categoria: number;
+  Nombre: string;
 }
 
 const ProductCategorias: React.FC = () => {
   const [categorias, setCategorias] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadCategorias = () => {
+    fetch(`${API_URL}/categorias`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data: Category[]) => {
+        setCategorias(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error al cargar las categorias:", error);
+        setError("Error al cargar las categorías");
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
-    // Simulacion de las cargas de categorias las pondre dinamicas a futuro
-    const mockCategorias: Category[] = [
-      { id: 1, name: "Electrónica", description: "Descubre nuestra selección de productos electrónicos." },
-      { id: 2, name: "Ropa", description: "Explora las últimas tendencias en moda para hombres y mujeres." },
-      { id: 3, name: "Hogar", description: "Decora tu hogar con nuestros muebles y accesorios." },
-
-    ];
-
-    setCategorias(mockCategorias);
+    loadCategorias();
   }, []);
 
+  if (loading) {
+    return <p>Cargando categorías...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
-    
     <div className="container mt-4">
-      <p>Esta parte esta en desarrollo papu...</p>
       <h2 className="text-center mb-4">Categorías</h2>
       <div className="row">
         {categorias.map((categoria) => (
-          <div key={categoria.id} className="col-lg-4 col-md-6 mb-4">
+          <div key={categoria.ID_Categoria} className="col-lg-4 col-md-6 mb-4">
             <div className="card h-100 shadow-sm rounded-3 border-0">
               <div className="card-body">
-                <h5 className="card-title">{categoria.name}</h5>
-                <p className="card-text">{categoria.description}</p>
-                <Link to={`/categoria/${categoria.id}`} className="btn btn-outline-primary">
+                <h5 className="card-title">{categoria.Nombre}</h5>
+                <Link to={`/categoria/${categoria.ID_Categoria}`} className="btn btn-outline-primary">
                   Ver más
                 </Link>
               </div>
