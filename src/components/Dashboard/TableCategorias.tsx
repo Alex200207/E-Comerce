@@ -157,7 +157,8 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
   return (
     <>
       <div className="main-contenedor">
-      <h4>Administración de Categorias</h4>
+        <div className="contendorMain__titles"><h4>Administración de Categorias</h4></div>
+      
       <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
         {showSuccessMessage && (
           <div className="alert alert-success" role="alert">

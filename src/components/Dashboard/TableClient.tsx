@@ -153,6 +153,7 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
     return (
         <>
             <div className="main-contenedor">
+            <div className="contendorMain__titles"><h4>Administración de Clientes</h4></div>
                 <DataTable
                     columns={columns}
                     data={filteredClientess}

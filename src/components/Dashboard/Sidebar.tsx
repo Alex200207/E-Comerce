@@ -15,7 +15,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isVisible }) => {
   return (
     <div className={`bg-white sidebar-wrapper ${isVisible ? 'visible' : 'hidden'}`} id="sidebar-wrapper">
-      <div className="sidebar-wrapper__Log">AlexStore <hr /></div>
+      <div className="sidebar-wrapper__Log">AlexStore <hr style={{ border: '1px solid white' }}/></div >
       <ul className="list-group list-group-flush my-3">
         <li>
           <Link to="/home" className="list-group-item list-group-item-action">

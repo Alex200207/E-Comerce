@@ -17,6 +17,8 @@ const AdminPage: FC<AdminPageProps> = ({ searchTerm, onSearchChange, children })
   };
 
   return (
+    <>
+    <div className="overlay"></div>
     <div className={`d-flex ${isSidebarVisible ? "" : "toggled"}`}>
       <Sidebar isVisible={isSidebarVisible} />
       <div className="flex-grow-1">
@@ -37,6 +39,7 @@ const AdminPage: FC<AdminPageProps> = ({ searchTerm, onSearchChange, children })
         </footer>
       </div>
     </div>
+    </>
   );
 };
 
