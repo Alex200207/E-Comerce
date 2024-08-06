@@ -27,7 +27,7 @@ const IndexPage: React.FC = () => {
   useEffect(() => {
     const fetchProductCount = async () => {
       try {
-        const response = await fetch('http://localhost:3000/count/products');
+        const response = await fetch('http://localhost:3000/count');
         const data = await response.json();
         setTotalProducts(data.count);
       } catch (error) {
