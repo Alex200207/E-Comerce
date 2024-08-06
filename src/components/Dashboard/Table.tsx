@@ -253,12 +253,15 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       
       <AddProductModal onProductAdded={() => loadProducts()} />
 
-      <DataTable
-        columns={columns}
-        data={filteredProducts}
-        pagination
-        highlightOnHover
-      />
+      <div className="table-responsive">
+        <DataTable
+          columns={columns}
+          data={filteredProducts}
+          pagination
+          highlightOnHover
+          striped
+        />
+      </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -267,7 +270,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
         <Modal.Body>
           {selectedProduct && (
             <Form>
-              <Form.Group controlId="edit-product-nombre">
+              <Form.Group controlId="formNombre">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
@@ -280,20 +283,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
-              <Form.Group controlId="edit-producto-stock">
-                <Form.Label>Stock</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={selectedProduct.Stock}
-                  onChange={(e) =>
-                    setSelectedProduct({
-                      ...selectedProduct,
-                      Stock: +e.target.value,
-                    })
-                  }
-                />
-              </Form.Group>
-              <Form.Group controlId="edit-producto-precio">
+              <Form.Group controlId="formPrecio">
                 <Form.Label>Precio</Form.Label>
                 <Form.Control
                   type="number"
@@ -301,38 +291,25 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   onChange={(e) =>
                     setSelectedProduct({
                       ...selectedProduct,
-                      Precio: +e.target.value,
+                      Precio: parseFloat(e.target.value),
                     })
                   }
                 />
               </Form.Group>
-              <Form.Group controlId="edit-product-descripcion">
-                <Form.Label>Descripción</Form.Label>
+              <Form.Group controlId="formStock">
+                <Form.Label>Stock</Form.Label>
                 <Form.Control
-                  type="text"
-                  value={selectedProduct.Descripcion || ''}
+                  type="number"
+                  value={selectedProduct.Stock}
                   onChange={(e) =>
                     setSelectedProduct({
                       ...selectedProduct,
-                      Descripcion: e.target.value,
+                      Stock: parseInt(e.target.value),
                     })
                   }
                 />
               </Form.Group>
-              <Form.Group controlId="edit-product-imagenurl">
-                <Form.Label>Url Imagen</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={selectedProduct.ImagenUrl}
-                  onChange={(e) =>
-                    setSelectedProduct({
-                      ...selectedProduct,
-                      ImagenUrl: e.target.value,
-                    })
-                  }
-                />
-              </Form.Group>
-              <Form.Group controlId="edit-product-categoria">
+              <Form.Group controlId="formCategoria">
                 <Form.Label>Categoría</Form.Label>
                 <Form.Control
                   as="select"
@@ -340,12 +317,16 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   onChange={(e) =>
                     setSelectedProduct({
                       ...selectedProduct,
-                      ID_Categoria: +e.target.value,
+                      ID_Categoria: parseInt(e.target.value),
                     })
                   }
                 >
+                  <option value="">Seleccionar categoría</option>
                   {categorias.map((categoria) => (
-                    <option key={categoria.ID_Categoria} value={categoria.ID_Categoria}>
+                    <option
+                      key={categoria.ID_Categoria}
+                      value={categoria.ID_Categoria}
+                    >
                       {categoria.Nombre}
                     </option>
                   ))}
@@ -356,7 +337,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cerrar
+            Cancelar
           </Button>
           <Button variant="primary" onClick={saveChanges}>
             Guardar Cambios

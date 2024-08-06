@@ -165,6 +165,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
             Categoría eliminada con éxito.
           </div>
         )}
+        <div className="table-responsive">
         <DataTable
           columns={columns}
           data={categorias.filter((categoria) =>
@@ -173,7 +174,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
           pagination
           highlightOnHover
           striped
-        />
+        /></div>
         <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>Editar Categoría</Modal.Title>

@@ -7,15 +7,7 @@
   
 }
 .overlay {
-  background: linear-gradient(
-    to bottom,
-    #000000, 
-    #151d1f, 
-    #282626, 
-    #126262, 
-    #1cc2c2, 
-    #3a5b68 
-  );
+  background: #fff9f9;
   height: 100vh;
   width: 100%;
   position: fixed;
@@ -106,11 +98,11 @@
   text-align: center;
 }
 .contendorMain__titles{
-  color: #ffffff;
+  color: #080808;
 }
 
 .icon-modal-add {
-  color: #ffffff;
+  color: #060606;
   border: none;
   width: 30px;
   height: 30px;
@@ -152,7 +144,7 @@
   z-index: 5;
 }
 .footer-admin__p {
-  color: rgb(255, 255, 255);
+  color: rgb(22, 21, 21);
 }
 
 .togeter {
@@ -264,6 +256,13 @@
 }
 .item-menu{
   margin-bottom: 10px ;
+}
+.table-responsive {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
 }
 
 

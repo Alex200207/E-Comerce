@@ -165,14 +165,14 @@ const TableVendedores: React.FC<TableProps> = ({ searchTerm }) => {
     <>
       <div className="main-contenedor">
         <div className="contendorMain__titles"><h4>Administración de Vendedores</h4></div>
-      
+        <div className="table-responsive">
         <DataTable
           columns={columns}
           data={filteredVendedores}
           pagination
           highlightOnHover
           striped
-        />
+        /></div>
 
         {/* Modal para mostrar productos */}
         <Modal show={showProductosModal} onHide={handleCloseProductosModal} size="xl">

@@ -1,69 +1,146 @@
-import { useEffect, useState } from 'react';
-import { API_URL } from '../constants/index.ts';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Pie, Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { FaBox, FaTags, FaShoppingCart, FaDollarSign, FaUsers, FaMoneyBillWave } from 'react-icons/fa';
 
-const IndexPage = () => {
-  const [productCount, setProductCount] = useState<number | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+ChartJS.register(ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+
+interface SummaryData {
+  totalProducts: number;
+  totalCategories: number;
+  totalOrders: number;
+  totalSales: number;
+  totalCustomers: number;
+  totalRevenue: number;
+}
+
+const IndexPage: React.FC = () => {
+  const [summaryData, setSummaryData] = useState<SummaryData>({
+    totalProducts: 0,
+    totalCategories: 0,
+    totalOrders: 0,
+    totalSales: 0,
+    totalCustomers: 0,
+    totalRevenue: 0,
+  });
 
   useEffect(() => {
-    const fetchProductCount = async () => {
-      try {
-        const response = await fetch(`${API_URL}/productos/count`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, 
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setProductCount(data.count);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error al obtener la cantidad de productos:', error);
-        setError('No se pudo obtener la cantidad de productos');
-        setLoading(false);
-      }
+    // debo usar fetch con mi api
+    // ejemplo de muestra
+    const fetchData = async () => {
+      const data = {
+        totalProducts: 120,
+        totalCategories: 10,
+        totalOrders: 300,
+        totalSales: 15000,
+        totalCustomers: 200,
+        totalRevenue: 50000,
+      };
+      setSummaryData(data);
     };
-
-    fetchProductCount();
+    fetchData();
   }, []);
 
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
+  const pieData = {
+    labels: ['Productos', 'Categorías', 'Pedidos'],
+    datasets: [
+      {
+        data: [summaryData.totalProducts, summaryData.totalCategories, summaryData.totalOrders],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+      },
+    ],
+  };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  const barData = {
+    labels: ['Ventas'],
+    datasets: [
+      {
+        label: 'Total Ventas',
+        data: [summaryData.totalSales],
+        backgroundColor: ['#4BC0C0'],
+        hoverBackgroundColor: ['#4BC0C0'],
+      },
+    ],
+  };
 
   return (
-    <div className="container mt-4">
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card rounded-4">
-            <div className="card-body">
-              <div className="d-flex align-items-center justify-content-around flex-wrap gap-4 p-4">
-                <div className="d-flex flex-column align-items-center justify-content-center gap-2">
-                  <a
-                    href="#"
-                    className="mb-2 wh-48 bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center">
-                    <i className="material-icons-outlined">shopping_cart</i>
-                  </a>
-                  <h3 className="mb-0">{productCount !== null ? productCount : 'Cargando...'}</h3>
-                  <p className="mb-0">Productos</p>
-                </div>
-                {/*despues agrego mas*/}
+    <Container className="mt-5">
+      <Row>
+        <Col md={3}>
+          <Card className="mb-4 text-center">
+            <Card.Body>
+              <FaBox size={30} className="mb-2" />
+              <Card.Title>Total Productos</Card.Title>
+              <Card.Text>{summaryData.totalProducts}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3}>
+          <Card className="mb-4 text-center">
+            <Card.Body>
+              <FaTags size={30} className="mb-2" />
+              <Card.Title>Total Categorías</Card.Title>
+              <Card.Text>{summaryData.totalCategories}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3}>
+          <Card className="mb-4 text-center">
+            <Card.Body>
+              <FaShoppingCart size={30} className="mb-2" />
+              <Card.Title>Total Pedidos</Card.Title>
+              <Card.Text>{summaryData.totalOrders}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3}>
+          <Card className="mb-4 text-center">
+            <Card.Body>
+              <FaUsers size={30} className="mb-2" />
+              <Card.Title>Total Clientes</Card.Title>
+              <Card.Text>{summaryData.totalCustomers}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+          <Card className="mb-4 text-center" style={{ height: '300px' }}>
+            <Card.Body>
+              <FaDollarSign size={30} className="mb-2" />
+              <Card.Title>Total Ventas</Card.Title>
+              <div style={{ height: '200px' }}>
+                <Bar data={barData} options={{ maintainAspectRatio: false }} />
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={6}>
+          <Card className="mb-4 text-center" style={{ height: '300px' }}>
+            <Card.Body>
+              <FaMoneyBillWave size={30} className="mb-2" />
+              <Card.Title>Resumen de la Tienda</Card.Title>
+              <div style={{ height: '200px' }}>
+                <Pie data={pieData} options={{ maintainAspectRatio: false }} />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+          <Card className="mb-4 text-center">
+            <Card.Body>
+              <FaMoneyBillWave size={30} className="mb-2" />
+              <Card.Title>Ingresos Totales</Card.Title>
+              <Card.Text>${summaryData.totalRevenue}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

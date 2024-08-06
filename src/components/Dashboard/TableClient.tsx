@@ -154,13 +154,14 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
         <>
             <div className="main-contenedor">
             <div className="contendorMain__titles"><h4>Administración de Clientes</h4></div>
+            <div className="table-responsive">
                 <DataTable
                     columns={columns}
                     data={filteredClientess}
                     pagination
                     highlightOnHover
                     striped
-                />
+                /></div>
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Editar Clientes</Modal.Title>
