@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./utils/ProtectedRoutes";
 import Login from "./components/AuthPages/Login";
 import AdminPage from "./Pages/AdminPage";
@@ -8,6 +8,7 @@ import Table from "@components/Dashboard/Table";
 import TableVendedores from "@components/Dashboard/TableVendedores";
 import IndexPage from "./layout/IndexPage";
 import ProductPage from "./Pages/ProductPage";
+import TableClient from "@components/Dashboard/TableClient";
 
 const AppRouter = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,9 +33,8 @@ const AppRouter = () => {
           <Route path="/adminPage" element={<AdminPage searchTerm={searchTerm} onSearchChange={handleSearchChange} />} />
           <Route path="/productos" element={<Table searchTerm={searchTerm} />} />
           <Route path="/categorias" element={<TableCategorias searchTerm={searchTerm} />} />
-          <Route path="/clientes" element={<span>Clientes</span>} />
+          <Route path="/clientes" element={<TableClient searchTerm={searchTerm}/>} />
           <Route path="/vendedores" element={<TableVendedores searchTerm={searchTerm} />} />
-          <Route path="/proveedores" element={<span>Proveedores</span>} />
         </Route>
       </Routes>
     </>

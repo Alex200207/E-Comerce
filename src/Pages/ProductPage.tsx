@@ -8,6 +8,7 @@ import Products from "@components/Products/Products";
 import ProductCategorias from "@components/Products/ProductCategorias";
 import "../index.css";
 
+
 const ProductPage: React.FC = () => {
   const [isAsideOpen, setIsAsideOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');

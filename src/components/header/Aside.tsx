@@ -23,7 +23,7 @@ const Aside: React.FC<AsideProps> = ({ isOpen }) => {
             </li>
             <li className="nav-item">
               <Link to="/productPage/cuenta" className="nav-link">
-                <MdAccountCircle /> Cuenta
+                <MdAccountCircle /> MIcuenta
               </Link>
             </li>
             <li className="nav-item">

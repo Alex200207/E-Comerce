@@ -6,7 +6,7 @@ import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { BiSolidCategory } from "react-icons/bi";
 import { FaPerson } from "react-icons/fa6";
 import { IoPersonSharp } from "react-icons/io5";
-import { FaPersonBreastfeeding } from "react-icons/fa6";
+
 
 interface SidebarProps {
   isVisible: boolean;
@@ -43,9 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible }) => {
           </Link>
         </li>
         <li>
-          <Link to="/proveedores" className="list-group-item list-group-item-action">
-            <FaPersonBreastfeeding /> Proveedores
-          </Link>
+         
         </li>
       </ul>
     </div>

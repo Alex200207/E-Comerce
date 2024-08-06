@@ -5,10 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
-interface Usuario {
-    ID_Usuario: number;
-    nombre_usuario: string;
+interface Clientes {
+    id: number;
+    name: string;
     email: string;
+    password: string;
 }
 
 interface TableProps {
@@ -16,106 +17,111 @@ interface TableProps {
 }
 
 const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
-    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-    const [selectedUsuario, setSelectedUsuario] = useState<Usuario | null>(null);
+    const [Clientess, setClientess] = useState<Clientes[]>([]);
+    const [selectedClientes, setSelectedClientes] = useState<Clientes | null>(null);
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        loadUsuarios();
+        loadClientess();
     }, []);
 
-    const loadUsuarios = () => {
-        fetch("http://localhost:3000/usuarios")
+    const loadClientess = () => {
+        fetch("http://localhost:3000/Clientes")
             .then((response) => response.json())
-            .then((data: Usuario[]) => setUsuarios(data))
+            .then((data: Clientes[]) => setClientess(data))
             .catch((error) => {
-                console.error("Error al cargar los usuarios:", error);
-                alert("Error al cargar los usuarios");
+                console.error("Error al cargar los clientes:", error);
+                alert("Error al cargar los Clientes");
             });
     };
 
     const saveChanges = () => {
-        if (selectedUsuario) {
-            if (window.confirm("¿Quieres actualizar este usuario?")) {
+        if (selectedClientes) {
+            if (window.confirm("¿Quieres actualizar este Clientes?")) {
                 fetch(
-                    `http://localhost:3000/usuarios/${selectedUsuario.ID_Usuario}`,
+                    `http://localhost:3000/clientes/${selectedClientes.id}`,
                     {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(selectedUsuario),
+                        body: JSON.stringify(selectedClientes),
                     }
                 )
                     .then((response) => {
                         if (!response.ok) {
-                            throw new Error("Error al actualizar el usuario");
+                            throw new Error("Error al actualizar el Clientes");
                         }
                         return response.json();
                     })
                     .then(() => {
-                        loadUsuarios();
+                        loadClientess();
                         setShowModal(false);
-                        setSelectedUsuario(null);
+                        setSelectedClientes(null);
                     })
                     .catch((error) => {
                         console.error("Error al guardar cambios:", error);
-                        alert("Error al guardar los cambios del usuario");
+                        alert("Error al guardar los cambios del Clientes");
                     });
             }
         }
     };
 
-    const handleEditClick = (usuario: Usuario) => {
-        setSelectedUsuario(usuario);
+    const handleEditClick = (Clientes: Clientes) => {
+        setSelectedClientes(Clientes);
         setShowModal(true);
     };
 
     const handleDeleteClick = (id: number) => {
-        if (window.confirm("¿Estás seguro de eliminar este usuario?")) {
-            fetch(`http://localhost:3000/usuarios/${id}`, {
+        if (window.confirm("¿Estás seguro de eliminar este Clientes?")) {
+            fetch(`http://localhost:3000/Clientes/${id}`, {
                 method: "DELETE",
             })
                 .then((response) => {
                     if (!response.ok) {
-                        throw new Error("Error al eliminar el usuario");
+                        throw new Error("Error al eliminar el Clientes");
                     }
                     return response.text();
                 })
                 .then((result) => {
                     alert(result);
-                    loadUsuarios();
+                    loadClientess();
                 })
                 .catch((error) => {
                     console.error("Error:", error);
-                    alert("Error al eliminar el usuario");
+                    alert("Error al eliminar el Clientes");
                 });
         }
     };
 
-    const filteredUsuarios = usuarios.filter((usuario) =>
-        usuario.nombre_usuario.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredClientess = Clientess.filter((Clientes) =>
+        Clientes.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const columns = [
         {
             name: "ID",
-            selector: (row: Usuario) => row.ID_Usuario,
+            selector: (row: Clientes) => row.id,
             sortable: true,
         },
         {
             name: "Nombre",
-            selector: (row: Usuario) => row.nombre_usuario,
+            selector: (row: Clientes) => row.name,
             sortable: true,
         },
         {
             name: "Email",
-            selector: (row: Usuario) => row.email,
+            selector: (row: Clientes) => row.email,
+            sortable: true,
+        },
+        {
+            name: "Password",
+            selector: (row: Clientes) => row.password,
             sortable: true,
         },
         {
             name: "Acciones",
-            cell: (row: Usuario) => (
+            cell: (row: Clientes) => (
                 <>
                     <OverlayTrigger
                         placement="top"
@@ -134,7 +140,7 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
                     >
                         <Button
                             className="btn btn-sm btn-delete"
-                            onClick={() => handleDeleteClick(row.ID_Usuario)}
+                            onClick={() => handleDeleteClick(row.id)}
                         >
                             <MdDelete className="btn-modal-custom" />
                         </Button>
@@ -149,14 +155,14 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
             <div className="main-contenedor">
                 <DataTable
                     columns={columns}
-                    data={filteredUsuarios}
+                    data={filteredClientess}
                     pagination
                     highlightOnHover
                     striped
                 />
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Editar Usuario</Modal.Title>
+                        <Modal.Title>Editar Clientes</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -164,11 +170,11 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
                                 <Form.Label>Nombre</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    value={selectedUsuario?.nombre_usuario || ""}
+                                    value={selectedClientes?.name || ""}
                                     onChange={(e) =>
-                                        setSelectedUsuario((prev) => ({
+                                        setSelectedClientes((prev) => ({
                                             ...prev!,
-                                            nombre_usuario: e.target.value,
+                                            nombre_Clientes: e.target.value,
                                         }))
                                     }
                                 />
@@ -177,9 +183,9 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control
                                     type="email"
-                                    value={selectedUsuario?.email || ""}
+                                    value={selectedClientes?.email || ""}
                                     onChange={(e) =>
-                                        setSelectedUsuario((prev) => ({
+                                        setSelectedClientes((prev) => ({
                                             ...prev!,
                                             email: e.target.value,
                                         }))
