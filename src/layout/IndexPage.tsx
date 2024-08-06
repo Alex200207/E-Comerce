@@ -2,51 +2,59 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
-import { FaBox, FaTags, FaShoppingCart, FaDollarSign, FaUsers, FaMoneyBillWave } from 'react-icons/fa';
+import { FaBox, FaTags, FaShoppingCart, FaUsers, FaDollarSign, FaMoneyBillWave } from 'react-icons/fa';
 
 ChartJS.register(ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 interface SummaryData {
-  totalProducts: number;
   totalCategories: number;
   totalOrders: number;
-  totalSales: number;
   totalCustomers: number;
+  totalSales: number;
   totalRevenue: number;
 }
 
 const IndexPage: React.FC = () => {
+  const [totalProducts, setTotalProducts] = useState<number>(0);
   const [summaryData, setSummaryData] = useState<SummaryData>({
-    totalProducts: 0,
     totalCategories: 0,
     totalOrders: 0,
-    totalSales: 0,
     totalCustomers: 0,
+    totalSales: 0,
     totalRevenue: 0,
   });
 
   useEffect(() => {
-    // debo usar fetch con mi api
-    // ejemplo de muestra
-    const fetchData = async () => {
+    const fetchProductCount = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/count/products');
+        const data = await response.json();
+        setTotalProducts(data.count);
+      } catch (error) {
+        console.error('Error al obtener el conteo de productos:', error);
+      }
+    };
+
+    const fetchSummaryData = async () => {
       const data = {
-        totalProducts: 120,
         totalCategories: 10,
         totalOrders: 300,
-        totalSales: 15000,
         totalCustomers: 200,
+        totalSales: 15000,
         totalRevenue: 50000,
       };
       setSummaryData(data);
     };
-    fetchData();
+
+    fetchProductCount();
+    fetchSummaryData();
   }, []);
 
   const pieData = {
     labels: ['Productos', 'Categorías', 'Pedidos'],
     datasets: [
       {
-        data: [summaryData.totalProducts, summaryData.totalCategories, summaryData.totalOrders],
+        data: [totalProducts, summaryData.totalCategories, summaryData.totalOrders],
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
       },
@@ -73,7 +81,7 @@ const IndexPage: React.FC = () => {
             <Card.Body>
               <FaBox size={30} className="mb-2" />
               <Card.Title>Total Productos</Card.Title>
-              <Card.Text>{summaryData.totalProducts}</Card.Text>
+              <Card.Text>{totalProducts}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
