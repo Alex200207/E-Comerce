@@ -16,6 +16,7 @@ interface SummaryData {
 
 const IndexPage: React.FC = () => {
   const [totalProducts, setTotalProducts] = useState<number>(0);
+  const [totalCategories, setTotalCategories] = useState<number>(0);
   const [summaryData, setSummaryData] = useState<SummaryData>({
     totalCategories: 0,
     totalOrders: 0,
@@ -35,18 +36,43 @@ const IndexPage: React.FC = () => {
       }
     };
 
-    const fetchSummaryData = async () => {
-      const data = {
-        totalCategories: 10,
-        totalOrders: 300,
+    const fetchCategoryCount = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/countCa');
+        const data = await response.json();
+        setTotalCategories(data.count);
+      } catch (error) {
+        console.error('Error al obtener el conteo de categorías:', error);
+      }
+    };
+
+    const fetchClientCount = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/countClient');
+        const data = await response.json();
+        setSummaryData(prevData => ({
+          ...prevData,
+          totalCustomers: data.count
+        }));
+      } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+      }
+    };
+
+    // Valores staticos
+    const fetchSummaryData = () => {
+      setSummaryData({
+        totalCategories: 5,
+        totalOrders: 100,
         totalCustomers: 200,
         totalSales: 15000,
         totalRevenue: 50000,
-      };
-      setSummaryData(data);
+      });
     };
 
     fetchProductCount();
+    fetchCategoryCount();
+    fetchClientCount();
     fetchSummaryData();
   }, []);
 
@@ -54,7 +80,7 @@ const IndexPage: React.FC = () => {
     labels: ['Productos', 'Categorías', 'Pedidos'],
     datasets: [
       {
-        data: [totalProducts, summaryData.totalCategories, summaryData.totalOrders],
+        data: [totalProducts, totalCategories, summaryData.totalOrders],
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
       },
@@ -90,7 +116,7 @@ const IndexPage: React.FC = () => {
             <Card.Body>
               <FaTags size={30} className="mb-2" />
               <Card.Title>Total Categorías</Card.Title>
-              <Card.Text>{summaryData.totalCategories}</Card.Text>
+              <Card.Text>{totalCategories}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
