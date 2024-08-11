@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Search from "@components/header/Search";
 import ShoppingCartModal from "@components/Products/ShoppingCartModal";
+import Select from "./Select";
 
 interface NavProps {
   toggleAside: () => void;
@@ -66,6 +67,7 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
             </li>
           </ul>
           <ShoppingCartModal />
+          <Select />
           <Search
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}

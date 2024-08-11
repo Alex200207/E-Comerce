@@ -1,8 +1,9 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
 import { API_URL } from '../constants';
 
 type LoginResponse = {
   token: string;
+  role: string; // Añadido para manejar el rol
 };
 
 type LoginData = {
@@ -12,6 +13,7 @@ type LoginData = {
 
 type AuthContext = {
   isAuthenticated: boolean;
+  role: string; // Añadido para manejar el rol
   login: (data: LoginData) => Promise<LoginResponse>;
   logout: () => void;
   token: string;
@@ -19,15 +21,19 @@ type AuthContext = {
 
 const AuthContext = createContext<AuthContext>({
   isAuthenticated: false,
+  role: '', // Añadido para manejar el rol
   logout: () => {},
   login: () => Promise.reject('AuthProvider not yet initialized'),
   token: ''
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-export const AuthProvider = ({ children }) => {
+interface AuthProviderProps {
+  children: ReactNode; // Define el tipo de children como ReactNode
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [role, setRole] = useState(localStorage.getItem('role') || '');
 
   const login = async ({ email, password }: LoginData): Promise<LoginResponse> => {
     try {
@@ -45,8 +51,10 @@ export const AuthProvider = ({ children }) => {
 
       const data = await response.json();
       setToken(data.token);
+      setRole(data.role);
 
       localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role);
 
       return data;
     } catch (error) {
@@ -57,21 +65,22 @@ export const AuthProvider = ({ children }) => {
 
   const logout = (): void => {
     setToken('');
+    setRole('');
 
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
   };
 
-  // Check if the user is authenticated
   const isAuthenticated = !!token;
 
-  // Create a useMemo hook to avoid creating a new object every time the component re-renders
   const authContextValue = useMemo(
-    () => ({ isAuthenticated, login, logout, token }),
-    [isAuthenticated]
+    () => ({ isAuthenticated, role, login, logout, token }),
+    [isAuthenticated, role]
   );
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
 };
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

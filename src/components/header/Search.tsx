@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Select from "../header/Select";
+
 import '../../index.css'
 import { MdClear } from "react-icons/md";
 import { IoSearch } from "react-icons/io5";
@@ -32,8 +32,8 @@ const Search: React.FC<SearchProps> = ({
   };
 
   return (
-    <div className="d-flex ms-auto" role="search">
-      <Select />
+    <div className="d-flex search-Select" role="search">
+      
       <input
         type="text"
         className="form-control me-2"

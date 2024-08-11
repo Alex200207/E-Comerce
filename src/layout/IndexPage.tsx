@@ -62,11 +62,11 @@ const IndexPage: React.FC = () => {
     // Valores staticos
     const fetchSummaryData = () => {
       setSummaryData({
-        totalCategories: 5,
-        totalOrders: 100,
-        totalCustomers: 200,
-        totalSales: 15000,
-        totalRevenue: 50000,
+        totalCategories: 0,
+        totalOrders: 0,
+        totalCustomers: 0,
+        totalSales: 0,
+        totalRevenue: 0,
       });
     };
 
