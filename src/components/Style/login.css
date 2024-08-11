@@ -115,8 +115,7 @@
   text-align: center;
   color: #090909;
 }
-.register a:hover{
-  
-  color: #82089a;
+.register a:hover{ 
+  color: #373537;
   text-decoration: underline;
 }
