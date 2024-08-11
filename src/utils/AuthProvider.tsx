@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode, useEffect } from 'react';
 import { API_URL } from '../constants';
 
 type LoginResponse = {
   token: string;
-  role: string; // Añadido para manejar el rol
+  role: string;
 };
 
 type LoginData = {
@@ -13,7 +13,7 @@ type LoginData = {
 
 type AuthContext = {
   isAuthenticated: boolean;
-  role: string; // Añadido para manejar el rol
+  role: string;
   login: (data: LoginData) => Promise<LoginResponse>;
   logout: () => void;
   token: string;
@@ -21,19 +21,32 @@ type AuthContext = {
 
 const AuthContext = createContext<AuthContext>({
   isAuthenticated: false,
-  role: '', // Añadido para manejar el rol
+  role: '',
   logout: () => {},
   login: () => Promise.reject('AuthProvider not yet initialized'),
   token: ''
 });
 
 interface AuthProviderProps {
-  children: ReactNode; // Define el tipo de children como ReactNode
+  children: ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [role, setRole] = useState(localStorage.getItem('role') || '');
+  const [token, setToken] = useState(sessionStorage.getItem('token') || '');
+  const [role, setRole] = useState(sessionStorage.getItem('role') || '');
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(sessionStorage.getItem('token') || '');
+      setRole(sessionStorage.getItem('role') || '');
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const login = async ({ email, password }: LoginData): Promise<LoginResponse> => {
     try {
@@ -53,8 +66,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setToken(data.token);
       setRole(data.role);
 
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('role', data.role);
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('role', data.role);
 
       return data;
     } catch (error) {
@@ -67,15 +80,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setToken('');
     setRole('');
 
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
   };
 
   const isAuthenticated = !!token;
 
   const authContextValue = useMemo(
     () => ({ isAuthenticated, role, login, logout, token }),
-    [isAuthenticated, role]
+    [isAuthenticated, role, token]
   );
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;

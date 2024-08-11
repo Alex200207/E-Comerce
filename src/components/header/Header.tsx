@@ -4,19 +4,30 @@ import { Carousel } from 'react-bootstrap';
 import backgroundImage3 from '@images/bannerlog3.png';
 import backgroundImage2 from '@images/banner-rosa.png';
 import backgroundImage1 from '@images/bannerlog.png';
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import { useAuth } from '../../utils/AuthProvider';
 
-interface HeaderProps {
+interface HeaderProps extends JwtPayload{
   backgroundImage: string;
   height: string;
+  name: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ backgroundImage, height }) => {
+  const { token } = useAuth();
+  const user = jwtDecode<HeaderProps>(token);
+  
+
+ 
+  
+  
   const [index, setIndex] = useState(0);
   const images = [
-    { src: backgroundImage1, title: 'Bienvenido a AlexStore', description: 'Descubre nuestras mejores ofertas en productos.', textColor: '#fff' },
+    { src: backgroundImage1, title: `Bienvenido ${user?.name.toUpperCase()} a AlexStore`, description: 'Descubre nuestras mejores ofertas en productos.', textColor: '#fff' },
     { src: backgroundImage2, title: 'Ofertas exclusivas para ti', description: 'Descubre nuestros productos exclusivos.', textColor: '#000000' },
     { src: backgroundImage3, title: 'Los mejores productos', description: 'Las mejores ofertas.', textColor: '#fff' }, 
   ];
+  
 
   const handleSelect = (selectedIndex: number) => {
     setIndex(selectedIndex);

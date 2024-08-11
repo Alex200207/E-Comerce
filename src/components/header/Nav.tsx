@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Search from "@components/header/Search";
 import ShoppingCartModal from "@components/Products/ShoppingCartModal";
 import Select from "./Select";
+import DropdownUser from "@components/Dashboard/DropdownUser";
 
 interface NavProps {
   toggleAside: () => void;
@@ -74,6 +75,8 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
             onSearchSubmit={handleSearchSubmit}
             onClearSearch={handleClearSearch} // Pasa la función de limpieza al componente Search
           />
+
+          <DropdownUser/>
         </div>
       </div>
     </nav>

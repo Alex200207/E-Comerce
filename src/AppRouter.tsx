@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import PrivateRoutes from './utils/ProtectedRoutes'; // Asegúrate de que este archivo esté correctamente importado
+import PrivateRoutes from './utils/ProtectedRoutes';
 import Login from './components/AuthPages/Login';
 import AdminPage from './Pages/AdminPage';
 import TableCategorias from '@components/Dashboard/TableCategorias';
@@ -30,7 +30,7 @@ const AppRouter = () => {
         <Route path="/adminPage" element={<AdminPage searchTerm={searchTerm} onSearchChange={handleSearchChange} />} />
         <Route path="/productos" element={<Table searchTerm={searchTerm} />} />
         <Route path="/categorias" element={<TableCategorias searchTerm={searchTerm} />} />
-        <Route path="/clientes" element={<TableClient searchTerm={searchTerm}/>} />
+        <Route path="/clientes" element={<TableClient searchTerm={searchTerm} />} />
         <Route path="/vendedores" element={<TableVendedores searchTerm={searchTerm} />} />
       </Route>
     </Routes>
