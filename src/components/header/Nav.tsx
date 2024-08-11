@@ -5,6 +5,8 @@ import ShoppingCartModal from "@components/Products/ShoppingCartModal";
 import Select from "./Select";
 import DropdownUser from "@components/Dashboard/DropdownUser";
 
+
+
 interface NavProps {
   toggleAside: () => void;
   onSearch: (term: string) => void;
@@ -76,8 +78,9 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
             onClearSearch={handleClearSearch} // Pasa la función de limpieza al componente Search
           />
 
-          <DropdownUser/>
+          
         </div>
+        <DropdownUser />
       </div>
     </nav>
   );

@@ -29,8 +29,7 @@ const ProductPage: React.FC = () => {
         <div className={`content ${isAsideOpen ? "aside-open" : ""}`}>
           <Header
             backgroundImage="path/to/image.jpg"
-            height="600px"
-          />
+            height="600px" name={""}          />
           <main>
             <Routes>
               <Route path="inicio" element={<Products searchTerm={searchTerm} />} />

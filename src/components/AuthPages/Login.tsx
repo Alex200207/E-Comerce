@@ -120,6 +120,11 @@ const Login = () => {
                           Acceder
                         </button>
                       </div>
+                      <div className="register">
+                        <label >No tienes Cuenta
+                        <a href="#"> Registrarse?</a>
+                        </label> 
+                      </div>
                     </div>
                   </form>
                 </div>
