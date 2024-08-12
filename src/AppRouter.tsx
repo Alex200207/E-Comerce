@@ -19,12 +19,12 @@ const AppRouter = () => {
 
   return (
     <Routes>
-      {/* Public Routes */}
+   
       <Route path="/productPage/*" element={<ProductPage />} />
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
 
-      {/* Protected Routes */}
+   
       <Route element={<PrivateRoutes searchTerm={searchTerm} onSearchChange={handleSearchChange} />}>
         <Route path="/home" element={<IndexPage />} />
         <Route path="/adminPage" element={<AdminPage searchTerm={searchTerm} onSearchChange={handleSearchChange} />} />

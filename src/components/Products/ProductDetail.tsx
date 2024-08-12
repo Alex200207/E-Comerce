@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   Button,
@@ -12,9 +12,11 @@ import {
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { MdAddShoppingCart, MdOutlinePayment } from "react-icons/md";
+import { API_URL } from "../../constants"; // Ensure the API URL is correctly imported
+import { useAuth } from '../../utils/AuthProvider';
 
 interface Product {
-  id: number;
+  ID_Producto: number;
   Nombre: string;
   Descripcion: string;
   ID_Categoria: number;
@@ -22,23 +24,55 @@ interface Product {
   Precio: number;
 }
 
+
+
 interface ProductDetailProps {
   show: boolean;
   onHide: () => void;
   product: Product;
+  
 }
 
 const ProductDetail: React.FC<ProductDetailProps> = ({
   show,
   onHide,
   product,
+ 
 }) => {
+  const [cantidad, setCantidad] = useState(1);
+  const { token } = useAuth();
+
+  const agregarAlCarrito = async () => {
+    try {
+      const response = await fetch(`${API_URL}/carrito`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ID_Producto: product.ID_Producto,
+          cantidad,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al agregar el producto al carrito");
+      }
+
+      alert("Producto agregado al carrito con éxito");
+    } catch (error) {
+      console.error("Error al agregar el producto al carrito:", error);
+      alert("Hubo un error al agregar el producto al carrito");
+    }
+  };
+
   return (
     <Modal show={show} onHide={onHide} size="xl" centered>
       <Modal.Header
         className="title-pro"
         closeButton
-        style={{ paddingLeft: "unset", paddingRight: "1rem" , background:'#29a4f0'}}
+        style={{ paddingLeft: "unset", paddingRight: "1rem", background: '#29a4f0' }}
       >
         <Modal.Title
           className="title-detail"
@@ -78,10 +112,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                     <hr />
                   </Col>
                   <Col xs={6} className="mb-3">
-                    <h5>Vendedor</h5>
-                    <p>Esta en desarrollo</p>
-                  </Col>
-                  <Col xs={6} className="mb-3">
                     <h5>Precio</h5>
                     <p style={{ color: "#28a745" }}>${product.Precio}</p>
                   </Col>
@@ -90,17 +120,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                     <Form.Control
                       type="number"
                       min="1"
+                      value={cantidad}
+                      onChange={(e) => setCantidad(parseInt(e.target.value))}
                       placeholder="Cantidad"
                     />
-                  </Col>
-                  <Col xs={6} className="mb-3">
-                    <h5>Método de Pago</h5>
-                    <Form.Select>
-                      <option>Selecciona método de pago...</option>
-                      <option>En Desarrollo</option>
-                      <option>1</option>
-                      <option>2</option>
-                    </Form.Select>
                   </Col>
                 </Row>
                 <div className="d-flex justify-content-end mt-4">
@@ -112,7 +135,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                   >
                     <Button
                       className="add-custom"
-                      onClick={() => alert(`en desarrollo: ${product.id}`)}
+                      onClick={agregarAlCarrito}
                       style={{ marginRight: "10px" }}
                     >
                       <MdAddShoppingCart className="icon-add" />
@@ -124,7 +147,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                   >
                     <Button
                       className="add-custom"
-                      onClick={() => alert(`en desarrollo: ${product.id}`)}
+                      onClick={() => alert(`En desarrollo: ${product.ID_Producto}`)}
                     >
                       <MdOutlinePayment className="icon-add" />
                     </Button>

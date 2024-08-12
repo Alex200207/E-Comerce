@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import ProductDetail from "./ProductDetail";
+import { API_URL } from '../../constants/index.ts';
+import { useAuth } from '../../utils/AuthProvider'; // Asegúrate de importar el contexto de autenticación
 
 interface Product {
-  id: number;
+  ID_Producto: number;
   Nombre: string;
   Descripcion: string;
   ID_Categoria: number;
@@ -16,24 +18,30 @@ interface ProductsProps {
 }
 
 const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProductos] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const { token } = useAuth(); // Obtén el token y el usuario del contexto de autenticación
 
   useEffect(() => {
-    fetchProducts();
+    loadProducts();
   }, []);
 
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch("/api/productos");
-      if (!response.ok) {
-        throw new Error("Error al obtener los productos");
+  const loadProducts = () => {
+    fetch(`${API_URL}/productos`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       }
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setProductos(data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar productos:", error);
+        alert("Error al cargar los productos");
+      });
   };
 
   const openProductDetail = (product: Product) => {
@@ -59,7 +67,7 @@ const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
       <Container>
         <Row xs={1} md={2} lg={3} xl={4} className="g-4">
           {filteredProducts.map((product) => (
-            <Col key={product.id} className="mb-4">
+            <Col key={product.ID_Producto} className="mb-4">
               <Card
                 className="h-100 border-0 shadow"
                 style={{ cursor: "pointer", height: "100%" }}
@@ -118,7 +126,7 @@ const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
         <ProductDetail
           show={true}
           onHide={closeProductDetail}
-          product={selectedProduct}
+          product={selectedProduct} // Pasa el usuario aquí
         />
       )}
     </section>

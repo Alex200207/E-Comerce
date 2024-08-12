@@ -26,7 +26,7 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
     }, []);
 
     const loadClientess = () => {
-        fetch("http://localhost:3000/Clientes")
+        fetch("http://localhost:3000/auth/client/")
             .then((response) => response.json())
             .then((data: Clientes[]) => setClientess(data))
             .catch((error) => {
@@ -39,7 +39,7 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
         if (selectedClientes) {
             if (window.confirm("¿Quieres actualizar este Clientes?")) {
                 fetch(
-                    `http://localhost:3000/clientes/${selectedClientes.id}`,
+                    `http://localhost:3000/auth/client/${selectedClientes.id}`,
                     {
                         method: "PUT",
                         headers: {
@@ -74,7 +74,7 @@ const TableClient: React.FC<TableProps> = ({ searchTerm }) => {
 
     const handleDeleteClick = (id: number) => {
         if (window.confirm("¿Estás seguro de eliminar este Clientes?")) {
-            fetch(`http://localhost:3000/Clientes/${id}`, {
+            fetch(`http://localhost:3000/auth/client/${id}`, {
                 method: "DELETE",
             })
                 .then((response) => {

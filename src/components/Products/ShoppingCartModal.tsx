@@ -3,12 +3,14 @@ import { Button, Modal, Table, Container, Row, Col } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
+import { API_URL } from "../../constants";
 
 interface Cart {
   id: number;
   id_producto: number;
   cantidad: number;
 }
+
 interface Producto {
   ID_Producto: number;
   Nombre: string;
@@ -22,15 +24,22 @@ const ShoppingCartModal: React.FC = () => {
 
   useEffect(() => {
     fetchCarrito();
-    fetchProductos();
+    loadProducts();
   }, []);
 
   const fetchCarrito = async () => {
     try {
-      const response = await fetch("/api/carrito");
+      const response = await fetch(`${API_URL}/carrito`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
       if (!response.ok) {
         throw new Error("Error al obtener los productos del carrito");
       }
+
       const data = await response.json();
       console.log("Datos del carrito:", data); // Añadir esta línea para depuración
       setCarrito(data);
@@ -43,15 +52,20 @@ const ShoppingCartModal: React.FC = () => {
   const handleShow = () => setShow(true);
 
   const handleRemove = async (id: number) => {
-    if (window.confirm("Seguro queres elminar esto del carrito de compras?")) {
+    if (window.confirm("¿Seguro quieres eliminar esto del carrito de compras?")) {
       try {
-        const response = await fetch(`/api/carrito/${id}`, {
+        const response = await fetch(`${API_URL}/carrito/${id}`, {
           method: "DELETE",
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
         });
 
         if (!response.ok) {
           throw new Error("Error al eliminar el producto del carrito");
         }
+
         await fetchCarrito();
       } catch (error) {
         console.error("Error al eliminar el producto del carrito:", error);
@@ -61,51 +75,56 @@ const ShoppingCartModal: React.FC = () => {
 
   const handleQuantityChange = async (id: number, cantidad: number) => {
     try {
-      const response = await fetch(`/api/carrito/${id}`, {
+      const response = await fetch(`${API_URL}/carrito/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ cantidad }),
       });
+
       if (!response.ok) {
-        throw new Error(
-          "Error al actualizar la cantidad del producto en el carrito"
-        );
+        throw new Error("Error al actualizar la cantidad del producto en el carrito");
       }
+
       await fetchCarrito();
     } catch (error) {
-      console.error(
-        "Error al actualizar la cantidad del producto en el carrito:",
-        error
-      );
+      console.error("Error al actualizar la cantidad del producto en el carrito:", error);
     }
   };
 
-  const fetchProductos = () => {
-    fetch("http://localhost:3000/productos")
-      .then((response) => response.json())
-      .then((data: Producto[]) => {
+  const loadProducts = () => {
+    fetch(`${API_URL}/productos`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
         setProductos(data);
       })
       .catch((error) => {
-        console.error("Error al cargar categorías:", error);
-        alert("Error al cargar las categorías");
+        console.error("Error al cargar productos:", error);
+        alert("Error al cargar los productos");
       });
   };
 
   const getNombreProducto = (idProducto: number): string => {
-    const producto = productos.find((cat) => cat.ID_Producto === idProducto);
+    const producto = productos.find((prod) => prod.ID_Producto === idProducto);
     return producto ? producto.Nombre : "Sin Nombre";
   };
+
   const getPrecioProducto = (idProducto: number): number => {
-    const producto = productos.find((cat) => cat.ID_Producto === idProducto);
+    const producto = productos.find((prod) => prod.ID_Producto === idProducto);
     return producto ? producto.Precio : 0;
   };
 
   const getTotalPrice = () => {
     return carrito.reduce(
-      (total, Precio) => total + getPrecioProducto(Precio.id_producto || 0) * Precio.cantidad,
+      (total, cartItem) => total + getPrecioProducto(cartItem.id_producto) * cartItem.cantidad,
       0
     );
   };
@@ -144,18 +163,13 @@ const ShoppingCartModal: React.FC = () => {
                               type="number"
                               value={cart.cantidad}
                               onChange={(e) =>
-                                handleQuantityChange(
-                                  cart.id,
-                                  parseInt(e.target.value)
-                                )
+                                handleQuantityChange(cart.id, parseInt(e.target.value))
                               }
                               min="1"
                             />
                           </td>
                           <td>
-                            <Button
-                              onClick={() => handleRemove(cart.id)}
-                            >
+                            <Button onClick={() => handleRemove(cart.id)}>
                               Eliminar
                             </Button>
                           </td>
