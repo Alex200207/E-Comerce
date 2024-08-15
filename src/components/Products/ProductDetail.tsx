@@ -1,18 +1,9 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  Button,
-  Container,
-  Row,
-  Col,
-  Form,
-  Tooltip,
-  OverlayTrigger,
-} from "react-bootstrap";
+import { Modal, Button, Container, Row, Col, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { MdAddShoppingCart, MdOutlinePayment } from "react-icons/md";
-import { API_URL } from "../../constants"; // Ensure the API URL is correctly imported
+import { API_URL } from "../../constants"; // Asegúrate de que la URL de la API esté correctamente importada
 import { useAuth } from '../../utils/AuthProvider';
 
 interface Product {
@@ -26,23 +17,20 @@ interface Product {
 
 
 
+
 interface ProductDetailProps {
   show: boolean;
   onHide: () => void;
   product: Product;
-  
+
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({
-  show,
-  onHide,
-  product,
- 
-}) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) => {
   const [cantidad, setCantidad] = useState(1);
-  const { token } = useAuth();
+  const { token} = useAuth(); // Asegúrate de obtener `userId` también
 
   const agregarAlCarrito = async () => {
+  
     try {
       const response = await fetch(`${API_URL}/carrito`, {
         method: "POST",
@@ -51,7 +39,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ID_Producto: product.ID_Producto,
+ 
+          id_producto: product.ID_Producto,
           cantidad,
         }),
       });
@@ -61,6 +50,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
       }
 
       alert("Producto agregado al carrito con éxito");
+      onHide(); 
     } catch (error) {
       console.error("Error al agregar el producto al carrito:", error);
       alert("Hubo un error al agregar el producto al carrito");
