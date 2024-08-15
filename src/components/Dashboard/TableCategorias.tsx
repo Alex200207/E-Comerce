@@ -6,6 +6,7 @@ import { Modal, Button, Form, Tooltip, OverlayTrigger } from "react-bootstrap";
 import AddCategoriaModal from "./AddCategoriaModal";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import { API_URL } from '../../constants/index.ts';
+import Swal from 'sweetalert2';
 
 interface Categorias {
   ID_Categoria: number;
@@ -20,7 +21,6 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
   const [selectedCategoria, setSelectedCategoria] = useState<Categorias | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categorias[]>([]);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     loadCategorias();
@@ -40,7 +40,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
       setCategorias(data);
     } catch (error) {
       console.error(error);
-      alert("Error al cargar las categorías");
+      Swal.fire('Error', 'Error al cargar las categorías', 'error');
     }
   };
 
@@ -50,61 +50,79 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
   };
 
   const handleDeleteClick = (id: number) => {
-    if (window.confirm("¿Estás seguro de eliminar esta categoría?")) {
-      fetch(`${API_URL}/categorias/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-      })
-        .then((response) => {
-          if (response.ok) {
-            loadCategorias();
-            setShowSuccessMessage(true);
-            setTimeout(() => {
-              setShowSuccessMessage(false);
-            }, 3000);
-          } else {
-            throw new Error("Error al eliminar la categoría");
-          }
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${API_URL}/categorias/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
         })
-        .catch((error) => {
-          console.error("Error al eliminar la categoría:", error);
-          alert("Error al eliminar la categoría");
-        });
-    }
+          .then((response) => {
+            if (response.ok) {
+              loadCategorias();
+              Swal.fire('Eliminado!', 'La categoría ha sido eliminada.', 'success');
+            } else {
+              throw new Error("Error al eliminar la categoría");
+            }
+          })
+          .catch((error) => {
+            console.error("Error al eliminar la categoría:", error);
+            Swal.fire('Error', 'Error al eliminar la categoría', 'error');
+          });
+      }
+    });
   };
 
   const saveChanges = () => {
     if (selectedCategoria) {
-      if (window.confirm("¿Quieres actualizar esta categoría?")) {
-        if (selectedCategoria.Nombre) {
-          fetch(`${API_URL}/categorias/${selectedCategoria.ID_Categoria}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(selectedCategoria),
-          })
-            .then((response) => {
-              if (!response.ok) throw new Error("Error al actualizar la categoría");
-              return response.json();
+      Swal.fire({
+        title: '¿Guardar cambios?',
+        text: "Se actualizarán los datos de la categoría.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, guardar!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (selectedCategoria.Nombre) {
+            fetch(`${API_URL}/categorias/${selectedCategoria.ID_Categoria}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+              },
+              body: JSON.stringify(selectedCategoria),
             })
-            .then(() => {
-              loadCategorias();
-              setShowModal(false);
-              setSelectedCategoria(null);
-            })
-            .catch((error) => {
-              console.error("Error al guardar cambios:", error);
-              alert("Error al guardar los cambios de la categoría");
-            });
-        } else {
-          alert("Datos de la categoría no válidos.");
+              .then((response) => {
+                if (!response.ok) throw new Error("Error al actualizar la categoría");
+                return response.json();
+              })
+              .then(() => {
+                loadCategorias();
+                setShowModal(false);
+                setSelectedCategoria(null);
+                Swal.fire('Guardado!', 'La categoría ha sido actualizada.', 'success');
+              })
+              .catch((error) => {
+                console.error("Error al guardar cambios:", error);
+                Swal.fire('Error', 'Error al guardar los cambios de la categoría', 'error');
+              });
+          } else {
+            Swal.fire('Error', 'Datos de la categoría no válidos.', 'error');
+          }
         }
-      }
+      });
     }
   };
 
@@ -160,11 +178,6 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
         <div className="contendorMain__titles"><h4>Administración de Categorias</h4></div>
       
       <AddCategoriaModal onProductAdded={handleCategoriaAdded} />
-        {showSuccessMessage && (
-          <div className="alert alert-success" role="alert">
-            Categoría eliminada con éxito.
-          </div>
-        )}
         <div className="table-responsive">
         <DataTable
           columns={columns}

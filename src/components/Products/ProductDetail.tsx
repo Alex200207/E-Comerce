@@ -30,7 +30,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) 
   const { token} = useAuth(); // Asegúrate de obtener `userId` también
 
   const agregarAlCarrito = async () => {
-  
     try {
       const response = await fetch(`${API_URL}/carrito`, {
         method: "POST",
@@ -39,18 +38,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ show, onHide, product }) 
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
- 
           id_producto: product.ID_Producto,
           cantidad,
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error("Error al agregar el producto al carrito");
       }
-
+  
       alert("Producto agregado al carrito con éxito");
       onHide(); 
+  
+      window.location.reload();
     } catch (error) {
       console.error("Error al agregar el producto al carrito:", error);
       alert("Hubo un error al agregar el producto al carrito");

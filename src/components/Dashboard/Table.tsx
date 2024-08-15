@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../Style/Dashboard.css";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import AddProductModal from "./AddProductModal";
+import Swal from 'sweetalert2';
+
 import { API_URL } from '../../constants/index.ts';
 
 interface Producto {
@@ -75,39 +77,69 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
 
   const saveChanges = () => {
     if (selectedProduct) {
-      if (window.confirm("¿Quieres actualizar este producto?")) {
-   
-        if (
-          selectedProduct.Nombre &&
-          selectedProduct.Precio >= 0 &&
-          selectedProduct.Stock >= 0
-        ) {
-          fetch(`${API_URL}/productos/${selectedProduct.ID_Producto}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(selectedProduct),
-          })
-            .then((response) => {
-              if (!response.ok)
-                throw new Error("Error al actualizar el producto");
-              return response.json();
+
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¿Quieres actualizar este producto?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, actualizar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (
+            selectedProduct.Nombre &&
+            selectedProduct.Precio >= 0 &&
+            selectedProduct.Stock >= 0 &&
+            selectedProduct.ImagenUrl &&
+            selectedProduct.Descripcion
+          ) {
+            fetch(`${API_URL}/productos/${selectedProduct.ID_Producto}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              body: JSON.stringify(selectedProduct),
             })
-            .then(() => {
-              loadProducts();
-              setShowModal(false);
-              setSelectedProduct(null);
-            })
-            .catch((error) => {
-              console.error("Error al guardar cambios:", error);
-              alert("Error al guardar los cambios del producto");
+              .then((response) => {
+                if (!response.ok)
+                  throw new Error("Error al actualizar el producto");
+                return response.json();
+              })
+              .then(() => {
+                loadProducts();
+                setShowModal(false);
+                setSelectedProduct(null);
+  
+                Swal.fire({
+                  title: "Actualizado",
+                  text: "El producto ha sido actualizado correctamente.",
+                  icon: "success",
+                  confirmButtonText: "OK",
+                });
+              })
+              .catch((error) => {
+                console.error("Error al guardar cambios:", error);
+                Swal.fire({
+                  title: "Error",
+                  text: "Hubo un error al actualizar el producto.",
+                  icon: "error",
+                  confirmButtonText: "OK",
+                });
+              });
+          } else {
+            Swal.fire({
+              title: "Datos inválidos",
+              text: "Por favor, completa todos los campos correctamente.",
+              icon: "warning",
+              confirmButtonText: "OK",
             });
-        } else {
-          alert("Datos del producto no válidos.");
+          }
         }
-      }
+      });
     }
   };
 
@@ -283,6 +315,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
+ 
               <Form.Group controlId="formPrecio">
                 <Form.Label>Precio</Form.Label>
                 <Form.Control
@@ -296,6 +329,37 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
+              <Form.Group controlId="formImageUrl">
+                <Form.Label>Url</Form.Label>
+                <Form.Control
+                 as="textarea"
+                 rows={2}
+                  type="text"
+                  value={selectedProduct.ImagenUrl}
+                  onChange={(e) =>
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      ImagenUrl: e.target.value,
+                    })
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="formImageUrl">
+                <Form.Label>Descripcion</Form.Label>
+                <Form.Control
+                 as="textarea"
+                 rows={2}
+                  type="text"
+                  value={selectedProduct.Descripcion}
+                  onChange={(e) =>
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      Descripcion: e.target.value,
+                    })
+                  }
+                />
+              </Form.Group>
+              
               <Form.Group controlId="formStock">
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
