@@ -3,7 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import AuthLayout from "../../layout/AuthLayout.tsx";
 import { useAuth } from "../../utils/AuthProvider.tsx";
+<<<<<<< HEAD
+=======
+import { Link, useNavigate } from "react-router-dom";
+>>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
 import "../Style/login.css";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { login } = useAuth();
@@ -15,6 +20,7 @@ const Login = () => {
 
   const validateEmail = () => {
     if (!email) {
+<<<<<<< HEAD
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -26,6 +32,21 @@ const Login = () => {
         icon: 'error',
         title: 'Error',
         text: 'Formato de correo erróneo',
+=======
+      setEmailError("El correo es requerido");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "El correo es requerido",
+      });
+      return false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Formato de correo erróneo");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Formato de correo erróneo",
+>>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
       });
       return false;
     }
@@ -34,10 +55,18 @@ const Login = () => {
 
   const validatePassword = () => {
     if (!password) {
+<<<<<<< HEAD
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'La contraseña es requerida',
+=======
+      setPasswordError("La contraseña es requerida");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "La contraseña es requerida",
+>>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
       });
       return false;
     }
@@ -51,17 +80,29 @@ const Login = () => {
       try {
         await login({ email, password });
         Swal.fire({
+<<<<<<< HEAD
           icon: 'success',
           title: 'Éxito',
           text: 'Ingreso exitoso. Redirigiendo...',
+=======
+          icon: "success",
+          title: "Éxito",
+          text: "Inicio de sesión exitoso",
+>>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
         }).then(() => {
           navigate("/home");
         });
       } catch (error) {
         Swal.fire({
+<<<<<<< HEAD
           icon: 'error',
           title: 'Error',
           text: 'Correo electrónico o contraseña incorrectos',
+=======
+          icon: "error",
+          title: "Error",
+          text: "Correo electrónico o contraseña incorrectos",
+>>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
         });
       }
     }
@@ -125,7 +166,12 @@ const Login = () => {
                         </button>
                       </div>
                       <div className="register">
+<<<<<<< HEAD
                         <label>No tienes cuenta? <Link to='/register'>Registrarse</Link></label>
+=======
+                      <label>¿No tienes cuenta?</label>
+                      <Link to="/Register">Registrarse</Link>
+>>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
                       </div>
                     </div>
                   </form>

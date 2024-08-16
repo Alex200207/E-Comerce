@@ -7,7 +7,11 @@ import "../Style/login.css";
 const Register = () => {
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   // States for registration
+=======
+ 
+>>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
