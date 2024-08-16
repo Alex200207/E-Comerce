@@ -24,11 +24,11 @@ const AppRouter = () => {
       <Route path="/productPage/*" element={<ProductPage />} />
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
-<<<<<<< HEAD
+
       <Route path="/register" element={<Register />} />
-=======
-      <Route path="/Register" element={<Register/>} />
->>>>>>> a574cc5f6fe9543a8c5b9aecf5d18aa1f0b8b1fe
+
+
+
 
    
       <Route element={<PrivateRoutes searchTerm={searchTerm} onSearchChange={handleSearchChange} />}>
