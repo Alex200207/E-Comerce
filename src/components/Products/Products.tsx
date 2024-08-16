@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import ProductDetail from "./ProductDetail";
 import { API_URL } from '../../constants/index.ts';
-import { useAuth } from '../../utils/AuthProvider'; // Asegúrate de importar el contexto de autenticación
+import { useAuth } from '../../utils/AuthProvider';
+import { MdErrorOutline } from "react-icons/md";
 
 interface Product {
   ID_Producto: number;
@@ -15,12 +16,13 @@ interface Product {
 
 interface ProductsProps {
   searchTerm: string;
+  selectedCategoriaId: number;
 }
 
-const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
+const Products: React.FC<ProductsProps> = ({ searchTerm, selectedCategoriaId }) => {
   const [products, setProductos] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const { token } = useAuth(); // Obtén el token y el usuario del contexto de autenticación
+  const { token } = useAuth();
 
   useEffect(() => {
     loadProducts();
@@ -54,79 +56,79 @@ const Products: React.FC<ProductsProps> = ({ searchTerm }) => {
 
   const filteredProducts = products.filter(
     (product) =>
-      product.Nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.Descripcion.toLowerCase().includes(searchTerm.toLowerCase())
+      (selectedCategoriaId === 0 || product.ID_Categoria === selectedCategoriaId) && 
+      (product.Nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.Descripcion.toLowerCase().includes(searchTerm.toLowerCase()))
   );
-
-  const handleCardClick = (product: Product) => {
-    openProductDetail(product);
-  };
 
   return (
     <section id="productos" className="py-5">
       <Container>
-        <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-          {filteredProducts.map((product) => (
-            <Col key={product.ID_Producto} className="mb-4">
-              <Card
-                className="h-100 border-0 shadow"
-                style={{ cursor: "pointer", height: "100%" }}
-                onClick={() => handleCardClick(product)}
-              >
-                <div
-                  className="position-relative overflow-hidden"
-                  style={{ height: "300px" }} // Altura fija del contenedor
+        {filteredProducts.length === 0 ? (
+            <h3 className="noFound"> <MdErrorOutline /> No se han encontrado resultados</h3>
+        ) : (
+          <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+            {filteredProducts.map((product) => (
+              <Col key={product.ID_Producto} className="mb-4">
+                <Card
+                  className="h-100 border-0 shadow"
+                  style={{ cursor: "pointer", height: "100%" }}
+                  onClick={() => openProductDetail(product)}
                 >
-                  <Card.Img
-                    variant="top"
-                    src={product.ImagenUrl}
-                    alt={product.Nombre}
-                    className="img-fluid rounded"
-                    style={{
-                      objectFit: "contain", // Ajuste para mostrar toda la imagen sin recortes
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
                   <div
-                    className="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                    style={{
-                      opacity: 0,
-                      transition: "opacity 0.2s ease-in-out",
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    }}
+                    className="position-relative overflow-hidden"
+                    style={{ height: "300px" }}
                   >
-                    <Button
-                      variant="outline-light"
-                      size="sm"
-                      className="fw-bold btn-buy"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openProductDetail(product);
+                    <Card.Img
+                      variant="top"
+                      src={product.ImagenUrl}
+                      alt={product.Nombre}
+                      className="img-fluid rounded"
+                      style={{
+                        objectFit: "contain",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                    <div
+                      className="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                      style={{
+                        opacity: 0,
+                        transition: "opacity 0.2s ease-in-out",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
                       }}
                     >
-                      Ver producto
-                    </Button>
+                      <Button
+                        variant="outline-light"
+                        size="sm"
+                        className="fw-bold btn-buy"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openProductDetail(product);
+                        }}
+                      >
+                        Ver producto
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                <Card.Body className="p-3 d-flex flex-column justify-content-between">
-                  <Card.Title className="h6 mb-0">{product.Nombre}</Card.Title>
-                  <Card.Text className="text-muted">
-                    Precio: ${product.Precio}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+                  <Card.Body className="p-3 d-flex flex-column justify-content-between">
+                    <Card.Title className="h6 mb-0">{product.Nombre}</Card.Title>
+                    <Card.Text className="text-muted">
+                      Precio: ${product.Precio}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
       </Container>
 
-      {/* Modal para mostrar detalles del producto */}
       {selectedProduct && (
         <ProductDetail
           show={true}
           onHide={closeProductDetail}
-          product={selectedProduct} // Pasa el usuario aquí
+          product={selectedProduct}
         />
       )}
     </section>

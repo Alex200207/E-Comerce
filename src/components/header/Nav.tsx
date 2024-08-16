@@ -4,15 +4,17 @@ import Search from "@components/header/Search";
 import ShoppingCartModal from "@components/Products/ShoppingCartModal";
 import Select from "./Select";
 import DropdownUser from "@components/Dashboard/DropdownUser";
+import { Link } from "react-router-dom";
 
 
 
 interface NavProps {
   toggleAside: () => void;
   onSearch: (term: string) => void;
+  onSelectCategoria: (categoriaId: number) => void;
 }
 
-const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
+const Nav: React.FC<NavProps> = ({ toggleAside, onSearch ,onSelectCategoria}) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +27,7 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
 
   const handleClearSearch = () => {
     setSearchTerm("");
-    onSearch(""); // Llama a la función de búsqueda con una cadena vacía para borrar la búsqueda
+    onSearch(""); 
   };
 
   return (
@@ -59,18 +61,19 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <a  href="#" className="nav-link" aria-current="page">
+            <Link to="/productPage/Inicio" className="nav-link" >
                 Inicio
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link to="/productPage/Nosotros" className="nav-link" >
                 Nosotros
-              </a>
+              </Link>
             </li>
           </ul>
+          
           <ShoppingCartModal />
-          <Select />
+          <Select onSelectCategoria={onSelectCategoria} />
           <Search
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}
@@ -87,3 +90,5 @@ const Nav: React.FC<NavProps> = ({ toggleAside, onSearch }) => {
 };
 
 export default Nav;
+
+

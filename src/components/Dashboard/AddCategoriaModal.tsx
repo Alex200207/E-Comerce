@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { API_URL } from '../../constants/index.ts';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 interface Categoria {
   ID_Categoria?: number;
@@ -19,7 +23,6 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
   const [newCategoria, setNewCategoria] = useState<Categoria>({
     Nombre: "",
   });
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,45 +35,58 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
   };
 
   const handleSaveChanges = async () => {
-    if (!window.confirm("¿Quieres agregar esta categoria?")) {
-      return;
-    }
+    const result = await MySwal.fire({
+      title: '¿Estás seguro?',
+      text: "¿Quieres agregar esta categoría?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, agregar',
+      cancelButtonText: 'Cancelar',
+    });
 
-    try {
-      const response = await fetch(`${API_URL}/categorias`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(newCategoria),
-      });
-
-      if (response.ok) {
-        setShowSuccessMessage(true);
-        console.log("categoria agregada exitosamente:", newCategoria);
-        setNewCategoria({
-          Nombre: ""
+    if (result.isConfirmed) {
+      try {
+        const response = await fetch(`${API_URL}/categorias`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(newCategoria),
         });
 
-        setShowModal(false);
+        if (response.ok) {
+          await MySwal.fire({
+            title: '¡Éxito!',
+            text: 'Categoría agregada exitosamente.',
+            icon: 'success',
+          });
 
-        // Recargar categorias en la tabla (llamando a la función pasada por props)
-        if (typeof onProductAdded === "function") {
-          onProductAdded();
+          setNewCategoria({
+            Nombre: ""
+          });
+          setShowModal(false);
+
+          // Recargar categorías en la tabla (llamando a la función pasada por props)
+          if (typeof onProductAdded === "function") {
+            onProductAdded();
+          }
+        } else {
+          console.error("Error al agregar categoría:", response.statusText);
+          await MySwal.fire({
+            title: 'Error',
+            text: 'No se pudo agregar la categoría.',
+            icon: 'error',
+          });
         }
-
-        // Ocultar el mensaje de éxito después de 3 segundos
-        setTimeout(() => {
-          setShowSuccessMessage(false);
-        }, 3000);
-      } else {
-        console.error("Error al agregar categoria:", response.statusText);
-        // aqui se puede manejar algun error de peticion 
+      } catch (error) {
+        console.error("Error al realizar la petición:", error);
+        await MySwal.fire({
+          title: 'Error',
+          text: 'Error al realizar la petición.',
+          icon: 'error',
+        });
       }
-    } catch (error) {
-      console.error("Error al realizar la petición:", error);
-      // Aqui maneja cualquier error de red o otros errores inesperados
     }
   };
 
@@ -85,7 +101,7 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
 
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Agregar categoria</Modal.Title>
+          <Modal.Title>Agregar Categoría</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -105,20 +121,10 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
             Cerrar
           </Button>
           <Button variant="primary" onClick={handleSaveChanges}>
-            Guardar Categoria
+            Guardar Categoría
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {showSuccessMessage && (
-        <Alert
-          variant="success"
-          className="position-fixed top-0 start-50 translate-middle-x mt-2"
-          style={{ zIndex: 1060, left: "50%", transform: "translateX(-50%)" }}
-        >
-          Categoria agregada exitosamente.
-        </Alert>
-      )}
     </div>
   );
 };

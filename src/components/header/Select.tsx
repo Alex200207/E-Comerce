@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { API_URL } from '../../constants';
 
 interface Categoria {
-  ID: number;
+  ID_Categoria: number;
   Nombre: string;
 }
 
-const Select: React.FC = () => {
+interface SelectProps {
+  onSelectCategoria: (categoriaId: number) => void;
+}
+
+const Select: React.FC<SelectProps> = ({ onSelectCategoria }) => {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
   useEffect(() => {
@@ -29,13 +33,18 @@ const Select: React.FC = () => {
       });
   };
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = parseInt(e.target.value, 10);
+    onSelectCategoria(selectedValue);
+  };
+
   return (
-    <select className="form-select me-26" id="select__navbar">
+    <select className="form-select me-26" id="select__navbar" onChange={handleSelectChange}>
       <option className="option__select" value="0" selected>
         Todas las Categorias
       </option>
       {categorias.map((categoria) => (
-        <option key={categoria.ID} className="option__select" value={categoria.ID}>
+        <option key={categoria.ID_Categoria} className="option__select" value={categoria.ID_Categoria}>
           {categoria.Nombre}
         </option>
       ))}

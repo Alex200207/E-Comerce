@@ -174,21 +174,17 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
           .then((response) => {
             if (response.ok) {
               loadProducts();
-              setShowSuccessMessage(true);
-              setTimeout(() => {
-                setShowSuccessMessage(false);
-              }, 3000);
+              Swal.fire('Eliminado!', 'La categoría ha sido eliminada.', 'success');
             } else {
-              throw new Error("Error al eliminar el producto");
+              throw new Error("Error al eliminar la categoría");
             }
           })
           .catch((error) => {
-            console.error("Error al eliminar el producto:", error);
-            alert("Error al eliminar el producto");
+            console.error("Error al eliminar la categoría:", error);
+            Swal.fire('Error', 'Error al eliminar la categoría', 'error');
           });
       }
-      })
-    
+    });
   };
 
   const getNombreCategoria = (idCategoria: number): string => {

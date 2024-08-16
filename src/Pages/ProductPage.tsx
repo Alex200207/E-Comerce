@@ -7,14 +7,20 @@ import Nav from "@components/header/Nav";
 import Products from "@components/Products/Products";
 import ProductCategorias from "@components/Products/ProductCategorias";
 import "../index.css";
+import Nosotros from "@components/footer/Nosotros";
 
 
 const ProductPage: React.FC = () => {
   const [isAsideOpen, setIsAsideOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategoriaId, setSelectedCategoriaId] = useState<number>(0);
+
 
   const toggleAside = () => {
     setIsAsideOpen(!isAsideOpen);
+  };
+    const handleCategoriaSelect = (categoriaId: number) => {
+    setSelectedCategoriaId(categoriaId);
   };
 
   const handleSearch = (term: string) => {
@@ -23,7 +29,7 @@ const ProductPage: React.FC = () => {
 
   return (
     <>
-      <Nav toggleAside={toggleAside} onSearch={handleSearch} />
+      <Nav toggleAside={toggleAside} onSearch={handleSearch} onSelectCategoria={handleCategoriaSelect} />
       <div className="d-flex">
         <Aside isOpen={isAsideOpen} />
         <div className={`content ${isAsideOpen ? "aside-open" : ""}`}>
@@ -32,8 +38,9 @@ const ProductPage: React.FC = () => {
             height="600px" name={""}          />
           <main>
             <Routes>
-              <Route path="inicio" element={<Products searchTerm={searchTerm} />} />
-              <Route path="productos" element={<Products searchTerm={searchTerm} />} />
+              <Route path="inicio" element={<Products searchTerm={searchTerm} selectedCategoriaId={selectedCategoriaId} />} />
+              <Route path="Nosotros" element={<Nosotros/>} />
+              <Route path="productos" element={<Products searchTerm={searchTerm}  selectedCategoriaId={selectedCategoriaId}/>} />
               <Route path="ofertas" element={<p>Oferta</p>} />
               <Route path="categorias" element={<ProductCategorias />} />
             </Routes>

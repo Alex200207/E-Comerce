@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Alert, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Modal, Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { API_URL } from '../../constants/index.ts';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 interface Producto {
   ID_Producto?: number; 
@@ -33,10 +37,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     Stock: 0,
     Precio: 0,
     ImagenUrl: "",
-    Codigo:"",
+    Codigo: "",
   });
   const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     loadCategorias();
@@ -54,7 +57,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
       .then((data: Categoria[]) => setCategorias(data))
       .catch((error) => {
         console.error("Error al cargar las categorias:", error);
-        alert("Error al cargar las categorías");
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudieron cargar las categorías.',
+          icon: 'error'
+        });
       });
   };
 
@@ -69,51 +76,63 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   };
 
   const handleSaveChanges = async () => {
-    if (!window.confirm("¿Quieres agregar este producto?")) {
-      return;
-    }
-
     try {
-      const response = await fetch(`${API_URL}/productos`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(newProduct),
+      const result = await MySwal.fire({
+        title: '¿Estás seguro?',
+        text: "¿Quieres agregar este producto?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, agregar',
+        cancelButtonText: 'Cancelar',
       });
 
-      if (response.ok) {
-        setShowSuccessMessage(true);
-        console.log("Producto agregado exitosamente:", newProduct);
-        setNewProduct({
-          Nombre: "",
-          ID_Categoria: 0,
-          Stock: 0,
-          Precio: 0,
-          Codigo:"",
-          ImagenUrl: "", // Limpiar ImagenUrl después de agregar
+      if (result.isConfirmed) {
+        const response = await fetch(`${API_URL}/productos`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(newProduct),
         });
-        loadCategorias(); // Recargar categorías si es necesario
-        // Cierra el modal después de agregar el producto
-        setShowModal(false);
 
-        // Recargar productos en la tabla (llamando a la función pasada por props)
-        if (typeof onProductAdded === "function") {
-          onProductAdded();
+        if (response.ok) {
+          await MySwal.fire({
+            title: '¡Éxito!',
+            text: 'Producto agregado exitosamente.',
+            icon: 'success',
+          });
+
+          setNewProduct({
+            Nombre: "",
+            ID_Categoria: 0,
+            Stock: 0,
+            Precio: 0,
+            Codigo: "",
+            ImagenUrl: "", // Limpiar ImagenUrl después de agregar
+          });
+          loadCategorias(); // Recargar categorías si es necesario
+          setShowModal(false);
+
+          if (typeof onProductAdded === "function") {
+            onProductAdded();
+          }
+        } else {
+          console.error("Error al agregar producto:", response.statusText);
+          await MySwal.fire({
+            title: 'Error',
+            text: 'No se pudo agregar el producto.',
+            icon: 'error',
+          });
         }
-
-        // Ocultar el mensaje de éxito después de 3 segundos
-        setTimeout(() => {
-          setShowSuccessMessage(false);
-        }, 3000);
-      } else {
-        console.error("Error al agregar producto:", response.statusText);
-        // Aquí podrías manejar el error de la petición, mostrar un mensaje al usuario, etc.
       }
     } catch (error) {
       console.error("Error al realizar la petición:", error);
-      // Aquí maneja cualquier error de red u otros errores inesperados
+      await MySwal.fire({
+        title: 'Error',
+        text: 'Error al realizar la petición.',
+        icon: 'error',
+      });
     }
   };
 
@@ -227,16 +246,6 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {showSuccessMessage && (
-        <Alert
-          variant="success"
-          className="position-fixed top-0 start-50 translate-middle-x mt-2"
-          style={{ zIndex: 1060, left: "50%", transform: "translateX(-50%)" }}
-        >
-          Producto agregado exitosamente.
-        </Alert>
-      )}
     </div>
   );
 };
