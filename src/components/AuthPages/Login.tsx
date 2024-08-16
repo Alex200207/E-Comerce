@@ -1,8 +1,9 @@
 import AuthLayout from "../../layout/AuthLayout.tsx";
 import React, { useState } from "react";
 import { useAuth } from "../../utils/AuthProvider.tsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Style/login.css";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { login } = useAuth();
@@ -18,9 +19,19 @@ const Login = () => {
   const validateEmail = () => {
     if (!email) {
       setEmailError("El correo es requerido");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "El correo es requerido",
+      });
       return false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError("Formato de correo erróneo");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Formato de correo erróneo",
+      });
       return false;
     } else {
       setEmailError("");
@@ -31,6 +42,11 @@ const Login = () => {
   const validatePassword = () => {
     if (!password) {
       setPasswordError("La contraseña es requerida");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "La contraseña es requerida",
+      });
       return false;
     } else {
       setPasswordError("");
@@ -45,9 +61,19 @@ const Login = () => {
     if (validateEmail() && validatePassword()) {
       try {
         await login({ email, password });
-        navigate("/home");
+        Swal.fire({
+          icon: "success",
+          title: "Éxito",
+          text: "Inicio de sesión exitoso",
+        }).then(() => {
+          navigate("/home");
+        });
       } catch (error) {
-        setGeneralError("Correo electrónico o contraseña incorrectos");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Correo electrónico o contraseña incorrectos",
+        });
       }
     }
   };
@@ -121,9 +147,8 @@ const Login = () => {
                         </button>
                       </div>
                       <div className="register">
-                        <label >No tienes Cuenta
-                        <a href="#"> Registrarse?</a>
-                        </label> 
+                      <label>¿No tienes cuenta?</label>
+                      <Link to="/Register">Registrarse</Link>
                       </div>
                     </div>
                   </form>
