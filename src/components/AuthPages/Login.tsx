@@ -1,7 +1,8 @@
-import AuthLayout from "../../layout/AuthLayout.tsx";
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import AuthLayout from "../../layout/AuthLayout.tsx";
 import { useAuth } from "../../utils/AuthProvider.tsx";
-import { useNavigate } from "react-router-dom";
 import "../Style/login.css";
 
 const Login = () => {
@@ -11,43 +12,57 @@ const Login = () => {
   // Estados para el login
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [generalError, setGeneralError] = useState("");
 
   const validateEmail = () => {
     if (!email) {
-      setEmailError("El correo es requerido");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'El correo es requerido',
+      });
       return false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError("Formato de correo erróneo");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Formato de correo erróneo',
+      });
       return false;
-    } else {
-      setEmailError("");
-      return true;
     }
+    return true;
   };
 
   const validatePassword = () => {
     if (!password) {
-      setPasswordError("La contraseña es requerida");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'La contraseña es requerida',
+      });
       return false;
-    } else {
-      setPasswordError("");
-      return true;
     }
+    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setGeneralError(""); // Reinicia el mensaje de error general al intentar enviar el formulario
 
     if (validateEmail() && validatePassword()) {
       try {
         await login({ email, password });
-        navigate("/home");
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Ingreso exitoso. Redirigiendo...',
+        }).then(() => {
+          navigate("/home");
+        });
       } catch (error) {
-        setGeneralError("Correo electrónico o contraseña incorrectos");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Correo electrónico o contraseña incorrectos',
+        });
       }
     }
   };
@@ -68,18 +83,6 @@ const Login = () => {
                   <p className="mb-0">Ingrese tus datos</p>
                 </div>
 
-                {emailError && (
-                  <div className="alert alert-danger">{emailError}</div>
-                )}
-
-                {passwordError && (
-                  <div className="alert alert-danger">{passwordError}</div>
-                )}
-
-                {generalError && (
-                  <div className="alert alert-danger">{generalError}</div>
-                )}
-
                 <div className="form-body">
                   <form onSubmit={handleSubmit} className="row g-3">
                     <div className="col-12 form-body__div">
@@ -87,9 +90,10 @@ const Login = () => {
                         type="email"
                         className="form-controler"
                         id="inputEmailAddress"
-                        placeholder="Username"
+                        placeholder="Correo electrónico"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        onBlur={validateEmail}
                       />
                     </div>
                     <div className="col-12">
@@ -101,7 +105,7 @@ const Login = () => {
                           value={password}
                           onBlur={validatePassword}
                           onChange={(e) => setPassword(e.target.value)}
-                          placeholder="Enter Password"
+                          placeholder="Contraseña"
                         />
                       </div>
                     </div>
@@ -110,7 +114,7 @@ const Login = () => {
                         <input type="checkbox" className="remember__checkbox"/> Recordarme
                       </label>
                       <label>
-                        <a href="#">Haz olvidado tu cuenta?</a>
+                        <a href="#">¿Olvidaste tu cuenta?</a>
                       </label>
                     </div>
 
@@ -121,9 +125,7 @@ const Login = () => {
                         </button>
                       </div>
                       <div className="register">
-                        <label >No tienes Cuenta
-                        <a href="#"> Registrarse?</a>
-                        </label> 
+                        <label>No tienes cuenta? <Link to='/register'>Registrarse</Link></label>
                       </div>
                     </div>
                   </form>

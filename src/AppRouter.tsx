@@ -9,6 +9,7 @@ import TableVendedores from '@components/Dashboard/TableVendedores';
 import IndexPage from './layout/IndexPage';
 import ProductPage from './Pages/ProductPage';
 import TableClient from '@components/Dashboard/TableClient';
+import Register from '@components/AuthPages/Register';
 
 const AppRouter = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,6 +24,7 @@ const AppRouter = () => {
       <Route path="/productPage/*" element={<ProductPage />} />
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
    
       <Route element={<PrivateRoutes searchTerm={searchTerm} onSearchChange={handleSearchChange} />}>
