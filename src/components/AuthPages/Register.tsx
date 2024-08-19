@@ -85,6 +85,8 @@ const Register = () => {
             icon: 'success',
             title: 'Registrado',
             text: 'Registro exitoso. Redirigiendo al inicio de sesión...',
+            showConfirmButton:false,
+            timer:2000,
           }).then(() => {
             navigate("/login");
           });

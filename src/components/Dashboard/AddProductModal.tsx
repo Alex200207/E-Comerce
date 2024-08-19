@@ -101,6 +101,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
             title: '¡Éxito!',
             text: 'Producto agregado exitosamente.',
             icon: 'success',
+            showConfirmButton:false,
+            timer:2000,
           });
 
           setNewProduct({

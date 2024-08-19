@@ -3,7 +3,8 @@ import { Modal, Button, Form, Tooltip, OverlayTrigger, Alert } from "react-boots
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Style/Dashboard.css";
-import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import { MdModeEditOutline, MdDelete   } from "react-icons/md";
+import { GrFormView } from "react-icons/gr";
 import AddProductModal from "./AddProductModal";
 import Swal from 'sweetalert2';
 
@@ -35,6 +36,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [deleteSuccess, setShowSuccessMessage] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
 
   useEffect(() => {
     loadProducts();
@@ -118,7 +120,8 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   title: "Actualizado",
                   text: "El producto ha sido actualizado correctamente.",
                   icon: "success",
-                  confirmButtonText: "OK",
+                  showConfirmButton:false,
+                  timer:2000,
                 });
               })
               .catch((error) => {
@@ -127,7 +130,8 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   title: "Error",
                   text: "Hubo un error al actualizar el producto.",
                   icon: "error",
-                  confirmButtonText: "OK",
+                  showConfirmButton:false,
+                  timer:2000,
                 });
               });
           } else {
@@ -135,7 +139,8 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
               title: "Datos inválidos",
               text: "Por favor, completa todos los campos correctamente.",
               icon: "warning",
-              confirmButtonText: "OK",
+              showConfirmButton:false,
+              timer:2000,
             });
           }
         }
@@ -197,6 +202,10 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   const filteredProducts = productos.filter((producto) =>
     producto.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  const handleViewClick = (producto: Producto) => {
+    setSelectedProduct(producto);
+    setShowViewModal(true);
+  };
 
   const columns = [
     {
@@ -233,6 +242,17 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       name: "Acciones",
       cell: (row: Producto) => (
         <>
+             <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id={`edit-tooltip-${row.ID_Producto}`}>Ver</Tooltip>}
+          >
+            <Button
+              className="btn btn-sm btn-edit"
+              onClick={() => handleViewClick(row)}
+            >
+              <GrFormView  className="btn-modal-custom"/>
+            </Button>
+          </OverlayTrigger>
           <OverlayTrigger
             placement="top"
             overlay={<Tooltip id={`edit-tooltip-${row.ID_Producto}`}>Editar Producto</Tooltip>}
@@ -401,6 +421,31 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
           </Button>
           <Button variant="primary" onClick={saveChanges}>
             Guardar Cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal para visualizar producto */}
+      <Modal show={showViewModal} onHide={() => setShowViewModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Detalles del Producto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedProduct && (
+            <>
+              <p><strong>Nombre:</strong> {selectedProduct.Nombre}</p>
+              <p><strong>Precio:</strong> ${selectedProduct.Precio}</p>
+              <p><strong>Stock:</strong> {selectedProduct.Stock}</p>
+              <p><strong>Categoría:</strong> {getNombreCategoria(selectedProduct.ID_Categoria)}</p>
+              <p><strong>Descripción:</strong> {selectedProduct.Descripcion}</p>
+              <p><strong>URL de la Imagen:</strong> <a href={selectedProduct.ImagenUrl} target="_blank" rel="noopener noreferrer">{selectedProduct.ImagenUrl}</a></p>
+              
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowViewModal(false)}>
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>

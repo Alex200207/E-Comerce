@@ -54,6 +54,8 @@ const Login = () => {
           icon: 'success',
           title: 'Éxito',
           text: 'Ingreso exitoso. Redirigiendo...',
+          showConfirmButton:false,
+          timer:1500,
         }).then(() => {
           navigate("/home");
         });

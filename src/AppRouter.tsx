@@ -24,7 +24,6 @@ const AppRouter = () => {
       <Route path="/productPage/*" element={<ProductPage />} />
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
-
       <Route path="/register" element={<Register />} />
 
 

@@ -280,3 +280,36 @@
 .table-column-width {
   width: 50px;
 }
+.text-container__img{
+  border:5px solid #fff;
+  color: #ffffff;
+  
+}
+.custom-profile {
+  color: #fff;
+  font-size: 2rem;
+}
+.item-menu{
+  color: #fff;
+}
+
+.item-menu:active{
+  color: #000000;
+  background-color:transparent;
+}
+.item-menu:hover{
+  border-radius: 5px;
+  background-color: #3b3a3a;
+  color: #e8e5e5;
+}
+.menu-custom{
+  background-color: #1c1c1c;
+  color:#fff;
+}
+#dropdown-custom-components{
+  width: 100%;
+  height: 100%;
+}
+#dropdown-custom-components::after {
+  display: none; /* ocultando el caret*/
+}

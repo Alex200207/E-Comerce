@@ -60,6 +60,8 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
             title: '¡Éxito!',
             text: 'Categoría agregada exitosamente.',
             icon: 'success',
+            showConfirmButton:false,
+            timer:2000,
           });
 
           setNewCategoria({
