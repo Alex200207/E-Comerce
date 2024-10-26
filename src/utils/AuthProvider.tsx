@@ -1,3 +1,4 @@
+// src/context/AuthContext.tsx
 import React, { createContext, useContext, useMemo, useState, ReactNode, useEffect } from 'react';
 import { API_URL } from '../constants';
 
@@ -11,29 +12,23 @@ type LoginData = {
   password: string;
 };
 
-type AuthContext = {
+interface AuthContextType {
   isAuthenticated: boolean;
   role: string;
   login: (data: LoginData) => Promise<LoginResponse>;
   logout: () => void;
   token: string;
-};
+}
 
-const AuthContext = createContext<AuthContext>({
-  isAuthenticated: false,
-  role: '',
-  logout: () => {},
-  login: () => Promise.reject('AuthProvider not yet initialized'),
-  token: ''
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState(sessionStorage.getItem('token') || '');
-  const [role, setRole] = useState(sessionStorage.getItem('role') || '');
+  const [token, setToken] = useState<string>(sessionStorage.getItem('token') || '');
+  const [role, setRole] = useState<string>(sessionStorage.getItem('role') || '');
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -53,9 +48,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {

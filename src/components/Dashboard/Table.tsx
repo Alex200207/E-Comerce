@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  Form,
+  Tooltip,
+  OverlayTrigger,
+  Alert,
+} from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Style/Dashboard.css";
-import { MdModeEditOutline, MdDelete   } from "react-icons/md";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
 import AddProductModal from "./AddProductModal";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
-import { API_URL } from '../../constants/index.ts';
+import { API_URL } from "../../constants/index.ts";
 
 interface Producto {
   ID_Producto: number;
@@ -45,11 +52,11 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
 
   const loadProducts = () => {
     fetch(`${API_URL}/productos`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -63,11 +70,11 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
 
   const loadCategorias = () => {
     fetch(`${API_URL}/categorias`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data: Categoria[]) => setCategorias(data))
@@ -79,7 +86,6 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
 
   const saveChanges = () => {
     if (selectedProduct) {
-
       Swal.fire({
         title: "¿Estás seguro?",
         text: "¿Quieres actualizar este producto?",
@@ -115,13 +121,13 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                 loadProducts();
                 setShowModal(false);
                 setSelectedProduct(null);
-  
+
                 Swal.fire({
                   title: "Actualizado",
                   text: "El producto ha sido actualizado correctamente.",
                   icon: "success",
-                  showConfirmButton:false,
-                  timer:2000,
+                  showConfirmButton: false,
+                  timer: 2000,
                 });
               })
               .catch((error) => {
@@ -130,8 +136,8 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   title: "Error",
                   text: "Hubo un error al actualizar el producto.",
                   icon: "error",
-                  showConfirmButton:false,
-                  timer:2000,
+                  showConfirmButton: false,
+                  timer: 2000,
                 });
               });
           } else {
@@ -139,8 +145,8 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
               title: "Datos inválidos",
               text: "Por favor, completa todos los campos correctamente.",
               icon: "warning",
-              showConfirmButton:false,
-              timer:2000,
+              showConfirmButton: false,
+              timer: 2000,
             });
           }
         }
@@ -164,7 +170,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Eliminarlo",
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: "Cancelar",
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
     }).then((result) => {
@@ -173,20 +179,24 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
           .then((response) => {
             if (response.ok) {
               loadProducts();
-              Swal.fire('Eliminado!', 'La categoría ha sido eliminada.', 'success');
+              Swal.fire(
+                "Eliminado!",
+                "La categoría ha sido eliminada.",
+                "success"
+              );
             } else {
               throw new Error("Error al eliminar la categoría");
             }
           })
           .catch((error) => {
             console.error("Error al eliminar la categoría:", error);
-            Swal.fire('Error', 'Error al eliminar la categoría', 'error');
+            Swal.fire("Error", "Error al eliminar la categoría", "error");
           });
       }
     });
@@ -242,37 +252,47 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       name: "Acciones",
       cell: (row: Producto) => (
         <>
-             <OverlayTrigger
+          <OverlayTrigger
             placement="top"
-            overlay={<Tooltip id={`edit-tooltip-${row.ID_Producto}`}>Ver</Tooltip>}
+            overlay={
+              <Tooltip id={`edit-tooltip-${row.ID_Producto}`}>Ver</Tooltip>
+            }
           >
             <Button
               className="btn btn-sm btn-edit"
               onClick={() => handleViewClick(row)}
             >
-              <GrFormView  className="btn-modal-custom"/>
+              <GrFormView className="btn-modal-custom" />
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
             placement="top"
-            overlay={<Tooltip id={`edit-tooltip-${row.ID_Producto}`}>Editar Producto</Tooltip>}
+            overlay={
+              <Tooltip id={`edit-tooltip-${row.ID_Producto}`}>
+                Editar Producto
+              </Tooltip>
+            }
           >
             <Button
               className="btn btn-sm btn-edit"
               onClick={() => handleEditClick(row)}
             >
-              <MdModeEditOutline className="btn-modal-custom"/>
+              <MdModeEditOutline className="btn-modal-custom" />
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
             placement="top"
-            overlay={<Tooltip id={`delete-tooltip-${row.ID_Producto}`}>Eliminar Producto</Tooltip>}
+            overlay={
+              <Tooltip id={`delete-tooltip-${row.ID_Producto}`}>
+                Eliminar Producto
+              </Tooltip>
+            }
           >
             <Button
               className="btn btn-sm btn-delete ms-2"
               onClick={() => handleDeleteClick(row.ID_Producto)}
             >
-              <MdDelete className="btn-modal-custom"/>
+              <MdDelete className="btn-modal-custom" />
             </Button>
           </OverlayTrigger>
         </>
@@ -282,7 +302,6 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
 
   return (
     <>
-      
       {deleteSuccess && (
         <Alert
           variant="success"
@@ -298,7 +317,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       <div className="contendorMain__titles">
         <h4>Administración de Productos</h4>
       </div>
-      
+
       <AddProductModal onProductAdded={() => loadProducts()} />
 
       <div className="table-responsive">
@@ -331,7 +350,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
- 
+
               <Form.Group controlId="formPrecio">
                 <Form.Label>Precio</Form.Label>
                 <Form.Control
@@ -348,8 +367,8 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
               <Form.Group controlId="formImageUrl">
                 <Form.Label>Url</Form.Label>
                 <Form.Control
-                 as="textarea"
-                 rows={2}
+                  as="textarea"
+                  rows={2}
                   type="text"
                   value={selectedProduct.ImagenUrl}
                   onChange={(e) =>
@@ -363,8 +382,8 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
               <Form.Group controlId="formImageUrl">
                 <Form.Label>Descripcion</Form.Label>
                 <Form.Control
-                 as="textarea"
-                 rows={2}
+                  as="textarea"
+                  rows={2}
                   type="text"
                   value={selectedProduct.Descripcion}
                   onChange={(e) =>
@@ -375,7 +394,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
                   }
                 />
               </Form.Group>
-              
+
               <Form.Group controlId="formStock">
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
@@ -433,13 +452,32 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
         <Modal.Body>
           {selectedProduct && (
             <>
-              <p><strong>Nombre:</strong> {selectedProduct.Nombre}</p>
-              <p><strong>Precio:</strong> ${selectedProduct.Precio}</p>
-              <p><strong>Stock:</strong> {selectedProduct.Stock}</p>
-              <p><strong>Categoría:</strong> {getNombreCategoria(selectedProduct.ID_Categoria)}</p>
-              <p><strong>Descripción:</strong> {selectedProduct.Descripcion}</p>
-              <p><strong>URL de la Imagen:</strong> <a href={selectedProduct.ImagenUrl} target="_blank" rel="noopener noreferrer">{selectedProduct.ImagenUrl}</a></p>
-              
+              <p>
+                <strong>Nombre:</strong> {selectedProduct.Nombre}
+              </p>
+              <p>
+                <strong>Precio:</strong> ${selectedProduct.Precio}
+              </p>
+              <p>
+                <strong>Stock:</strong> {selectedProduct.Stock}
+              </p>
+              <p>
+                <strong>Categoría:</strong>{" "}
+                {getNombreCategoria(selectedProduct.ID_Categoria)}
+              </p>
+              <p>
+                <strong>Descripción:</strong> {selectedProduct.Descripcion}
+              </p>
+              <p>
+                <strong>URL de la Imagen:</strong>{" "}
+                <a
+                  href={selectedProduct.ImagenUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {selectedProduct.ImagenUrl}
+                </a>
+              </p>
             </>
           )}
         </Modal.Body>
