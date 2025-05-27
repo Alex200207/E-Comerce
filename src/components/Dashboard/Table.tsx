@@ -16,6 +16,7 @@ import AddProductModal from "./AddProductModal";
 import Swal from "sweetalert2";
 
 import { API_URL } from "../../constants/index.ts";
+import { useAuth } from "../../utils/AuthProvider.tsx";
 
 interface Producto {
   ID_Producto: number;
@@ -44,6 +45,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [deleteSuccess, setShowSuccessMessage] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const { token } = useAuth();
 
   useEffect(() => {
     loadProducts();
@@ -55,7 +57,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+           Authorization: `Bearer ${token}`
       },
     })
       .then((res) => res.json())
@@ -73,7 +75,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+           Authorization: `Bearer ${token}`
       },
     })
       .then((response) => response.json())
@@ -108,7 +110,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  Authorization: `Bearer ${token}`
               },
               body: JSON.stringify(selectedProduct),
             })
@@ -179,7 +181,7 @@ const Table: React.FC<TableProps> = ({ searchTerm }) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+               Authorization: `Bearer ${token}`
           },
         })
           .then((response) => {

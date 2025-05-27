@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { API_URL } from '../../constants';
+import { API_URL } from "../../constants";
+import { useAuth } from "../../utils/AuthProvider";
 
 interface Category {
   ID_Categoria: number;
@@ -11,18 +12,19 @@ const ProductCategorias: React.FC = () => {
   const [categorias, setCategorias] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const {token} = useAuth();
 
   const loadCategorias = () => {
     fetch(`${API_URL}/categorias`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
@@ -58,7 +60,10 @@ const ProductCategorias: React.FC = () => {
             <div className="card h-100 shadow-sm rounded-3 border-0">
               <div className="card-body">
                 <h5 className="card-title">{categoria.Nombre}</h5>
-                <Link to={`/categoria/${categoria.ID_Categoria}`} className="btn btn-outline-primary">
+                <Link
+                  to={`/categoria/${categoria.ID_Categoria}`}
+                  className="btn btn-outline-primary"
+                >
                   Ver más
                 </Link>
               </div>

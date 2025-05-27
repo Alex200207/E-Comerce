@@ -4,6 +4,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import { API_URL } from "../../constants";
+import { useAuth } from "../../utils/AuthProvider";
 
 interface Cart {
   id: number;
@@ -21,6 +22,7 @@ const ShoppingCartModal: React.FC = () => {
   const [carrito, setCarrito] = useState<Cart[]>([]);
   const [show, setShow] = useState(false);
   const [productos, setProductos] = useState<Producto[]>([]);
+  const { token } = useAuth();
 
   useEffect(() => {
     fetchCarrito();
@@ -32,7 +34,7 @@ const ShoppingCartModal: React.FC = () => {
       const response = await fetch(`${API_URL}/carrito`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+             Authorization: `Bearer ${token}`
         },
       });
 
@@ -58,7 +60,7 @@ const ShoppingCartModal: React.FC = () => {
           method: "DELETE",
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${token}`
           },
         });
 
@@ -79,7 +81,7 @@ const ShoppingCartModal: React.FC = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({ cantidad }),
       });
@@ -99,7 +101,7 @@ const ShoppingCartModal: React.FC = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+           Authorization: `Bearer ${token}`
       },
     })
       .then((res) => res.json())

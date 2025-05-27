@@ -7,6 +7,7 @@ import AddCategoriaModal from "./AddCategoriaModal";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import { API_URL } from '../../constants/index.ts';
 import Swal from 'sweetalert2';
+import { useAuth } from "../../utils/AuthProvider.tsx";
 
 interface Categorias {
   ID_Categoria: number;
@@ -21,6 +22,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
   const [selectedCategoria, setSelectedCategoria] = useState<Categorias | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [categorias, setCategorias] = useState<Categorias[]>([]);
+  const { token } = useAuth();
 
   useEffect(() => {
     loadCategorias();
@@ -32,7 +34,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+             Authorization: `Bearer ${token}`
         }
       });
       if (!response.ok) throw new Error('Error al cargar las categorías');
@@ -64,7 +66,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+               Authorization: `Bearer ${token}`
           },
         })
           .then((response) => {
@@ -100,7 +102,7 @@ const TableCategorias: React.FC<TableProps> = ({ searchTerm }) => {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                  Authorization: `Bearer ${token}`
               },
               body: JSON.stringify(selectedCategoria),
             })

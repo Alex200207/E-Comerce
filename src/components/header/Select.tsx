@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from '../../constants';
+import { useAuth } from "../../utils/AuthProvider";
 
 interface Categoria {
   ID_Categoria: number;
@@ -12,6 +13,7 @@ interface SelectProps {
 
 const Select: React.FC<SelectProps> = ({ onSelectCategoria }) => {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const { token } = useAuth();
 
   useEffect(() => {
     loadCategorias();
@@ -22,7 +24,7 @@ const Select: React.FC<SelectProps> = ({ onSelectCategoria }) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+           Authorization: `Bearer ${token}`
       }
     })
       .then((response) => response.json())

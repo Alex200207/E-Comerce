@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import { Button, Modal } from "react-bootstrap";
 import { API_URL } from '../../constants/index.ts';
+import { useAuth } from "../../utils/AuthProvider.tsx";
 
 interface Vendedor {
   ID_Vendedor: number;
@@ -33,6 +34,7 @@ const TableVendedores: React.FC<TableProps> = ({ searchTerm }) => {
   const [selectedVendedor, setSelectedVendedor] = useState<Vendedor | null>(null);
   const [showProductoDetalleModal, setShowProductoDetalleModal] = useState<boolean>(false);
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     loadProductos();
@@ -44,7 +46,7 @@ const TableVendedores: React.FC<TableProps> = ({ searchTerm }) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+           Authorization: `Bearer ${token}`
       }
     })
       .then((res) => res.json())

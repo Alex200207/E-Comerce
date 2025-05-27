@@ -4,6 +4,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { API_URL } from '../../constants/index.ts';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { useAuth } from "../../utils/AuthProvider.tsx";
 
 const MySwal = withReactContent(Swal);
 
@@ -40,6 +41,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     Codigo: "",
   });
   const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const { token } = useAuth();
 
   useEffect(() => {
     loadCategorias();
@@ -50,7 +52,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+           Authorization: `Bearer ${token}`
       }
     })
       .then((response) => response.json())
@@ -91,7 +93,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+               Authorization: `Bearer ${token}`
           },
           body: JSON.stringify(newProduct),
         });

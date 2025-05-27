@@ -4,6 +4,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { API_URL } from '../../constants/index.ts';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { useAuth } from "../../utils/AuthProvider.tsx";
 
 const MySwal = withReactContent(Swal);
 
@@ -23,6 +24,7 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
   const [newCategoria, setNewCategoria] = useState<Categoria>({
     Nombre: "",
   });
+  const { token } = useAuth();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -50,7 +52,7 @@ const AddCategoriaModal: React.FC<AddCategoriaModalProps> = ({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+               Authorization: `Bearer ${token}`
           },
           body: JSON.stringify(newCategoria),
         });
